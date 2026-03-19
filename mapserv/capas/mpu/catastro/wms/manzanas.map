@@ -1,0 +1,58 @@
+LAYER
+	NAME "manzanas"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/manzanas.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, cod_sector, id_ubigeo, id_sector, cod_mzna, tg_manzana.id_mzna,mzna_dist, area_grafi, peri_grafi, fech_actua, geom FROM geo.tg_manzana join catastro.tf_lotes on tg_manzana.id_mzna = tf_lotes.id_mzna) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+	 "init=epsg:32718"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "MANZANAS"
+		"wms_abstract" "Manzanas || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Manzanas"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 171 7 104
+			WIDTH 1
+		END
+
+    	LABEL
+			FONT "FreeSans"
+			SIZE 8
+			COLOR 239 141 153
+			TYPE TRUETYPE
+			ANTIALIAS TRUE
+			POSITION LC
+			PARTIALS FALSE
+			#MINDISTANCE 50
+			#MAXDISTANCE -1
+			#BUFFER 2
+			OUTLINECOLOR 203 42 82
+			SHADOWSIZE 1 1
+			TEXT "[cod_mzna] - [mzna_dist]"
+    	END
+	END
+END # Layer

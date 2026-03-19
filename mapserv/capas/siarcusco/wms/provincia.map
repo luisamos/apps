@@ -1,0 +1,67 @@
+LAYER
+  NAME "provincia"
+  GROUP "Cartografía Base"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1' 
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/sinia/provincia.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  DATA "the_geom from (select b.gid,a.codigo_departamento,a.departamento, b.codigo_provincia, b.provincia, b.ley, b.numero_ley, b.fecha_creacion, b.fecha_modificacion, b.fuente,b.the_geom from geo.departamento_inei_2007 a,geo.provincia_inei_2007 b where a.codigo_departamento = b.codigo_departamento) as sinia using unique gid using srid=32718"
+  FILTER "(codigo_departamento = '08' )"
+  INCLUDE "configuracion/postgresql_siarcusco.map" 
+  TRANSPARENCY 100
+  PROJECTION
+	"init=epsg:32718"
+  END
+  CLASSITEM "gid"
+  LABELITEM "provincia"
+  LABELMAXSCALEDENOM 7000000
+  LABELMAXSCALE 7000000
+  METADATA
+	"wms_encoding" "LATIN1" 
+	"wms_group_title" "Cartografía Base"	
+	"queryable" "true"
+  "wms_metadataurl_href" "http://siar.regioncusco.gob.pe/metadatos/provincia.xml"
+  "wms_metadataurl_format" "text/xml"     
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Límite provincial"
+	"wms_abstract" "Límite provincial - Copyright © - Instituto Nacional de Estadística e Informática - INEI 2007"
+  "wms_dataurl" ""
+  "wms_dataurl_format" "text/html"
+	"wms_dataurl_href" "http://geoservidor.minam.gob.pe/geoservidor/download.aspx"
+	"autor" "INEI- 2007"	
+	"wms_extent" "484927.608477489 8271765.09738466 731786.588486005 8654797.68110159"   	  
+	"wms_srs" "EPSG:32718"	
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+ END
+ CLASS
+    NAME "Límite provincial"
+    EXPRESSION /./
+	STYLE
+	  COLOR -1 -1 -1
+	  OUTLINECOLOR 250 250 250
+	  WIDTH 2  	
+	END
+    LABEL
+      TYPE TRUETYPE
+      FONT "Vera"
+      SIZE 6
+      MINSIZE 6
+      MAXSIZE 6
+      POSITION cc
+      OFFSET 0.7 0.7
+      BUFFER 0
+      MINFEATURESIZE 1
+      COLOR 255 255 255
+      OUTLINECOLOR 156 156 156
+      SHADOWSIZE 1 1
+      ANTIALIAS true
+      FORCE true
+    END
+ END	
+END # Layer

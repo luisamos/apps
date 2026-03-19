@@ -1,0 +1,59 @@
+LAYER
+	NAME "vertices_lote"
+	GROUP "MPU"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/vertices_lote.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT ROW_NUMBER() OVER (ORDER BY id_lote) AS gid, x, y, geom FROM public.obtenerCoordenadasLote('%id%')) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Lotes"
+		"wms_abstract" "Lotes || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    	NAME "Vertices"
+    	EXPRESSION /./
+    	STYLE
+			SYMBOL "circulo"
+			COLOR 0 0 0			
+			SIZE 9.0
+    	END
+    	LABEL
+			COLOR 0 0 0
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 16
+			ANTIALIAS TRUE
+			POSITION CL
+			PARTIALS FALSE
+			MINDISTANCE 100
+			BUFFER 2
+			OFFSET 3 3
+			ANGLE AUTO
+			TEXT "[gid]"
+		END
+    END
+END # Layer

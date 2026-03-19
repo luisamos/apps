@@ -1,0 +1,66 @@
+LAYER
+    NAME "lotes_certificado"
+    GROUP "MPU"
+    TYPE polygon
+    PROCESSING "LABEL_NO_CLIP=1"
+    HEADER "plantillas/inicio.html"
+    TEMPLATE "plantillas/mpu/mpu/lotes.html"
+    FOOTER "plantillas/fin.html"
+    STATUS on
+    VALIDATION
+        "codigo" "[0-9]"
+        "default_codigo" "1,2"
+    END
+    DATA "geom FROM (SELECT gid, v_lotes.id_lote, cod_sector, cod_mzna, cod_lote, lote_dist, existe_ficha, tipo_doc, nume_doc, tipo_persona, ciudadano_razon_social, area_grafi, peri_grafi, fotografia, geom FROM geo.v_lotes JOIN catastro.tf_lotes ON v_lotes.id_lote = tf_lotes.id_lote) AS mpu USING UNIQUE gid USING SRID=32718"
+    FILTER ("[existe_ficha]" IN "%codigo%")
+    INCLUDE "configuracion/postgresql_mpu.map"
+    PROJECTION
+        "init=epsg:32718"
+    END
+    CLASSITEM "existe_ficha"
+    METADATA
+        "wms_group_title" "MPU"
+        "queryable" "true"
+        "wms_metadataurl_href" ""
+        "wms_metadataurl_format" "text/xml"
+        "wms_metadataurl_type" "TC211"
+        "wms_title" "Lotes"
+        "wms_abstract" "Lotes || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+        "wms_credit" "MPU"
+        "wms_dataurl" ""
+        "wms_dataurl_format" "text/html"
+        "wms_dataurl_href" ""
+        "wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+        "wms_srs" "EPSG:32718"
+        "wms_include_items" "all"
+        "wms_exclude_items" "gid,existe_ficha"
+    END
+    CLASS
+        NAME "Con ficha catastral"
+        EXPRESSION "1"
+        STYLE
+            COLOR -1 -1 -1
+            OUTLINECOLOR 0 0 0
+            WIDTH 1
+        END
+        LABEL
+            TEXT "[cod_lote] - [lote_dist]"
+            COLOR 0 0 0
+            FONT "FreeSans"
+            TYPE truetype
+            SIZE 11
+            #OUTLINECOLOR 0 0 0
+            POSITION cc
+            PARTIALS false
+        END
+    END
+    CLASS
+        NAME "Sin ficha catastral"
+        EXPRESSION "2"
+        STYLE
+            COLOR -1 -1 -1
+            OUTLINECOLOR 255 102 0
+            WIDTH 1
+        END
+    END
+END # Layer

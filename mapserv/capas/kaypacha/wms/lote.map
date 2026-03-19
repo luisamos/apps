@@ -1,0 +1,87 @@
+LAYER
+	NAME "lote"
+	GROUP "Catastro"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/kaypacha/lote.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0-2]"
+		"default_codigo" "1,2"
+		#"idlote" "^[a-zA-Z]+$"
+	END
+	DATA "geom FROM (SELECT * FROM geo.v_lote) as kaypacha using unique gid using srid=32719"
+	FILTER ("[ficha]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELITEM "idlote"
+	LABELMAXSCALEDENOM 500
+	LABELMAXSCALE 500
+	METADATA
+		"wms_group_title" "Predio urbano"
+		"wms_feature_info_type" "multiple"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Lote"
+		"wms_abstract" "Lote || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_credit" "Kaypacha"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Lotes con ficha catastral"
+		EXPRESSION ([ficha] eq 1)
+		#TEMPLATE "plantillas/kaypacha/lote.html"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 75 75 75
+			WIDTH 1
+		END
+		LABEL
+            COLOR 255 255 255
+            OUTLINECOLOR 75 75 75
+            FONT "Roboto"
+            TYPE TRUETYPE
+            SIZE 11
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+	CLASS
+		NAME "Lotes sin fichas catastral"
+		EXPRESSION ([ficha] eq 2)
+		#TEMPLATE "plantillas/kaypacha/lote.html"
+		STYLE
+			COLOR 255 102 0
+			OUTLINECOLOR 255 102 0
+			WIDTH 1
+		END
+		LABEL
+            COLOR 255 255 255
+            OUTLINECOLOR 75 75 75
+            FONT "Roboto"
+            TYPE TRUETYPE
+            SIZE 11
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+	
+END # Layer

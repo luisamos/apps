@@ -1,0 +1,163 @@
+#
+# FECHA DE CREACION     : 01-04-2026
+# FECHA DE MODIFICACION : 16-03-2026
+#
+
+#
+# MAPFILE
+#
+MAP
+	NAME "WMS"
+	EXTENT -81.32823049 -18.3509277359999 -68.6522791029997 -0.0386059679999562
+	STATUS on
+	UNITS meters
+	SIZE 1024 768
+	MAXSIZE 3500
+	IMAGECOLOR -1 -1 -1
+	SYMBOLSET "simbolos/simbolos_allpa.sym"
+	FONTSET "fuentes/fuentes.txt"
+	RESOLUTION 100
+	IMAGETYPE png
+	DEBUG on
+	PROJECTION
+		"init=epsg:4326"
+	END
+
+	#
+	# FORMATOS DE IMAGEN
+	#
+	OUTPUTFORMAT
+		NAME gif
+		DRIVER "GD/GIF"
+		MIMETYPE "image/gif"
+		IMAGEMODE PC256
+		EXTENSION "gif"
+	END
+
+	OUTPUTFORMAT
+		NAME png
+		DRIVER "GD/PNG"
+		MIMETYPE "image/png"
+		IMAGEMODE PC256
+		EXTENSION "png"
+	END
+
+	OUTPUTFORMAT
+		NAME GTiff
+		DRIVER "GDAL/GTiff"
+		MIMETYPE "image/tiff"
+		IMAGEMODE RGB
+		EXTENSION "tif"
+	END
+
+	#
+	# DEFINICIÓN DEL SERVICIO OGC: WMS
+	#
+	WEB
+		TEMPLATE "plantillas/mapa.html"
+		IMAGEPATH "temporal/"
+		IMAGEURL "/temporal/"
+		METADATA
+		"wms_server_version" "1.1.1"
+		"wms_enable_request" "*"
+		"wms_title" "ALLPA"
+		"wms_abstract" "ALLPA :: PERU, servicio OGC: WEB MAP SERVER (WMS)"
+		"wms_onlineresource" "http://127.0.0.1/servicio/wms?"
+		"wms_fees" "S/. 0.00"
+		"wms_accessconstraints" "Ninguna"
+		"wms_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+		"wms_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+		"wms_contactperson" "Ing. Luis Amos Valer Villegas"
+		"wms_contactorganization" "Consultor TI :: GEO ALLPA PERU"
+		"wms_contactposition" "Administrador del servicio OGC: WMS"
+		"wms_addresstype" "Lima - PERU"
+		"wms_address" "Lima"
+		"wms_city" "Lima"
+		"wms_stateorprovince" "Lima"
+		"wms_postcode" "Lima 01"
+		"wms_country" "La Molina"
+		"wms_contactvoicetelephone" "(+51) 961241598"
+		"wms_contactfacsimiletelephone" "Fax: (+51) 961241598"
+		"wms_contactelectronicmailaddress" "luisamos7@gmail.com"
+		"wms_attribution_onlineresource" ""
+		"wms_feature_info_mime_type" "text/html"
+		END  # Metadata
+	END  # Web
+
+	QUERYMAP
+		COLOR 255 0 0
+		STYLE hilite
+	END
+
+	#
+	# REFERENCIA
+	#
+	REFERENCE
+		EXTENT -350000.01 7900000.00 1350000.00 10050000.00
+		IMAGE "simbolos/referencia.png"
+		SIZE 199 149
+		COLOR -1 -1 -1
+		OUTLINECOLOR 255 0 0
+	END
+
+	#
+	# LEYENDA
+	#
+	LEGEND
+		STATUS off
+		KEYSIZE 20 15
+		TRANSPARENT off
+		LABEL
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 6
+			COLOR 0 0 0
+		END
+	END
+
+	#
+	# DEFINICION DE SCALEBAR
+	#
+	SCALEBAR
+		INTERVALS 5
+		POSITION lc
+		UNITS meters
+		OUTLINECOLOR 0 0 0
+		STYLE 0
+		STATUS off
+		LABEL
+		SIZE small
+		COLOR 0 0 0
+		END
+	END
+
+	#
+	# CAPAS
+	#
+
+    # MPE
+    INCLUDE "capas/allpa/wms/sector.map"
+	INCLUDE "capas/allpa/wms/manzana.map"
+	INCLUDE "capas/allpa/wms/lote.map"
+
+    # COFOPRI
+    INCLUDE "capas/cofopri/wms/lotes.map"
+    INCLUDE "capas/cofopri/wms/lotes_wgs84.map"
+    INCLUDE "capas/cofopri/wms/lotes_psad56.map"
+
+    # IGN
+	INCLUDE "capas/ign/wms/departamentos.map"
+	INCLUDE "capas/ign/wms/provincias.map"
+	INCLUDE "capas/ign/wms/distritos.map"
+
+    # INGEMMET
+    INCLUDE "capas/ingemmet/wms/catastro_minero_18s.map"
+    INCLUDE "capas/ingemmet/wms/catastro_minero_19s.map"
+
+	# MIDAGRI
+	INCLUDE "capas/midagri/wms/comunidad_campesina.map"
+	INCLUDE "capas/midagri/wms/predio_rural.map"
+
+	#SBN
+	INCLUDE "capas/sbn/wms/predios.map"
+END  #Map

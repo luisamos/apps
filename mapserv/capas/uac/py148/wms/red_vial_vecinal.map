@@ -1,0 +1,50 @@
+LAYER
+	NAME "red_vial_vecinal"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE line
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/red_vial_vecinal.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, cod_ds12, tray_ds12, cod_ds11, tray_ds11, long_km, rodadura, sentido, fecha_actu, fuente, reclasif, tray_prop, tramo, estado, ancho_via, geom FROM py148.red_vial_vecinal) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Red vial vecinal"
+		"wms_abstract" "Red vial vecinal || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "151418.79048868103 8483181.558812318 204713.7475213744 8520735.058302315"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Red vial vecinal"
+		EXPRESSION /./
+		STYLE
+			SYMBOL "linea2"
+			SIZE 1
+			COLOR 128 128 128
+			ANTIALIAS TRUE
+		END
+	END
+END # Layer

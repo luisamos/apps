@@ -1,0 +1,34 @@
+LAYER
+	NAME "habilitacion_urbana"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT gid, id_ubigeo, cod_hab_urb, id_hab_urb, tipo_hab_urb, nomb_hab_urb, etap_hab_urb, expediente, ROUND(area_grafi::numeric, 2) AS area_grafi, ROUND(peri_grafi::numeric, 2) AS peri_grafi, geom FROM geo.tg_hab_urb) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:32719"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Habilitación Urbana || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wfs_title" "Habilitación Urbana"
+		"wfs_credit" "Kaypacha"
+        "wfs_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wfs_srs" "EPSG:32719"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"gml_nomb_hab_urb_type" "Character"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "Habilitación Urbana"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

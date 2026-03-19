@@ -1,0 +1,56 @@
+LAYER
+	NAME "eje_via"
+	GROUP "AreaCirculacion"
+	TYPE line
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/kaypacha/eje_via.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, id_ubigeo, cod_sector, id_sector, cod_via, id_via, nomb_via, peri_grafi, geom FROM geo.tg_eje_via) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELMAXSCALEDENOM 2000
+	LABELMAXSCALE 2000
+	METADATA
+		"wms_group_title" "Área de circulación"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Eje de vía"
+		"wms_abstract" "Eje de vía || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Eje de vía"
+		EXPRESSION /./		
+		STYLE
+			COLOR -1 -1 -1
+			WIDTH 0.91
+			OUTLINECOLOR 173 173 173
+		END
+		LABEL
+    TEXT "([cod_via]) [nomb_via]"
+    COLOR 0 0 0
+    OUTLINECOLOR 255 255 255
+    FONT "Roboto"
+    TYPE TRUETYPE
+    SIZE 10
+    ANGLE FOLLOW
+    OFFSET 12 99
+    MINDISTANCE 5
+    PARTIALS TRUE
+    BUFFER 4
+    PRIORITY 1    
+END
+	END
+END # Layer

@@ -1,0 +1,251 @@
+LAYER
+  NAME "tendencia_temperatura_minima_setiembre_octubre_noviembre"
+  GROUP "Caracterización Climática"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 2
+  TOLERANCEUNITS kilometers
+  PROCESSING 'LABEL_NO_CLIP=1'
+  LABELITEM "nombre"
+  LABELMAXSCALEDENOM 800000
+  LABELMAXSCALE 800000
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html"  
+  DATA "the_geom from (select gid, nombre, the_geom from geo.tendencia) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Caracterización Climática"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Tendencia temperatura mínima set,oct,nov"
+	"wms_abstract" "Tendencia temperatura mínima setiembre, octubre, noviembre - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, elaborado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/tendencia_temperatura_minima_setiembre_octubre_noviembre.tif" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "610926.128700 8287114.035600 1004676.654900 8759707.070600"    
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Sin significancia estadística"
+	EXPRESSION ("[nombre]" eq "0")
+	COLOR -1 -1 -1
+	OUTLINECOLOR -1 -1 -1
+  END
+  CLASS #1
+	NAME "0.035 - 0.07"
+	EXPRESSION ("[nombre]" eq "")
+	STYLE		
+        SYMBOL "triangulo_vacio"
+		COLOR 255 0 0
+        SIZE 25
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END	
+  END
+  CLASS #2
+	NAME "0 - 0.035"
+	EXPRESSION ("[nombre]" eq "CCATCCA")
+	STYLE		
+        SYMBOL "triangulo_vacio"
+		COLOR 255 0 0
+        SIZE 18
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+  CLASS #3
+	NAME "-0.035 - 0"
+	EXPRESSION ("[nombre]" eq "CHALLHUANCA II" OR "[nombre]" eq "CURAHUASI" OR "[nombre]" eq "SICUANI")
+	STYLE		
+        SYMBOL "triangulo_abajo_vacio"
+		COLOR 0 112 255
+        SIZE 18
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+  CLASS #4
+	NAME "-0.07 - -0.035"
+	EXPRESSION ("[nombre]" eq "")
+	STYLE		
+        SYMBOL "triangulo_abajo_vacio"
+		COLOR 0 112 255
+        SIZE 25
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+  CLASS 
+	NAME "Con significancia estadística"
+	EXPRESSION ("[nombre]" eq "1")
+	COLOR -1 -1 -1
+	OUTLINECOLOR -1 -1 -1
+  END
+  CLASS #5
+	NAME "0.035 - 0.07"
+	EXPRESSION ("[nombre]" eq "")
+	STYLE		
+        SYMBOL "triangulo_lleno"
+        COLOR 255 0 0
+        SIZE 25
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END	
+  END
+  CLASS #6
+	NAME "0 - 0.035"
+	EXPRESSION ("[nombre]" eq "URUBAMBA" OR "[nombre]" eq "GRANJA KCAYRA" OR "[nombre]" eq "ACOMAYO")
+	STYLE		
+        SYMBOL "triangulo_lleno"
+        COLOR 255 0 0
+        SIZE 18
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+  CLASS #7
+	NAME "-0.035 - 0"
+	EXPRESSION ("[nombre]" eq "")
+	STYLE		
+        SYMBOL "triangulo_abajo_lleno"
+        COLOR 0 112 255
+        SIZE 18
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+  CLASS  #8
+	NAME "-0.07 - -0.035"
+	EXPRESSION ("[nombre]" eq "ABANCAY")
+	STYLE		
+        SYMBOL "triangulo_abajo_lleno"
+        COLOR 0 112 255
+        SIZE 25
+    END
+	LABEL
+		TYPE TRUETYPE
+		FONT "Verdana"
+		SIZE 8
+		MINSIZE 8
+		MAXSIZE 8
+		POSITION ur
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 128 128 128
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+END # Layer

@@ -1,0 +1,96 @@
+LAYER
+	NAME "clasificacion_predio"
+	GROUP "Reporte"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	STATUS on
+
+	VALIDATION
+		"codigo" "^[0-9]{2}(,[0-9]{2})*$"
+		"default_codigo" "01,02,03,04,05,99"
+	END
+
+	DATA "geom FROM (SELECT * FROM geo.v_clasificacion_predio) as kaypacha using unique gid using srid=32719"
+	FILTER ("[codi_clasi]" IN "%codigo%")
+
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+
+	PROJECTION
+		"init=epsg:32719"
+	END
+
+	CLASSITEM "codi_clasi"
+
+	METADATA
+		"wms_group_title" "Reporte"
+		"queryable" "true"
+		"wms_title" "Clasificación de predio"
+		"wms_abstract" "Clasificación de predio || Municipalidad Distrital de Wanchaq :: Perú"
+		"wms_credit" "Kaypacha"
+		"wms_exclude_items" "codi_clasi,codi_luz,codi_agua,codi_telefono,codi_desague,codi_gas,codi_internet,codi_tvcable"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+	END
+
+	CLASS
+		NAME "CASA HABITACITACIÓN"
+		EXPRESSION "01"
+		STYLE
+			COLOR 7 55 99
+			OUTLINECOLOR 7 55 99
+		END
+	END
+
+	CLASS
+		NAME "TIENDA - DEPÓSITO - ALMACEN"
+		EXPRESSION "02"
+		STYLE
+			COLOR 11 83 148
+			OUTLINECOLOR 11 83 148
+		END
+	END
+
+	CLASS
+		NAME "PREDIO EN EDIFICIO"
+		EXPRESSION "03"
+		STYLE
+			COLOR 61 133 198
+			OUTLINECOLOR 61 133 198
+		END
+	END
+
+	CLASS
+		NAME "OTROS"
+		EXPRESSION "04"
+		STYLE
+			COLOR 111 168 220
+			OUTLINECOLOR 111 168 220
+		END
+	END
+
+	CLASS
+		NAME "TERRENO SIN CONSTRUIR"
+		EXPRESSION "05"
+		STYLE
+			COLOR 159 197 232
+			OUTLINECOLOR 159 197 232
+		END
+	END
+
+	CLASS
+		NAME "SIN CLASIFICAR"
+		EXPRESSION "99"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 255 0 0
+		END
+		STYLE
+            SYMBOL "hatch_rojo"
+            COLOR 255 0 0
+            ANGLE 45
+            SIZE 8
+            WIDTH 1
+        END
+	END
+END

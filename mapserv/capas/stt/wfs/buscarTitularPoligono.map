@@ -1,0 +1,33 @@
+LAYER
+	NAME "buscarTitularPoligono"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT * FROM geo.v_buscartitular_poligono) as stt using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_stt.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:32719"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Buscar por titular (Polígono) || Cusco :: Perú"
+		"wfs_title" "Buscar por titular (Polígono)"
+		"wfs_credit" "STT"
+		"wfs_srs" "EPSG:32719"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"gml_dni_type" "Character"
+		"gml_gid_type" "Integer"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"		
+	END
+	CLASS
+		NAME "Buscar por titular"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

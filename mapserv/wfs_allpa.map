@@ -1,0 +1,171 @@
+#
+# FECHA DE CREACION     :	23-04-2022
+# FECHA DE MODIFICACION	:	16-03-2026
+#
+
+#
+# MAPFILE
+#
+MAP
+  NAME "WFS"
+  EXTENT -81.32823049 -18.3509277359999 -68.6522791029997 -0.0386059679999562
+  STATUS on
+  UNITS meters
+  SIZE 800 600
+  MAXSIZE 2048
+  IMAGECOLOR -1 -1 -1
+  SYMBOLSET "simbolos/simbolos_allpa.sym"
+  FONTSET "fuentes/fuentes.txt"
+  SHAPEPATH "archivos/shp/"
+  RESOLUTION 85
+  IMAGETYPE gif
+  DEBUG on
+PROJECTION
+ "init=epsg:4326"
+END
+
+#
+# FORMATOS DE IMAGEN
+#
+OUTPUTFORMAT
+  NAME gif
+  DRIVER "GD/GIF"
+  MIMETYPE "image/gif"
+  IMAGEMODE PC256
+  EXTENSION "gif"
+END
+
+OUTPUTFORMAT
+  NAME png
+  DRIVER "GD/PNG"
+  MIMETYPE "image/png"
+  IMAGEMODE PC256
+  EXTENSION "png"
+END
+
+OUTPUTFORMAT
+  NAME GTiff
+  DRIVER "GDAL/GTiff"
+  MIMETYPE "image/tiff"
+  IMAGEMODE RGB
+  EXTENSION "tif"
+END
+
+OUTPUTFORMAT
+  NAME "geojson"
+  DRIVER "OGR/GEOJSON"
+  MIMETYPE "application/json; subtype=geojson"
+  FORMATOPTION "STORAGE=stream"
+  FORMATOPTION "FORM=SIMPLE"
+END
+
+OUTPUTFORMAT
+  NAME "json"
+  DRIVER "OGR/GeoJSON"
+  MIMETYPE "application/geo+json"
+  FORMATOPTION "FORM=SIMPLE"
+  EXTENSION "json"
+END
+
+OUTPUTFORMAT
+  NAME "geojson"
+  DRIVER "OGR/GeoJSON"
+  MIMETYPE "application/geojson"
+  EXTENSION "json"
+  FORMATOPTION "FORM=SIMPLE"
+END
+
+OUTPUTFORMAT
+  NAME "csv"
+  DRIVER "OGR/CSV"
+  MIMETYPE "text/csv"
+  FORMATOPTION "LCO:GEOMETRY=AS_WKT"
+  FORMATOPTION "STORAGE=memory"
+  FORMATOPTION "FORM=simple"
+  FORMATOPTION "FILENAME=geoallpa.csv"
+END
+
+OUTPUTFORMAT
+  NAME "gml"
+  DRIVER "OGR/GML"
+  FORMATOPTION "STORAGE=filesystem"
+  FORMATOPTION "FORM=multipart"
+  FORMATOPTION "FILENAME=geoallpa.gml"
+END
+
+OUTPUTFORMAT
+  NAME "SHAPE-ZIP"
+  DRIVER "OGR/ESRI Shapefile"
+  FORMATOPTION "STORAGE=filesystem"
+  FORMATOPTION "FORM=zip"
+  FORMATOPTION "FILENAME=geoallpa.zip"
+END
+
+#
+# SERVICIO WFS
+#
+WEB
+  TEMPLATE "plantillas/mapa.html"
+  IMAGEPATH "temporal"
+  IMAGEURL "/temporal/"
+  METADATA
+  "wfs_getcapabilities_version" "1.1.0"
+  "wfs_server_version" "1.1.0"
+  "wfs_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wfs_title"     "GEO ALLPA"
+	"wfs_abstract" "GEO ALLPA :: PERU, SERVICIO OGC: WEB  FACTURE SERVER (WFS)"
+	"wfs_onlineresource" "http://127.0.0.1/servicio/wfs?"
+	"wfs_service_onlineresource" "http://127.0.0.1/servicio/wfs?"
+	"wfs_fees" "none"
+	"wfs_accessconstraints" "Ninguna"
+	"wfs_geometry_element_name" "MS_GEOMETRY"
+	"wfs_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+	"wfs_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+	"wfs_contactperson" "Ing. Luis Amos Valer Villegas"
+	"wfs_contactorganization" "Consultor TI :: ALLPA PERU"
+	"wfs_contactposition" "Administrador del servicio OGC: WFS"
+	"wfs_addresstype" "Lima - PERU"
+	"wfs_address" "Lima"
+	"wfs_city" "Lima"
+	"wfs_stateorprovince" "Lima"
+	"wfs_postcode" "Lima 01"
+	"wfs_country" "La Molina"
+	"wfs_hoursofservice" "24 Horas"
+	"wfs_contactinstructions" "during hours of service"
+	"wfs_role" "staff"
+	"wfs_contactvoicetelephone" "(+51) 961241598"
+	"wfs_contactfacsimiletelephone" "Fax: (+51) 961241598"
+	"wfs_contactelectronicmailaddress" "luisamos7@gmail.com"
+	"wfs_attribution_onlineresource" ""
+	"wfs_accessconstraints" "ninguna"
+	#"wfs_enable_request" "GetCapabilities GetFeature"
+	"wfs_enable_request" "*"
+  END  # Metadata
+END  # Web
+
+#
+# LAYER
+#
+# MPE
+INCLUDE "capas/allpa/wfs/sector.map"
+INCLUDE "capas/allpa/wfs/manzana.map"
+INCLUDE "capas/allpa/wfs/lote.map"
+
+# GRUPO: COFOPRI
+INCLUDE "capas/cofopri/wfs/lotes.map"
+INCLUDE "capas/cofopri/wfs/lotes_wgs84.map"
+INCLUDE "capas/cofopri/wfs/lotes_psad56.map"
+
+# GRUPO: INGEMMET
+INCLUDE "capas/ingemmet/wfs/catastro_minero_18s.map"
+INCLUDE "capas/ingemmet/wfs/catastro_minero_19s.map"
+
+# GRUPO: MIDAGRI
+INCLUDE "capas/midagri/wfs/comunidad_campesina.map"
+INCLUDE "capas/midagri/wfs/predio_rural.map"
+
+# GRUPO: SBN
+INCLUDE "capas/sbn/wfs/predios.map"
+
+END #mapfile

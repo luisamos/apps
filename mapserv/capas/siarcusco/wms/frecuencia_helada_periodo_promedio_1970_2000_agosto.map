@@ -1,0 +1,76 @@
+LAYER
+  NAME "frecuencia_helada_periodo_promedio_1970_2000_agosto"
+  GROUP "Caracterización Climática"
+  STATUS off
+  DATA "archivos/raster/frecuencia_helada_periodo_promedio_1970_2000_agosto.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Caracterización Climática"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Frecuencia de Heladas, agosto (Periodo Promedio 1970 al 2000)"
+	"wms_abstract" "Frecuencia de Heladas (T° Min <= 0°), agosto (Periodo Promedio 1970 al 2000) - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/frecuencia_helada_periodo_promedio_1970_2000_agosto.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Días de heladas por mes"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0 - 1"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 1)
+    COLOR 181 238 255
+  END
+  CLASS
+	NAME "1 - 5"
+    EXPRESSION ([pixel] >= 1 AND [pixel] < 5)
+    COLOR 211 255 191
+  END
+  CLASS
+	NAME "5 - 10"
+    EXPRESSION ([pixel] >= 5 AND [pixel] < 10)
+    COLOR 103 215 179
+  END
+  CLASS
+	NAME "10 - 15"
+    EXPRESSION ([pixel] >= 10 AND [pixel] < 15)
+    COLOR 0 204 167
+  END
+  CLASS
+	NAME "15 - 20"
+    EXPRESSION ([pixel] >= 15 AND [pixel] < 20)
+    COLOR 56 176 0
+  END
+  CLASS
+	NAME "20 - 25"
+    EXPRESSION ([pixel] >= 20 AND [pixel] < 25)
+    COLOR 194 156 215
+  END
+  CLASS
+	NAME "25 - 30"
+    EXPRESSION ([pixel] >= 25 AND [pixel] < 30)
+    COLOR 167 0 230
+  END
+  CLASS
+	NAME "30 - 35"
+    EXPRESSION ([pixel] >= 30 AND [pixel] < 35)
+    COLOR 115 1 125
+  END
+END # Layer

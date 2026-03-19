@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapcache>
+   <cache name="disk" type="disk">
+      <base>C:/apps/tmp</base>
+      <!--<symlink_blank/>-->
+   </cache>
+   
+   <cache name="berkeley" type="bdb">
+      <base>C:/apps/tmp</base>
+      <!--<symlink_blank/>-->
+   </cache>  
+   
+   <cache name="tiff" type="tiff">
+      <template>C:/apps/tmp/{tileset}/{grid}/L{z}/R{inv_y}/C{x}.tif</template>
+      <xcount>64</xcount>
+     <ycount>64</ycount>
+     <!-- <format>myjpeg</format> -->
+   </cache> 
+   
+   <cache name="sqlitetemplate" type="sqlite3">
+      <dbfile>C:/apps/tmp/sqlitefile.db</dbfile>
+      <pragma name="max_page_count">10000000</pragma>
+   </cache>   
+
+   <source name="sector041011" type="wms">
+      <getmap>
+         <params>
+            <FORMAT>image/png</FORMAT>
+            <LAYERS>sector041011</LAYERS>
+         </params>
+      </getmap>
+      
+      <http>
+         <url>http://127.0.0.9/servicio/wms?</url>
+         <timeout>60</timeout>
+      </http>
+   </source>
+
+   <tileset name="mdss-sector041011">
+      <source>sector041011</source>
+      <cache>disk</cache>
+      <grid>WGS84</grid>
+      <grid>g</grid>
+      <format>PNG</format>
+      <metatile>5 5</metatile>
+      <metabuffer>10</metabuffer>
+      <expires>3600</expires>
+   </tileset>
+
+   <source name="s_mpc_tramo_01" type="wms">
+      <getmap>
+         <params>
+            <FORMAT>image/png</FORMAT>
+            <LAYERS>mpc_tramo_01</LAYERS>
+         </params>
+      </getmap>
+      
+      <http>
+         <url>http://127.0.0.2/servicio/wms?</url>
+         <timeout>60</timeout>
+      </http>
+   </source>
+
+   <tileset name="mpc_tramo_01">
+      <source>s_mpc_tramo_01</source>
+      <cache>disk</cache>
+      <grid>WGS84</grid>
+      <grid>g</grid>
+      <format>PNG</format>
+      <metatile>5 5</metatile>
+      <metabuffer>10</metabuffer>
+      <expires>3600</expires>
+   </tileset>
+
+   <source name="s_mpc_tramo_02" type="wms">
+      <getmap>
+         <params>
+            <FORMAT>image/png</FORMAT>
+            <LAYERS>mpc_tramo_02</LAYERS>
+         </params>
+      </getmap>
+      
+      <http>
+         <url>http://127.0.0.2/servicio/wms?</url>
+         <timeout>60</timeout>
+      </http>
+   </source>
+
+   <tileset name="mpc_tramo_02">
+      <source>s_mpc_tramo_02</source>
+      <cache>disk</cache>
+      <grid>WGS84</grid>
+      <grid>g</grid>
+      <format>PNG</format>
+      <metatile>5 5</metatile>
+      <metabuffer>10</metabuffer>
+      <expires>3600</expires>
+   </tileset>
+
+   <default_format>JPEG</default_format>
+
+   <service type="wms" enabled="true">
+      <full_wms>assemble</full_wms>
+      <resample_mode>bilinear</resample_mode>
+      <format>JPEG</format>
+      <maxsize>4096</maxsize>
+   </service>
+   <service type="wmts" enabled="true"/>
+   <service type="tms" enabled="true"/>
+   <service type="kml" enabled="true"/>
+   <service type="gmaps" enabled="true"/>
+   <service type="ve" enabled="true"/>   
+
+   <errors>report</errors>
+   <lock_dir>C:/apps/tmp</lock_dir>
+
+</mapcache>

@@ -1,0 +1,45 @@
+LAYER
+	NAME "infraestructura_riego"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE line
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/infraestructura_riego.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, nom_prov, comunidad, sector, nom_infra, tipo_infra, est_act, seccion_m, inst_ejec, ambito_uso, fuente_cap, caudal_l_s, long_km, fuente, geom FROM py148.infraestructura_riego) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Infraestructura de riego"
+		"wms_abstract" "Infraestructura de riego || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "149734.38392925425 8484788.0000132 205621.72912605683 8518518.56961889"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Infraestructura de riego"
+		EXPRESSION /./
+		OUTLINECOLOR 236 112 99
+	END
+END # Layer

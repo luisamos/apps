@@ -1,0 +1,2 @@
+CONNECTION "user=allpa password=123 host=localhost port=5432 dbname=allpa"
+CONNECTIONTYPE POSTGIS

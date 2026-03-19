@@ -1,0 +1,54 @@
+LAYER
+	NAME "tipo_persona"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/tipo_persona.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0-9]"
+		"default_codigo" "1,2"
+	END
+	DATA "geom FROM (SELECT * FROM public.v_tipo_persona) as mpu using unique gid using srid=32718"
+	FILTER ("[tipo_persona]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "tipo_persona"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Tipo de persona"
+		"wms_abstract" "Tipo de persona || Municipalidad Distrital de Urubamba :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "tipo_persona"
+	END
+	CLASS
+		NAME "PERSONA NATURAL"
+		EXPRESSION "1"
+		STYLE
+			COLOR 190 255 93
+			OUTLINECOLOR 59 197 0
+		END
+	END
+	CLASS
+		NAME "PERSONA JURIDICA"
+		EXPRESSION "2"
+		STYLE
+			COLOR 97 194 86
+			OUTLINECOLOR 0 87 0
+		END
+	END	
+END # Layer

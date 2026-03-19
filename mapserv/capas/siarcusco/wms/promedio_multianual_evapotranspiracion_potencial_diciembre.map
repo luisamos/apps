@@ -1,0 +1,81 @@
+LAYER
+  NAME "promedio_multianual_evapotranspiracion_potencial_diciembre"
+  GROUP "Evapotranspiración regiones de Cusco y Apurímac"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_evapotranspiracion_potencial_diciembre.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Evapotranspiración regiones de Cusco y Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la evapotranspiración potencial diciembre"
+	"wms_abstract" "Promedio multianual de la evapotranspiración potencial diciembre - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_evapotranspiracion_potencial_diciembre.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Evapotranspiración potencial (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "78 - 100"
+    EXPRESSION ([pixel] >= 78 AND [pixel] < 100)
+    COLOR 66 135 66
+  END
+  CLASS
+	NAME "100 - 110"
+    EXPRESSION ([pixel] >= 100 AND [pixel] < 110)
+    COLOR 102 204 119
+  END
+  CLASS
+	NAME "110 - 120"
+    EXPRESSION ([pixel] >= 110 AND [pixel] < 120)
+    COLOR 122 245 122
+  END
+  CLASS
+	NAME "120 - 130"
+    EXPRESSION ([pixel] >= 120 AND [pixel] < 130)
+    COLOR 208 255 115
+  END
+  CLASS
+	NAME "130 - 140"
+    EXPRESSION ([pixel] >= 130 AND [pixel] < 140)
+    COLOR 255 255 115
+  END
+  CLASS
+	NAME "140 - 150"
+    EXPRESSION ([pixel] >= 140 AND [pixel] < 150)
+    COLOR 255 232 128
+  END
+  CLASS
+	NAME "150 - 160"
+    EXPRESSION ([pixel] >= 150 AND [pixel] < 160)
+    COLOR 255 191 128
+  END
+  CLASS
+	NAME "160 - 170"
+    EXPRESSION ([pixel] >= 160 AND [pixel] < 170)
+    COLOR 255 128 128
+  END
+  CLASS
+	NAME "170 - 177"
+    EXPRESSION ([pixel] >= 170 AND [pixel] <= 180)
+    COLOR 255 74 74
+  END
+END # Layer

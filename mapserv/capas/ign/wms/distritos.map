@@ -1,0 +1,71 @@
+LAYER
+	NAME "distritos"
+	GROUP "IGN"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/ign/distrito.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, ubigeo, coddep, departamen, codprov, provincia, coddist, distrito, capital, fuente, geom FROM ign.distritos) as ign using unique gid using srid=4326"
+	FILTER ("[provincia]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	LABELITEM "distrito"
+	LABELMAXSCALEDENOM 2000000
+	LABELMAXSCALE 2000000
+	METADATA
+		"wms_group_title" "IGN"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Distritos"
+		"wms_abstract" "Distritos || Instituto Geográfico Nacional - IGN :: Perú"
+		"wms_credit" "IGN"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-81.3282304899999 -18.3509277359999 -68.6522791029997 -0.0386059679999562"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Distrito de Wanchaq"
+		EXPRESSION ("[provincia] eq 'CUSCO'")
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 38 166 154
+			WIDTH 2
+			LINECAP butt
+			PATTERN 10 5 5 10 END
+		END
+	END
+	CLASS
+		NAME "Espinar"
+		EXPRESSION ("[provincia] eq 'ESPINAR'")
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 38 166 154
+			WIDTH 2
+			LINECAP butt
+			PATTERN 10 5 5 10 END
+		END
+		LABEL
+			TEXT "DIST. [distrito]"
+			COLOR 38 166 154
+			FONT "Candara"
+			TYPE truetype
+			SIZE 6
+			POSITION cc
+			PARTIALS false
+		END
+	END
+END # Layer

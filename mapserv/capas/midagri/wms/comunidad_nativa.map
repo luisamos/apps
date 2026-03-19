@@ -1,0 +1,58 @@
+LAYER
+	NAME "comunidades_nativas"
+	GROUP "MIDAGRI"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/allpa/midagri/comunidades_nativas.html"
+	FOOTER  "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, nom_dpto, nom_prov, nom_dist, nom_comuni, federacion, etnia, estado, nro_titulo, anio_titul, round(area_titul,2) AS area_titul, fuente, geom FROM midagri.comunidades_nativas) as allpa using unique gid using srid=4326"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	LABELITEM "nom_comuni"
+	LABELMAXSCALEDENOM 2000000
+	LABELMAXSCALE 2000000
+	METADATA
+		"wms_group_title" "MIDAGRI"
+		"queryable" "true"
+		"wms_metadataurl_href" "LUISAMOS"
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Comunidades Nativas"
+		"wms_abstract" "Comunidades Nativas || Ministerio de Desarrollo Agrario y Rural - MIDAGRI :: Perú"
+		"wms_credit" "MIDAGRI"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-78.911969039 -13.174006996 -68.672677514 -0.0422453909999945"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_exclude_items" ""
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Comunidades Nativas"
+		EXPRESSION /./
+		STYLE
+			COLOR 233 255 190
+			OUTLINECOLOR 76 115 0
+			WIDTH 1
+		END
+		LABEL
+			TEXT "CCNN [nom_comuni]"
+			COLOR  10 10 10
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS false
+		END
+	END
+END # Layer

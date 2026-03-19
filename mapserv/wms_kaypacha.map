@@ -1,0 +1,203 @@
+#
+# FECHA DE CREACION: 01-08-2024
+# FECHA DE MODIFICACION: 02-03-2026
+#
+
+#
+# MAPFILE
+#
+MAP
+	NAME "WMS"
+	EXTENT -71.97381485599988 -13.540203105999922 -71.91861135699997 -13.519683231999977
+	STATUS on
+	UNITS meters
+	SIZE 50 70
+	MAXSIZE 4096
+	IMAGECOLOR 255 255 255
+	#IMAGEQUALITY 95
+	IMAGETYPE png
+	#TRANSPARENT on
+	SYMBOLSET "simbolos/simbolos_kaypacha.sym"
+	FONTSET "fuentes/fuentes.txt"
+	#RESOLUTION 100
+	#INTERLACE on
+	#DEBUG on
+	#CONFIG MS_ERRORFILE "logs/error_wms_kaypacha.txt"
+	#CONFIG MS_NONSQUARE YES
+	PROJECTION
+		"init=epsg:4326"
+	END
+
+	#
+	# FORMATOS DE IMAGEN
+	#
+	OUTPUTFORMAT
+		NAME "png0"
+		DRIVER "GDAL/PNG"
+		MIMETYPE "image/png"
+		EXTENSION "png"
+	END
+
+	OUTPUTFORMAT
+		NAME "png"
+		DRIVER AGG/PNG
+		MIMETYPE "image/png"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "GAMMA=0.75"
+	END
+	OUTPUTFORMAT
+		NAME "png8"
+		DRIVER AGG/PNG8
+		MIMETYPE "image/png; mode=8bit"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "QUANTIZE_FORCE=on"
+		FORMATOPTION "QUANTIZE_COLORS=256"
+		FORMATOPTION "GAMMA=0.75"
+	END
+
+	OUTPUTFORMAT
+		NAME "png24"
+		MIMETYPE "image/png"
+		DRIVER "AGG/PNG"
+		EXTENSION "png"
+		IMAGEMODE RGBA
+		TRANSPARENT ON
+	END
+
+	OUTPUTFORMAT
+		NAME gif
+		DRIVER "GD/GIF"
+		MIMETYPE "image/gif"
+		IMAGEMODE PC256
+		EXTENSION "gif"
+	END
+
+	OUTPUTFORMAT
+		NAME GTiff
+		DRIVER "GDAL/GTiff"
+		MIMETYPE "image/tiff"
+		IMAGEMODE RGB
+		EXTENSION "tif"
+	END
+
+	#
+	# DEFINICIÓN DEL SERVICIO OGC: WMS
+	#
+	WEB
+		TEMPLATE "plantillas/mapa.html"
+		IMAGEPATH "temporal/"
+		IMAGEURL "/temporal/"
+		METADATA
+		"wms_server_version" "1.1.1"
+		"wms_enable_request" "*"
+		"wms_title" "KayPacha - Servicio OGC:WMS"
+		"wms_abstract" "Servicio de visualización de mapa catastral, SERVICIO OGC: WEB MAP SERVER (WMS)"
+		"wms_onlineresource" "http://127.0.0.2:80/servicio/wms?"
+		"ows_enable_request" "*"
+        "ows_sld_enabled" "true"
+		"wms_fees" "S/. 0.00"
+		"wms_accessconstraints" "Ninguna"
+		"wms_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+		"wms_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+		"wms_contactperson" "Ing. Luis Amos Valer Villegas"
+		"wms_contactorganization" "Consultor TI :: CHERO S.R.L PERU"
+		"wms_contactposition" "Administrador del servicio OGC: WMS"
+		"wms_addresstype" "Lima - PERU"
+		"wms_address" "Lima"
+		"wms_city" "Lima"
+		"wms_stateorprovince" "Lima"
+		"wms_postcode" "Lima 01"
+		"wms_country" "La Molina"
+		"wms_contactvoicetelephone" "(+51) 961241598"
+		"wms_contactfacsimiletelephone" "Fax: (+51) 961241598"
+		"wms_contactelectronicmailaddress" "luisamos7@gmail.com"
+		"wms_attribution_onlineresource" ""
+		"wms_feature_info_mime_type" "text/html; charset=UTF-8"
+		END  # Metadata
+	END  # Web
+
+	QUERYMAP
+		COLOR 255 0 0
+		STYLE hilite
+	END
+
+	#
+	# REFERENCIA
+	#
+	REFERENCE
+		EXTENT -350000.01 7900000.00 1350000.00 10050000.00
+		IMAGE "simbolos/referencia.png"
+		SIZE 199 149
+		COLOR -1 -1 -1
+		OUTLINECOLOR 255 0 0
+	END
+
+	#
+	# LEYENDA
+	#
+	LEGEND
+		STATUS off
+		KEYSIZE 20 15
+		TRANSPARENT off
+		LABEL
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 6
+			COLOR 0 0 0
+		END
+	END
+
+	#
+	# DEFINICION DE SCALEBAR
+	#
+	SCALEBAR
+		INTERVALS 5
+		POSITION lc
+		UNITS meters
+		OUTLINECOLOR 0 0 0
+		STYLE 0
+		STATUS off
+		LABEL
+		SIZE small
+		COLOR 0 0 0
+		END
+	END
+
+	#
+	# CAPAS
+	#
+
+	# IGN
+	INCLUDE "capas/ign/wms/provincias.map"
+	INCLUDE "capas/ign/wms/distritos.map"
+
+	# CATASTRO
+	INCLUDE "capas/kaypacha/wms/ortofoto.map"
+	INCLUDE "capas/kaypacha/wms/sector.map"
+	INCLUDE "capas/kaypacha/wms/manzana.map"
+	INCLUDE "capas/kaypacha/wms/lote.map"
+	INCLUDE "capas/kaypacha/wms/eje_via.map"
+	INCLUDE "capas/kaypacha/wms/habilitacion_urbana.map"	
+	INCLUDE "capas/kaypacha/wms/comercio.map"
+	INCLUDE "capas/kaypacha/wms/construccion.map"	
+	INCLUDE "capas/kaypacha/wms/parque.map"
+	INCLUDE "capas/kaypacha/wms/puerta.map"
+
+	# REPORTES
+	INCLUDE "capas/kaypacha/wms/servicio_basico.map"
+	INCLUDE "capas/kaypacha/wms/clasificacion_predio.map"
+	INCLUDE "capas/kaypacha/wms/tipo_persona.map"
+	
+	# FILTROS
+	#INCLUDE "capas/kaypacha/wms/id_lote.map"
+	#INCLUDE "capas/kaypacha/wms/vertice_lote.map"
+
+	# INTEROPERABILIDAD
+	INCLUDE "capas/sbn/wms/predios.map"
+
+END  #Map
+
+
+

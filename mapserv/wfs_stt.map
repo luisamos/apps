@@ -1,0 +1,136 @@
+#
+# FECHA DE CREACION     :	07-11-2024
+# FECHA DE MODIFICACION	:	07-11-2024
+#
+
+#
+# MAPFILE
+#
+MAP
+  NAME "STT"
+  EXTENT -71.28855145743101 -14.991047703607082 -71.23672484976497 -14.944189330838615
+  STATUS ON
+  UNITS meters
+  SIZE 800 600
+  MAXSIZE 2048
+  IMAGECOLOR -1 -1 -1
+  FONTSET "fuentes/fuentes.txt"
+  RESOLUTION 85
+  IMAGETYPE gif
+  DEBUG on
+  PROJECTION
+   "init=epsg:4326"
+  END
+
+  #
+  # FORMATOS DE IMAGEN
+  #
+  OUTPUTFORMAT
+    NAME gif
+    DRIVER "GD/GIF"
+    MIMETYPE "image/gif"
+    IMAGEMODE PC256
+    EXTENSION "gif"
+  END
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE PC256
+    EXTENSION "png"
+  END
+
+  OUTPUTFORMAT
+    NAME GTiff
+    DRIVER "GDAL/GTiff"
+    MIMETYPE "image/tiff"
+    IMAGEMODE RGB
+    EXTENSION "tif"
+  END
+
+  OUTPUTFORMAT
+    NAME "CSV"
+    DRIVER "OGR/CSV"
+    MIMETYPE "text/csv"
+    FORMATOPTION "LCO:GEOMETRY=AS_WKT"
+    FORMATOPTION "STORAGE=memory"
+    FORMATOPTION "FORM=simple"
+    FORMATOPTION "FILENAME=stt.csv"
+  END
+
+  OUTPUTFORMAT
+    NAME "OGRGML"
+    DRIVER "OGR/GML"
+    FORMATOPTION "STORAGE=filesystem"
+    FORMATOPTION "FORM=multipart"
+    FORMATOPTION "FILENAME=stt.gml"
+  END
+
+  OUTPUTFORMAT
+    NAME "SHAPE-ZIP"
+    DRIVER "OGR/ESRI Shapefile"
+    FORMATOPTION "STORAGE=filesystem"
+    FORMATOPTION "FORM=zip"
+    FORMATOPTION "FILENAME=stt.zip"
+  END
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/json; subtype=geojson"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+    FORMATOPTION "LCO:RFC7946=YES"
+  END
+
+  #
+  # SERVICIO WFS
+  #
+  WEB
+    TEMPLATE "plantillas/mapa.html"
+    IMAGEPATH "/Apps/mapserv/temporal/"
+    IMAGEURL "/temporal"
+    METADATA
+    "wfs_getcapabilities_version" "1.1.0"
+    "wfs_server_version" "1.1.0"
+    "wfs_encoding" "LATIN1"
+  	"layer_encoding" "LATIN1"
+  	"wfs_title"     "STT"
+  	"wfs_abstract" "STT :: PERU, SERVICIO OGC: WEB  FACTURE SERVER (WFS)"
+  	"wfs_onlineresource" "http://127.0.0.1/servicio/wfs?"
+  	"wfs_service_onlineresource" "http://127.0.0.1/servicio/wfs?"
+  	"wfs_fees" "none"
+  	"wfs_accessconstraints" "Ninguna"
+  	"wfs_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+  	"wfs_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+  	"wfs_contactperson" "Marcel Adolfo Echarri Farfan"
+  	"wfs_contactorganization" "Cusco PERU"
+  	"wfs_contactposition" "Administrador del servicio OGC: WFS"
+  	"wfs_addresstype" "Cusco - PERU"
+  	"wfs_address" "Cusco"
+  	"wfs_city" "Cusco"
+  	"wfs_stateorprovince" "Cusco"
+  	"wfs_postcode" "Cusco 08"
+  	"wfs_country" "Cusco"
+  	"wfs_hoursofservice" "24 Horas"
+  	"wfs_contactinstructions" "during hours of service"
+  	"wfs_role" "staff"
+  	"wfs_contactvoicetelephone" "(+51) 984000000"
+  	"wfs_contactfacsimiletelephone" "Fax: (+51) 984000000"
+  	"wfs_contactelectronicmailaddress" "" 
+  	"wfs_attribution_onlineresource" ""
+  	"wfs_accessconstraints" "ninguna"
+  	"wfs_enable_request" "*"
+    END  # Metadata
+    #LOG "logs/wfs_stt.log"
+  END  # Web
+
+  #
+  # LAYER
+  #
+
+  # GRUPO: Sistema de Tasación de Terreno
+  INCLUDE "capas/stt/wfs/buscarTitularPoligono.map"
+  INCLUDE "capas/stt/wfs/buscarTitularLinea.map"
+END #mapfile

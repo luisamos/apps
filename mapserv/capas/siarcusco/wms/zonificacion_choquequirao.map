@@ -1,0 +1,85 @@
+LAYER
+  NAME "zonificacion_choquequirao"
+  GROUP "Diversidad biológica"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/siarcusco/zonificacion_choquequirao.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  TRANSPARENCY 100
+  DATA "the_geom from (select gid, zona, area_m, area_ha, the_geom from geo.zonificacion_choquequirao) as sinia using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+  "init=epsg:32718"
+  END
+  CLASSITEM "zona"
+  METADATA
+    "wms_encoding" "LATIN1"
+    "wms_group_title" "Diversidad biológica"
+    "queryable" "true"
+    "wms_metadataurl_href" ""
+    "wms_metadataurl_format" "text/xml"
+    "wms_metadataurl_type" "TC211"
+    "wms_title" "Zonificación del Área de Conservación Regional Choquequirao"
+    "wms_abstract" "Mapa de Zonificación del Área de Conservación Regional Choquequirao- Copyright © - Elaboración en la Gerencia Regional de Recursos Naturales y Gestión del Medio Ambiente del Gobierno Regional Cusco."
+    "wms_dataurl" ""
+    "wms_dataurl_format" "text/html"
+    "wms_dataurl_href" "http://www.siar.regioncusco.gob.pe/index.php?accion=verMapa&idElementoInformacion=864&idformula="
+    "autor" "GORE Cusco - GRRNYGMA 2015"
+    "wms_extent" "720517.821762012 8511152.59853778 766542.093879286 8547493.64619132"
+    "wms_srs" "EPSG:32718"
+    "wms_include_items" "all"
+    "wms_exclude_items" "gid"
+ END
+ CLASS
+  NAME "Descripción"
+  EXPRESSION "-1"
+  COLOR -1 -1 -1
+ END
+ CLASS
+  NAME "ZONA DE APROV. DIRECTO"
+  EXPRESSION "ZONA DE APROV. DIRECTO"
+  COLOR 255 255 0
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA DE PROTECCION ESTRICTA"
+  EXPRESSION "ZONA DE PROTECCION ESTRICTA"
+  COLOR 0 92 230
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA DE RECUPERACION"
+  EXPRESSION "ZONA DE RECUPERACION"
+  COLOR 255 170 0
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA DE USO ESPECIAL"
+  EXPRESSION "ZONA DE USO ESPECIAL"
+  COLOR 230 0 0
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA DE USO TURISTICO Y RECREATIVO"
+  EXPRESSION "ZONA DE USO TURISTICO Y RECREATIVO"
+  COLOR 115 76 0
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA HISTORICO CULTURAL"
+  EXPRESSION "ZONA HISTORICO CULTURAL"
+  COLOR 255 0 197
+  OUTLINECOLOR 128 128 128
+ END
+ CLASS
+  NAME "ZONA SILVESTRE"
+  EXPRESSION "ZONA SILVESTRE"
+  COLOR 56 168 0
+  OUTLINECOLOR 128 128 128
+ END
+END

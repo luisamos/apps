@@ -1,0 +1,76 @@
+LAYER
+  NAME "escenario_temperatura_minima_diciembre_enero_febrero_periodo_2030"
+  GROUP "Escenarios Climáticos"
+  STATUS off
+  DATA "archivos/raster/escenario_temperatura_minima_diciembre_enero_febrero_periodo_2030.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios Climáticos"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Escenario de temperatura mínima dic,ene,feb (Año 2030)"
+	"wms_abstract" "Escenario de temperatura mínima diciembre,enero,febrero (Año 2030) - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/escenario_temperatura_minima_diciembre_enero_febrero_periodo_2030.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Temperatura mínima (°C)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-6 - -4"
+    EXPRESSION ([pixel] >= -6 AND [pixel] < -4)
+    COLOR 22 0 219
+  END
+  CLASS
+	NAME "-4 - 0"
+    EXPRESSION ([pixel] >= -4 AND [pixel] < 0)
+    COLOR 158 149 252
+  END
+  CLASS
+	NAME "0 - 4"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 4)
+    COLOR 200 194 255
+  END
+  CLASS
+	NAME "4 - 8"
+    EXPRESSION ([pixel] >= 4 AND [pixel] < 8)
+    COLOR 0 255 149
+  END
+  CLASS
+	NAME "8 - 12"
+    EXPRESSION ([pixel] >= 8 AND [pixel] < 12)
+    COLOR 68 255 0
+  END
+  CLASS
+	NAME "12 - 16"
+    EXPRESSION ([pixel] >= 12 AND [pixel] < 16)
+    COLOR 204 255 20
+  END
+  CLASS
+	NAME "16 - 20"
+    EXPRESSION ([pixel] >= 16 AND [pixel] < 20)
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "20 - 23"
+    EXPRESSION ([pixel] >= 20 AND [pixel] <= 23)
+    COLOR 230 180 0
+  END
+END # Layer

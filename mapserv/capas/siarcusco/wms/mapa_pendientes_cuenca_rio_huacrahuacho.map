@@ -1,0 +1,61 @@
+LAYER
+  NAME "mapa_pendientes_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/mapa_pendientes_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32719"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de Pendientes de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Mapa de Pendientes de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_pendientes_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "234701.354420407 8381986.48177855 265751.354420406 8401336.48177855"
+	"wms_srs" "EPSG:32719"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Clases de pendientes"
+    EXPRESSION "-99999"
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0 - 5% Casi a nivel o nivel"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 5)
+    COLOR 56 168 0
+  END
+  CLASS
+	NAME "5 - 15% Ligeramente inclinada a inclinada"
+    EXPRESSION ([pixel] >= 5 AND [pixel] < 15)
+    COLOR 139 209 0
+  END
+  CLASS
+	NAME "15 - 30% Fuertemente inclinada"
+    EXPRESSION ([pixel] >= 15 AND [pixel] < 30)
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "30 - 50% Moderadamente empinada a empinada"
+    EXPRESSION ([pixel] >= 30 AND [pixel] < 50)
+    COLOR 255 128 0
+  END
+  CLASS
+	NAME "50 - 100% Muy empinada a extremadamente empinada"
+    EXPRESSION ([pixel] >= 50 AND [pixel] <= 100)
+    COLOR 255 0 0
+  END
+END # Layer

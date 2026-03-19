@@ -1,0 +1,32 @@
+LAYER
+	NAME "predio_rural"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT gid, coreca, codut, hoja, num_predio, datum, coprca, ide_unidad, idoficina, activo, origen, calculo, area, perimetro, geom FROM midagri.predio_rural) as sbn using unique gid using srid=4326"
+    #FILTER ("[depar]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+	"init=epsg:4326"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"		
+		"wfs_title" "Predio rural"
+		"wfs_abstract" "Predio rural || Ministerio de Desarrollo Agrario y Rural - MIDAGRI"
+		"wfs_srs" "EPSG:4326"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"wfs_enable_request" "*"
+		"wfs_getfeature_formatlist" "geojson,application/geojson,application/geo+json,application/json,gml,csv,SHAPE-ZIP" 
+		#"wfs_additional_files_in_output" "anp_administracion_nacional.pdf,anp_administracion_nacional.lyr"
+	END
+	CLASS
+		NAME "Predio rural"
+		STYLE
+			COLOR 28 28 28
+			OUTLINECOLOR 128 128 128
+			WIDTH 1
+		END
+	END
+END # Layer

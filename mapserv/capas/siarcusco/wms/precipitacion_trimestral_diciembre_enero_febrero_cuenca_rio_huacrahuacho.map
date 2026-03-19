@@ -1,0 +1,91 @@
+LAYER
+  NAME "precipitacion_trimestral_diciembre_enero_febrero_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/precipitacion_trimestral_diciembre_enero_febrero_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Precipitación trimestral diciembre, enero, febrero de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Precipitación trimestral diciembre, enero, febrero de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/precipitacion_trimestral_diciembre_enero_febrero_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS  
+	NAME "Precipitación (mm)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "451 - 454"
+    EXPRESSION ([pixel] >= 451 AND [pixel] < 454)
+	COLOR 44 150 69
+  END
+  CLASS  
+	NAME "454 - 458"
+    EXPRESSION ([pixel] >= 454 AND [pixel] < 458)
+	COLOR 0 255 0
+  END
+  CLASS  
+	NAME "458 - 462"
+    EXPRESSION ([pixel] >= 458 AND [pixel] < 462)
+	COLOR 149 255 0
+  END
+  CLASS  
+	NAME "462 - 466"
+    EXPRESSION ([pixel] >= 462 AND [pixel] < 466)
+	COLOR 132 217 72
+  END
+  CLASS  
+	NAME "466 - 470"
+    EXPRESSION ([pixel] >= 466 AND [pixel] < 470)
+	COLOR 102 217 129
+  END
+  CLASS  
+	NAME "470 - 474"
+    EXPRESSION ([pixel] >= 470 AND [pixel] < 474)
+	COLOR 25 230 168
+  END
+  CLASS  
+	NAME "474 - 478"
+    EXPRESSION ([pixel] >= 474 AND [pixel] < 478)
+	COLOR 99 255 201
+  END
+  CLASS  
+	NAME "478 - 482"
+    EXPRESSION ([pixel] >= 478 AND [pixel] < 482)
+	COLOR 138 255 237
+  END
+  CLASS  
+	NAME "482 - 486"
+    EXPRESSION ([pixel] >= 482 AND [pixel] < 486)
+	COLOR 41 248 255
+  END
+  CLASS  
+	NAME "486 - 490"
+    EXPRESSION ([pixel] >= 486 AND [pixel] < 490)
+	COLOR 0 211 235
+  END
+  CLASS  
+	NAME "490 - 493"
+    EXPRESSION ([pixel] >= 490 AND [pixel] <= 493)
+	COLOR 0 137 235
+  END
+END # Layer

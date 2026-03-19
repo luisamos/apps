@@ -1,0 +1,78 @@
+LAYER
+  NAME "mapa_precipitacion_media_anual"
+  GROUP "Climatología"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "precipitacion_anual"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, precipitacion_anual, the_geom from geo.mapa_precipitacion_media_anual) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de precipitación media anual Región Cusco"
+	"wms_abstract" "Mapa de precipitación media anual Región Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_precipitacion_media_anual.rar" 
+	"autor" "© SENAMHI - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Rangos"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "200 m.m - 500 m.m"
+	EXPRESSION "200-500"
+	COLOR 252 252 149
+  END
+  CLASS
+	NAME "500 m.m - 700 m.m"
+	EXPRESSION "500-700"
+	COLOR 226 237 130
+  END
+  CLASS
+	NAME "700 m.m - 1000 m.m"
+	EXPRESSION "700-1000"
+	COLOR 202 222 115
+  END
+  CLASS
+	NAME "1000 m.m - 1500 m.m"
+	EXPRESSION "1000-1500"
+	COLOR 178 209 100
+  END
+  CLASS
+	NAME "1500 m.m - 2000 m.m"
+	EXPRESSION "1500-2000"
+	COLOR 154 194 89
+  END
+  CLASS
+	NAME "2000 m.m - 3000 m.m"
+	EXPRESSION "2000-3000"
+	COLOR 132 179 79
+  END
+  CLASS
+	NAME "3000 m.m - 5000 m.m"
+	EXPRESSION "3000-5000"
+	COLOR 110 163 70
+  END
+  CLASS
+	NAME "5000 m.m - 8000 m.m"
+	EXPRESSION "5000-8000"
+	COLOR 93 150 65
+  END
+END # Layer

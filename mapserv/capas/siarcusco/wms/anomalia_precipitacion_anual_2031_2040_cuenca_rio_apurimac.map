@@ -1,0 +1,91 @@
+LAYER
+  NAME "anomalia_precipitacion_anual_2031_2040_cuenca_rio_apurimac"
+  GROUP "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+  STATUS off
+  DATA "archivos/raster/anomalia_precipitacion_anual_2031_2040_cuenca_rio_apurimac.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Anomalía de la precipitación anual (2031-2040), cuenca del río Apurímac"
+	"wms_abstract" "Anomalía de la precipitación anual (2031-2040), cuenca del río Apurímac - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/anomalia_precipitacion_anual_2031_2040_cuenca_rio_apurimac.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "582118.270864487 8280919.57263374 936118.270864487 8648919.57263374"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Modelo MIHR - Escenario A1B"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME " "
+    EXPRESSION ([pixel] = -9999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Anomalía de pp (%)"
+    EXPRESSION ([pixel] = -999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-24.5 - -16"
+    EXPRESSION ([pixel] >= -24.5 AND [pixel] < -16)
+    COLOR 243 255 20
+  END
+  CLASS
+	NAME "-16 - -14"
+    EXPRESSION ([pixel] >= -16 AND [pixel] < -14)
+    COLOR 208 240 0
+  END
+  CLASS
+	NAME "-14 - -12"
+    EXPRESSION ([pixel] >= -14 AND [pixel] < -12)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "-12 - -10"
+    EXPRESSION ([pixel] >= -12 AND [pixel] < -10)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "-10 - -8"
+    EXPRESSION ([pixel] >= -10 AND [pixel] < -8)
+    COLOR 80 196 51
+  END
+  CLASS
+	NAME "-8 - -6"
+    EXPRESSION ([pixel] >= -8 AND [pixel] < -6)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "-6 - 6"
+    EXPRESSION ([pixel] >= -6 AND [pixel] < 6)
+    COLOR 0 168 132
+  END
+  CLASS
+	NAME "6 - 20"
+    EXPRESSION ([pixel] >= 6 AND [pixel] < 20)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "20 - 51.7"
+    EXPRESSION ([pixel] >= 20 AND [pixel] <= 52)
+    COLOR 0 166 255
+  END 
+END # Layer

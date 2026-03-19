@@ -1,0 +1,81 @@
+LAYER
+  NAME "modelo_numerico_terreno_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/modelo_numerico_terreno_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32719"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Modelo numérico del terrero de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Modelo numérico del terrero de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/modelo_numerico_terreno_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "234701.354420407 8381986.48177855 265751.354420406 8401336.48177855"
+	"wms_srs" "EPSG:32719"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Altitud (m.s.n.m)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "3750 - 3900"
+    EXPRESSION ([pixel] >= 3750 AND [pixel] < 3900)
+    COLOR 85 237 88
+  END
+  CLASS
+	NAME "3900 - 4000"
+    EXPRESSION ([pixel] >= 3900 AND [pixel] < 4000)
+    COLOR 245 250 92
+  END
+  CLASS
+	NAME "4000 - 4100"
+    EXPRESSION ([pixel] >= 4000 AND [pixel] < 4100)
+    COLOR 164 227 245
+  END
+  CLASS
+	NAME "4100 - 4200"
+    EXPRESSION ([pixel] >= 4100 AND [pixel] < 4200)
+    COLOR 117 94 230
+  END
+  CLASS
+	NAME "4200 - 4300"
+    EXPRESSION ([pixel] >= 4200 AND [pixel] < 4300)
+    COLOR 247 101 218
+  END
+  CLASS
+	NAME "4300 - 4400"
+    EXPRESSION ([pixel] >= 4300 AND [pixel] < 4400)
+    COLOR 250 146 125
+  END
+  CLASS
+	NAME "4400 - 4500"
+    EXPRESSION ([pixel] >= 4400 AND [pixel] < 4500)
+    COLOR 105 231 240
+  END
+  CLASS
+	NAME "4500 - 4600"
+    EXPRESSION ([pixel] >= 4500 AND [pixel] < 4600)
+    COLOR 140 250 145
+  END
+  CLASS
+	NAME "4600 - 4700"
+    EXPRESSION ([pixel] >= 4600 AND [pixel] <= 4700)
+    COLOR 255 50 5
+  END
+END # Layer

@@ -1,0 +1,59 @@
+LAYER
+	NAME "vertice_lote"
+	GROUP "Consulta"
+	TYPE point
+	#PROCESSING "LABEL_NO_CLIP=1"	
+	#TEMPLATE "plantillas/kaypacha/vertice_lote.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT ROW_NUMBER() OVER (ORDER BY id_lote) AS gid, x, y, geom FROM geo.v_obtener_coordenadas_lote('%id%')) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "Consulta"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Vértices Lote"
+		"wms_abstract" "Vértices Lote || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_credit" "Kaypacha"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    	NAME "Vertices"
+    	EXPRESSION /./
+    	STYLE
+			SYMBOL "cuadrado"
+			COLOR 0 0 255
+			WIDTH 30
+    	END
+    	LABEL
+			COLOR 255 0 0
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 10
+			ANTIALIAS TRUE
+			POSITION CC
+			PARTIALS FALSE
+			MINDISTANCE 300
+			BUFFER 4
+			OFFSET 10 10
+			ANGLE AUTO
+            PRIORITY 1
+			TEXT "[gid]"
+		END
+    END
+END # Layer

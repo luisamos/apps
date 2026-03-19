@@ -1,0 +1,133 @@
+LAYER
+  NAME "mapa_geomorfologico_ima"
+  GROUP "Geomorfología"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "simbolo"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, fisiografia, simbolo, the_geom from geo.mapa_geomorfologico_ima) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Geomorfología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Geomorfológico (IMA)"
+	"wms_abstract" "Mapa Geomorfológico (IMA) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_geomorfologico_ima.rar" 
+	"autor" "© IMA Cusco - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Unidades Geomorfológicas"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Alt-all, Altiplanicies allanadas"
+	EXPRESSION "Alt-all"
+	COLOR 252 204 208
+  END
+  CLASS
+	NAME "Alt-dis, Altiplanicies disectadas"
+	EXPRESSION "Alt-dis"
+	COLOR 204 252 205
+  END
+  CLASS
+	NAME "Alt-on, Altiplanicies onduladas"
+	EXPRESSION "Alt-on"
+	COLOR 197 235 252
+  END
+  CLASS
+	NAME "Co-afd, Colinas altas fuertemente disectada"
+	EXPRESSION "Co-afd"
+	COLOR 223 202 252
+  END
+  CLASS
+	NAME "Co-amd, Colinas altas moderadamente disectada"
+	EXPRESSION "Co-amd"
+	COLOR 252 242 215
+  END
+  CLASS
+	NAME "Co-bfd, Colinas bajas fuertemente disectada"
+	EXPRESSION "Co-bfd"
+	COLOR 210 252 238
+  END
+  CLASS
+	NAME "Co-bmd, Colinas bajas moderadamente disectada"
+	EXPRESSION "Co-bmd"
+	COLOR 251 225 252
+  END
+  CLASS
+	NAME "Fo-vaa, Fondos de valle aluvial altiplano"
+	EXPRESSION "Fo-vaa"
+	COLOR 204 215 252
+  END
+  CLASS
+	NAME "Fo-vam, Fondos de valle aluvial montaño"
+	EXPRESSION "Fo-vam"
+	COLOR 232 252 215
+  END
+  CLASS
+	NAME "Fo-vga, Fondos de valle glaciar y aluvial"
+	EXPRESSION "Fo-vga"
+	COLOR 252 199 227
+  END  
+  CLASS
+	NAME "Ll-va, Llanura de valle aluvial"
+	EXPRESSION "Ll-va"
+	COLOR 252 220 207
+  END
+  CLASS
+	NAME "Te-ad, Terrazas altas disectadas"
+	EXPRESSION "Te-ad"
+	COLOR 252 204 252
+  END
+  CLASS
+	NAME "Te-a/sd, Terrazas altas sin disección"
+	EXPRESSION "Te-a/sd"
+	COLOR 251 252 202
+  END
+  CLASS
+	NAME "Te-b, Terrazas bajas"
+	EXPRESSION "Te-b"
+	COLOR 220 229 252
+  END
+  CLASS
+	NAME "Te-md, Terrazas medias disectadas"
+	EXPRESSION "Te-md"
+	COLOR 225 252 252
+  END
+  CLASS
+	NAME "Te-m/sd, Terrazas medias sin disección"
+	EXPRESSION "Te-m/sd"
+	COLOR 228 215 252
+  END
+  CLASS
+	NAME "Ve-ma, Vertientes de montaña allanada"
+	EXPRESSION "Ve-ma"
+	COLOR 212 252 221
+  END
+  CLASS
+	NAME "Ve-md, Vertientes de montaña disectada"
+	EXPRESSION "Ve-md"
+	COLOR 252 239 197
+  END
+  CLASS
+	NAME "Ve-me, Vertientes de montaña empinada"
+	EXPRESSION "Ve-me"
+	COLOR 252 222 231
+  END
+END # Layer

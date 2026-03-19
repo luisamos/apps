@@ -1,0 +1,35 @@
+LAYER
+	NAME "servicio_basico"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT * FROM geo.v_servicio_basico) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:32719"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Servicio básico || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wfs_title" "Servicio básico"
+		"wfs_credit" "Kaypacha"
+		"wfs_srs" "EPSG:32719 EPSG:3857 EPSG:4326"
+  		"ows_srs" "EPSG:32719 EPSG:3857 EPSG:4326"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"gml_nomb_via_type" "Character"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"
+        "wfs_exclude_items" "codi_luz,codi_agua,codi_telefono,codi_desague,codi_gas,codi_internet,codi_tvcable"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "Servicio básico"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

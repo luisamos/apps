@@ -1,0 +1,42 @@
+LAYER
+	NAME "lineas"
+	GROUP "STT"
+	TYPE line
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/stt/lineas.html"	
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, dep, prov, dist, com_camp, sector, cod_pred, UPPER(poses) AS titular, dni, long_mt || 'm.' AS super_perim, geom FROM geo.lineas_pp a) as stt using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_stt.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "STT"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Líneas"
+		"wms_abstract" "Líneas :: Perú"
+		"wms_credit" "STT"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "254616.0607947625 8341584.8998 259406.5547000002 8346629.686000002"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Líneas"
+		EXPRESSION /./		
+		STYLE
+			COLOR 48 48 48
+			WIDTH 0.91
+			OUTLINECOLOR 0 0 0
+		END
+	END
+END # Layer

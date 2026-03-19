@@ -1,0 +1,69 @@
+LAYER
+	NAME "tipo_persona"
+	GROUP "Reporte"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/kaypacha/tipo_persona.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0-9]"
+		"default_codigo" "0,1,2"
+	END
+	DATA "geom FROM (SELECT * FROM geo.v_tipo_persona) as kaypacha using unique gid using srid=32719"
+	FILTER ("[tipo_persona]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "tipo_persona"
+	METADATA
+		"wms_group_title" "Reporte"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Tipo de persona"
+		"wms_abstract" "Tipo de persona || Municipalidad Distrital de Wanchaq :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_credit" "Kaypacha"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "tipo_persona"
+	END
+    CLASS
+		NAME "NO CLASIFICADO"
+		EXPRESSION "0"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 255 0 0
+		END
+		STYLE
+            SYMBOL "hatch_rojo"
+            COLOR 255 0 0
+            ANGLE 45
+            SIZE 8
+            WIDTH 1
+        END
+	END
+	CLASS
+		NAME "PERSONA NATURAL"
+		EXPRESSION "1"
+		STYLE
+			COLOR 190 255 93
+			OUTLINECOLOR 59 197 0
+		END
+	END
+	CLASS
+		NAME "PERSONA JURIDICA"
+		EXPRESSION "2"
+		STYLE
+			COLOR 97 194 86
+			OUTLINECOLOR 0 87 0
+		END
+	END	
+END # Layer

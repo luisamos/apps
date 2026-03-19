@@ -1,0 +1,61 @@
+LAYER
+	NAME "habilitacion_urbana"
+	GROUP "Catastro"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/kaypacha/habilitacion_urbana.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	#VALIDATION
+	#	"codigo" "[0-9]"
+	#	"default_codigo" "1,2"
+	#END
+	DATA "geom FROM (SELECT gid, id_ubigeo, cod_hab_urb, id_hab_urb, tipo_hab_urb, nomb_hab_urb, etap_hab_urb, expediente, ROUND(area_grafi::numeric, 2) AS area_grafi, ROUND(peri_grafi::numeric, 2) AS peri_grafi, geom FROM geo.tg_hab_urb) as kaypacha using unique gid using srid=32719"
+	#FILTER ("[cod_hab_urb]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELMAXSCALEDENOM 5000
+	LABELMAXSCALE 5000
+	METADATA
+		"wms_group_title" "Predio urbano"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Habilitación Urbana"
+		"wms_abstract" "Habilitación Urbana || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_credit" "Kaypacha"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "codigo"
+	END
+	CLASS
+		NAME "Habilitación Urbana"
+		EXPRESSION /./
+		STYLE
+			OUTLINECOLOR 0 0 255
+			WIDTH 2
+		END
+		LABEL
+			TEXT "[id_hab_urb] [nomb_hab_urb]"
+            COLOR 0 0 255
+            OUTLINECOLOR 255 255 255
+            FONT "Arial"
+            TYPE TRUETYPE
+            SIZE 11
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END	
+END # Layer

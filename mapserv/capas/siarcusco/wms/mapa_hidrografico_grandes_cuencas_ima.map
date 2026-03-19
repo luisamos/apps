@@ -1,0 +1,83 @@
+LAYER
+  NAME "mapa_hidrografico_grandes_cuencas_ima"
+  GROUP "División Hidrográfica"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "nombre"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, nombre, area_m2, hectares_m2, porcentaje, the_geom from geo.mapa_hidrografico_grandes_cuencas_ima) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "División Hidrográfica"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Hidrográfico y de grandes Cuencas región Cusco (IMA)"
+	"wms_abstract" "Mapa Geomorfológico (IMA) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_hidrografico_grandes_cuencas_ima.rar" 
+	"autor" "© IMA Cusco - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Cuencas Hidrográficas"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Cuenca Alto Apurímac"
+	EXPRESSION "Cuenca Alto Apurimac"
+	COLOR 213 240 77
+  END
+  CLASS
+	NAME "Cuenca Araza"
+	EXPRESSION "Cuenca Araza"
+	COLOR 255 255 77
+  END
+  CLASS
+	NAME "Cuenca Bajo Urubamba"
+	EXPRESSION "Cuenca Bajo Urubamba"
+	COLOR 255 255 76
+  END
+  CLASS
+	NAME "Cuenca Dahuene-Colorado"
+	EXPRESSION "Cuenca Dahuene-Colorado"
+	COLOR 233 157 255
+  END
+  CLASS
+	NAME "Cuenca Medio Apurimac"
+	EXPRESSION "Cuenca Medio Apurimac"
+	COLOR 210 224 255
+  END
+  CLASS
+	NAME "Cuenca Medio Urubamba"
+	EXPRESSION "Cuenca Medio Urubamba"
+	COLOR 255 136 77
+  END
+  CLASS
+	NAME "Cuenca Pillcopata"
+	EXPRESSION "Cuenca Pillcopata"
+	COLOR 255 76 76
+  END
+  CLASS
+	NAME "Cuenca Vilcanota"
+	EXPRESSION "Cuenca Vilcanota"
+	COLOR 255 196 77
+  END
+  CLASS
+	NAME "Cuenca Yavero"
+	EXPRESSION "Cuenca Yavero"
+	COLOR 143 209 77
+  END
+END # Layer

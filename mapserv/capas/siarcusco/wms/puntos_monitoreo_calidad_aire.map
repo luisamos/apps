@@ -1,0 +1,61 @@
+LAYER
+  NAME "puntos_monitoreo_calidad_aire"
+  GROUP "Calidad de Aire"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 200
+  TOLERANCEUNITS meters
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "simbolo"  
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/puntos_monitoreo_calidad_aire.html"
+  FOOTER   "plantillas/fin.html" 
+  DATA "the_geom from (select * from listar_puntos_monitoreo()) as aire using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_aire.map" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Calidad de Aire"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Puntos de Monitoreo"
+	"wms_abstract" "Puntos de Monitoreo de la Calidad de Aire - Copyright © Dirección Regional de Salud - Dirección de Salud Ambiental :: DIRESA Cusco 2013 :: http://www.diresacusco.org.pe/"
+	"wms_dataurl_href" "../descargar/puntos_monitoreo_calidad_aire.rar" 
+	"autor" "© DIRESA Cusco"
+	"wms_extent" "821623 8492739.45285496 853080.837820789 8505574"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Fuentes Contaminantes"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Dióxido de nitrógeno (NO2)"
+	EXPRESSION "NO2"
+    STYLE		
+        SYMBOL "no2"
+        COLOR 128 0 128
+        SIZE 10		
+    END	
+  END
+ CLASS
+	NAME "Material particulado menor a 10 micras (PM10)"
+	EXPRESSION "PM10"
+	STYLE		
+        SYMBOL "pm10"
+        COLOR 255 0 0		
+        SIZE 12
+    END	
+  END
+
+ END # Layer

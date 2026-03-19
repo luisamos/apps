@@ -1,0 +1,50 @@
+LAYER
+	NAME "red_vial_nacional"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE line
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/red_vial_nacional.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, ccodruta, rst_lbl, fecha_act, base, trayectori,  ruta, sentido, tipo_super, tramo, long_km, reclasif, geom FROM py148.red_vial_nacional) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Red vial nacional"
+		"wms_abstract" "Red vial nacional || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "149752.60765762147 8494513.073714478 205603.31623398192 8519869.659187451"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Red vial nacional"
+		EXPRESSION /./
+		STYLE
+			SYMBOL "linea1"
+			SIZE 3
+			COLOR 128 128 128
+			ANTIALIAS TRUE
+		END
+	END
+END # Layer

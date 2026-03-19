@@ -1,0 +1,32 @@
+LAYER
+	NAME "lotes_psad56"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT gid, area_inscr, id_lote, id_mzna, nro_mzna, nro_lote, area_grafi, tip_uso, detalle_us, tip_contig, detalle_co, tip_predio, id_plano, id_dist, id_prov, id_dpto, tip_fuente, cuc, geom FROM cofopri.lotes_psad56) as sbn using unique gid using srid=4248"
+    FILTER ("[id_dpto]" IN "08")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+	"init=epsg:4248"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_title" "Formalización - Lotes (PSAD56)"
+		"wfs_abstract" "Formalización - Lotes (PSAD56) || Organismo de Formalización de la Propiedad Informal - COFOPRI"
+		"wfs_srs" "EPSG:4248"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"wfs_enable_request" "*"
+		"wfs_getfeature_formatlist" "geojson,application/geojson,application/geo+json,application/json,gml,csv,SHAPE-ZIP"
+		#"wfs_additional_files_in_output" "anp_administracion_nacional.pdf,anp_administracion_nacional.lyr"
+	END
+	CLASS
+		NAME "Lotes"
+		STYLE
+			COLOR 28 28 28
+			OUTLINECOLOR 128 128 128
+			WIDTH 1
+		END
+	END
+END # Layer

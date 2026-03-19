@@ -1,0 +1,63 @@
+LAYER
+  NAME "mapa_precipitacion_media_febrero"
+  GROUP "Climatología"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "precipitacion_media"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, precipitacion_media, the_geom from geo.mapa_precipitacion_media_febrero) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de precipitación media febrero Región Cusco"
+	"wms_abstract" "Mapa de precipitación media febrero Región Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_precipitacion_media_febrero.rar" 
+	"autor" "© SENAMHI - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Rangos"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "50 m.m - 100 m.m"
+	EXPRESSION "50-100"
+	COLOR 255 255 115
+  END
+  CLASS
+	NAME "100 m.m - 200 m.m"
+	EXPRESSION "100-200"
+	COLOR 195 219 75
+  END
+  CLASS
+	NAME "200 m.m - 500 m.m"
+	EXPRESSION "200-500"
+	COLOR 202 222 115
+  END
+  CLASS
+	NAME "500 m.m - 700 m.m"
+	EXPRESSION "500-700"
+	COLOR 82 148 16
+  END
+  CLASS
+	NAME "700 m.m - 1000 m.m"
+	EXPRESSION "700-1000"
+	COLOR 38 115 0
+  END
+END # Layer

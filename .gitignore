@@ -1,0 +1,13 @@
+# Instalador MS4W (archivo muy pesado, no se sube al repo)
+docs/ms4w_5.0.0.zip
+
+arcgis/
+exe/
+java/
+python/
+postgresql/
+nodejs/
+mapserv/archivos/raster/
+www/
+*.xlsx
+.tmp.driveupload/

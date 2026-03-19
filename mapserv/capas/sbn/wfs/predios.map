@@ -1,0 +1,33 @@
+LAYER
+	NAME "predios"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT gid, nmb_dpto, nmb_prov, nmb_dist, condicion, tipo_regis, titular, nmb_lote, dir_lote, doc_rrpp, round(area_rrpp,2) as super_m2, geom FROM sbn.predios) as allpa using unique gid using srid=4326"
+    FILTER ("[nmb_dpto]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:4326"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Predios || Superintendencia de Bienes del Estado :: Perú"
+		"wfs_title" "Predios"
+		"wfs_credit" "allpa"
+		"wfs_srs" "EPSG:4326"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson,json"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "predios"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

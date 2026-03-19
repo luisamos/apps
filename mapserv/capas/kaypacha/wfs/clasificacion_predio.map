@@ -1,0 +1,34 @@
+LAYER
+	NAME "clasificacion_predio"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT * FROM geo.v_clasificacion_predio) as kaypacha using unique gid using srid=4326"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:4326"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Clasificación predio || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wfs_title" "Clasificación predio"
+		"wfs_credit" "Kaypacha"
+		"wfs_srs" "EPSG:32719 EPSG:3857 EPSG:4326"
+  		"ows_srs" "EPSG:32719 EPSG:3857 EPSG:4326"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"gml_nomb_via_type" "Character"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "Clasificación predio"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

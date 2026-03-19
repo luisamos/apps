@@ -1,0 +1,107 @@
+LAYER
+	NAME "servicio_basico"
+	GROUP "Reporte"
+	#MAXSCALE -1.0
+	#MINSCALE -1.0
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/kaypacha/servicio_basico.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"luz" "[0-9]"
+		"default_luz" "1"
+		"agua" "[0-9]"
+		"default_agua" "1"
+		"telefono" "[0-9]"
+		"default_telefono" "1"
+		"desague" "[0-9]"
+		"default_desague" "1"
+		"gas" "[0-9]"
+		"default_gas" "1"
+		"internet" "[0-9]"
+		"default_internet" "1"
+		"tvcable" "[0-9]"
+		"default_tvcable" "1"
+	END
+	DATA "geom FROM (SELECT * FROM geo.v_servicio_basico) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "Reporte"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Servicio básico"
+		"wms_abstract" "Servicio básico || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_credit" "Kaypacha"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "codi_luz,codi_agua,codi_telefono,codi_desague,codi_gas,codi_internet,codi_tvcable"
+	END
+	CLASS
+		NAME "Luz"
+		EXPRESSION ([codi_luz] = 1 and %luz% = 1)
+		STYLE
+			COLOR 0 170 228
+			OUTLINECOLOR 1 87 155
+		END
+	END
+	CLASS
+		NAME "agua"
+		EXPRESSION ([codi_agua] = 1 and %agua% = 1)
+		STYLE
+			COLOR 106 225 255
+			OUTLINECOLOR 23 176 228
+		END
+	END
+	CLASS
+		NAME "telefono"
+		EXPRESSION ([codi_telefono] = 1 and %telefono% = 1)
+		STYLE
+			COLOR 192 192 196
+			OUTLINECOLOR 89 89 92
+		END
+	END
+	CLASS
+		NAME "desague"
+		EXPRESSION ([codi_desague] = 1 and %desague% = 1)
+		STYLE
+			COLOR 89 60 197
+			OUTLINECOLOR 0 0 90
+		END
+	END
+	CLASS
+		NAME "gas"
+		EXPRESSION ([codi_gas] = 1 and %gas% = 1)
+		STYLE
+			COLOR 238 238 196
+			OUTLINECOLOR 129 129 92
+		END
+	END
+	CLASS
+		NAME "internet"
+		EXPRESSION ([codi_internet] = 1 and %internet% = 1)
+		STYLE
+			COLOR 239 238 255
+			OUTLINECOLOR 128 129 177
+		END
+	END
+	CLASS
+		NAME "tvcable"
+		EXPRESSION ([codi_tvcable] = 1 and %tvcable% = 1)
+		STYLE
+			COLOR 255 157 68
+			OUTLINECOLOR 190 45 0
+		END
+	END
+END # Layer

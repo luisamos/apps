@@ -1,0 +1,42 @@
+LAYER
+	NAME "manzana"
+	GROUP "Catastro"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/kaypacha/manzana.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, cod_sector, id_ubigeo, id_sector, cod_mzna, id_mzna, ROUND(area_grafi::numeric, 2) AS area_grafi, ROUND(peri_grafi::numeric, 2) AS peri_grafi, geom FROM geo.tg_manzana) as kaypacha using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+	 "init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "Predio urbano"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Manzana"
+		"wms_abstract" "Manzana || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_credit" "Kaypacha"
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Manzana"
+		EXPRESSION /./
+		STYLE
+		COLOR -1 -1 -1
+		OUTLINECOLOR 0 255 255
+		WIDTH 1
+		END
+	END
+END # Layer

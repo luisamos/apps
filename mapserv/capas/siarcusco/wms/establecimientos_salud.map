@@ -1,0 +1,153 @@
+LAYER
+  NAME "establecimientos_salud"
+  GROUP "Cartografía Base"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 200
+  TOLERANCEUNITS pixels
+  PROCESSING 'LABEL_NO_CLIP=1' 
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/sinia/establecimientos_salud.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  TRANSPARENCY 100
+  DATA "the_geom FROM (select b.gid, a.codigo_distrito, a.distrito, b.institucion, b.establecimiento_salud,b.clasificacion,b.categoria, b.tipo, b.direccion, b.codigo_disa,b.codigo_red, b.red, b.codigo_micro_red, b.micro_red,b.disa,b.unidad_ejecutora, b.telefono, b.tipo_documento, b.numero_tipo_documento,b.horario, b.inicio_actividades, b.responsable, b.estado, b.situacion,b.condicion, b.inspeccion, b.codigo, b.altitud , b.the_geom from geo.distrito_inei_2007 a, geo.establecimientos_salud_minsa_2012 b where a.codigo_distrito = b.codigo_distrito) as sinia using unique gid using srid=4326"
+  FILTER "(disa= 'CUSCO' )"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:4326"
+  END
+  CLASSITEM "clasificacion"
+  LABELITEM "establecimiento_salud"
+  LABELMAXSCALEDENOM 7000000
+  LABELMAXSCALE 7000000
+  METADATA
+	"wms_encoding" "LATIN1" 
+	"wms_group_title" "Cartografía Base"	
+	"queryable" "true"
+  	"wms_metadataurl_href" ""
+  	"wms_metadataurl_format" "text/xml"   
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Establecimientos de Salud"
+	"wms_abstract" "Establecimientos de Salud - Copyright © - Ministerio de Salud - MINSA 2012"
+  	"wms_dataurl" ""
+  	"wms_dataurl_format" "text/html"
+	"wms_dataurl_href" "www.geoidep.gob.pe/files/DESCARGAS_CATALOGO/EESS%20Abr%202012.rar"
+	"autor" "MINSA 2012"	
+	"wms_extent" "-75.1398261095043 -15.6300649831888 -72.8468246073653 -12.1678799799646"   	  
+	"wms_srs" "EPSG:4326"	
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+ END
+  CLASS  
+	NAME "Clasificación"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Anatomía Patológica"
+	EXPRESSION "ANATOMIA PATOLOGICA"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Centro de atención para dependientes a sustancias psicoactivas y otras dependencias"
+	EXPRESSION "CENTROS DE ATENCION PARA DEPENDIENTES A SUSTANCIAS PSICOACTIVAS Y OTRAS DEPENDENCIAS"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Centro de salud con camas de internamiento"
+	EXPRESSION "CENTROS DE SALUD CON CAMAS DE INTERNAMIENTO"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Centro de salud o centros médicos"
+	EXPRESSION "CENTROS DE SALUD O CENTROS MEDICOS"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Centros de vacunación"
+	EXPRESSION "CENTROS DE VACUNACION"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Consultorios médicos y de otros profesionales de la salud"
+	EXPRESSION "CONSULTORIOS MEDICOS Y DE OTROS PROFESIONALES DE LA SALUD"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Hospitales o clínicas de atención especializada"
+	EXPRESSION "HOSPITALES O CLINICAS DE ATENCION ESPECIALIZADA"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Hospitales o clínicas de atención general"
+	EXPRESSION "HOSPITALES O CLINICAS DE ATENCION GENERAL"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Institutos de salud especializados"
+	EXPRESSION "INSTITUTOS DE SALUD ESPECIALIZADOS"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Medicina física"
+	EXPRESSION "MEDICINA FISICA"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Patología clínica"
+	EXPRESSION "PATOLOGIA CLINICA"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Puestos de salud o postas de salud"
+	EXPRESSION "PUESTOS DE SALUD O POSTAS DE SALUD"
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Otros"
+	EXPRESSION ""
+	STYLE		
+        SYMBOL "ee_ss"
+        SIZE 25        
+    END
+  END  
+END # Layer

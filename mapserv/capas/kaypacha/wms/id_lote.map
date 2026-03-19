@@ -1,0 +1,52 @@
+LAYER
+	NAME "id_lote"
+	GROUP "Consulta"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"	
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/kaypacha/id_lote.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT gid, cod_sector, id_ubigeo, id_sector, cod_mzna, id_mzna, cod_lote, id_lote, geom FROM geo.tg_lote) as kaypacha using unique gid using srid=32719"
+	FILTER ("[id_lote]" == "%id%")
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "id_lote"
+	METADATA
+		"wms_group_title" "Consulta"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "ID Lotes"
+		"wms_abstract" "ID Lotes || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    	NAME "Lote"
+    	EXPRESSION /./
+    	STYLE
+      		OUTLINECOLOR 255 0 0
+      		COLOR -1 -1 -1
+      		WIDTH 2
+    	END
+    	LABEL
+			COLOR 255 255 255
+            OUTLINECOLOR 255 0 0
+            FONT "Roboto"
+			SIZE 11
+			TEXT "[cod_sector][cod_mzna][cod_lote]"
+		END
+    END
+END # Layer

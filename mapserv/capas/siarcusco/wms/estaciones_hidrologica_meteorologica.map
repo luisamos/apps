@@ -1,0 +1,62 @@
+LAYER
+  NAME "estaciones_hidrologica_meteorologica"
+  GROUP "Cartografía Base"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 200
+  TOLERANCEUNITS pixels
+  PROCESSING 'LABEL_NO_CLIP=1' 
+  DUMP true
+  HEADER   "plantillas/cabecera.html"
+  TEMPLATE "plantillas/estaciones_hidrologica_meteorologica.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  TRANSPARENCY 100
+  DATA "the_geom FROM (select a.gid,a.codigo_estacion, a.nombre_estacion, a.direccion_regional,d.departamento, c.provincia, b.distrito,a.codigo_distrito, a.altitud, a.grupo, a.tipo_estacion, a.the_geom from geo.estaciones_hidrologica_meteorologica_senamhi_2014 a, geo.distrito_inei_2007 b , geo.provincia_inei_2007 c, geo.departamento_inei_2007 d where a.codigo_distrito = b.codigo_distrito and b.codigo_provincia = c.codigo_provincia and c.codigo_departamento = d.codigo_departamento) as sinia using unique gid using srid=4326"
+  FILTER "(departamento = 'CUSCO' )"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:4326"
+  END
+  CLASSITEM "grupo"
+  METADATA
+    "wms_encoding" "LATIN1" 
+    "wms_group_title" "Cartografía Base"	
+    "queryable" "true"
+    "wms_metadataurl_href" ""
+    "wms_metadataurl_format" "text/xml"        
+    "wms_metadataurl_type" "TC211"
+    "wms_title" "Estaciones hidrometeorológica"
+    "wms_abstract" "Estaciones hidrológica meteorológica - Copyright © - SENAMHI 2014"
+    "wms_dataurl" ""
+    "wms_dataurl_format" "text/html"
+    "wms_dataurl_href" "http://www.senamhi.gob.pe/main_mapa.php?t=dHi"
+    "autor" "SENAMHI 2014"	
+    "wms_extent" "-75.1398261095043 -15.6300649831888 -72.8468246073653 -12.1678799799646"   	  
+    "wms_srs" "EPSG:4326"	
+    "wms_include_items" "all"
+    "wms_exclude_items" "gid"
+ END
+  CLASS  
+	NAME "Estación:"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Meteorológica"
+	EXPRESSION "METEOROLOGICA"
+	STYLE		
+        SYMBOL "meteorologica"
+        SIZE 25
+    END	
+  END
+  CLASS
+	NAME "Hidrológica"
+	EXPRESSION "HIDROLOGICA"
+	STYLE		
+        SYMBOL "hidrologica"
+        SIZE 25
+    END	
+  END  
+END # Layer

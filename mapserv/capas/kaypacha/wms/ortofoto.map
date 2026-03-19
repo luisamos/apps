@@ -1,0 +1,17 @@
+LAYER
+    NAME "wanchaq"
+    GROUP "Base"
+    DATA "/apps/mapserv/archivos/raster/wanchaq.tif"
+    STATUS ON
+    TYPE RASTER
+    PROCESSING "BANDS=1,2,3"
+    OFFSITE 71 74 65
+    PROJECTION
+      "init=epsg:32719"
+    END
+    METADATA
+        "wms_group_title" "Cartografía base"
+        "wms_title" "Distrito de Wanchaq"
+        "wms_abstract" "Esta capa contiene mosaicos de la Municipalidad Distrital de Wanchaq."
+    END
+END

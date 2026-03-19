@@ -1,0 +1,67 @@
+LAYER
+	NAME "telefonicas"
+	GROUP "MPU"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/mpu/mpu/buzones.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"tipo" "[A-Za-z]{2}\d+$"
+		"default_tipo" "IT1,IT5,IT6"
+	END
+	DATA "geom FROM (SELECT * FROM geo.tg_compon_pun) as mpu using unique gid using srid=32718"
+	FILTER ("[codi_mobi]" IN "%tipo%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "codi_mobi"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Postes"
+		"wms_abstract" "Postes || Municipalidad Provincia de Urubamba :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+	END
+	CLASS
+		NAME "IT1"
+		EXPRESSION "IT1"
+		STYLE
+			SYMBOL "cuadrado"
+			SIZE 6
+			COLOR 226 223 59
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "IT5"
+		EXPRESSION "IT5"
+		STYLE
+			SYMBOL "cuadrado"
+			SIZE 6
+			COLOR 44 187 104
+			OUTLINECOLOR 79 79 79
+		END
+	END	
+	CLASS
+		NAME "IT6"
+		EXPRESSION "IT6"
+		STYLE
+			SYMBOL "cuadrado"
+			SIZE 6
+			COLOR 63 87 192
+			OUTLINECOLOR 79 79 79
+		END
+	END	
+END # Layer

@@ -1,0 +1,114 @@
+LAYER
+  NAME "mapa_susceptibilidad_inundaciones_cusco"
+  GROUP "Riesgos"
+  STATUS off
+  DATA "archivos/raster/mapa_susceptibilidad_inundaciones_cusco.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:4326"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Riesgos"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de susceptibilidad a inundaciones en Cusco"
+	"wms_abstract" "Mapa de susceptibilidad a inundaciones en Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_susceptibilidad_inundaciones_cusco.rar" 
+	"autor" "© PREDES (Mayo 2011) - PACC Perú"
+	"wms_extent" "-73.9924109055233 -15.4602340741746 -70.3444109055233 -11.2137340741746"
+	"wms_srs" "EPSG:4326"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Modelo de susceptibilidad a inundación"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "BAJO"
+    EXPRESSION ([pixel] = 1)
+    COLOR 97 186 52
+  END
+  CLASS
+	NAME "MEDIO"
+    EXPRESSION ([pixel] = 2)
+    COLOR 255 255 51
+  END
+  CLASS
+	NAME "ALTO"
+    EXPRESSION ([pixel] = 3)
+    COLOR 255 187 51
+  END
+  CLASS
+	NAME "MUY ALTO"
+    EXPRESSION ([pixel] = 4)
+    COLOR 255 51 51
+  END
+  CLASS
+	NAME " "
+    EXPRESSION ([pixel] = 9999999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "----- Descripción ----- "
+    EXPRESSION ([pixel] = 999999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+  	NAME "BAJO: Zonas de Susceptibilidad Muy Alta a la ocurrencia de Huaycos debido a que
+son zonas que combinan pendientes abruptas, que van desde los 26° a mas
+donde el efecto de gravedad implica una dinámica muy intensa, debido a ello
+se aprecian formaciones geomorfológicas de carácter dendrítico, como
+colinas fuertemente disectadas y/o vertientes empinadas, a lo que se le
+suma formaciones litológicas conformadas por material inconsolidado,
+depósitos sujetos a ser removidos en condiciones de precipitaciones
+intensas, a lo que se le suma una cobertura que se caracteriza por ser áreas
+desnudas o con escasa vegetación."
+    EXPRESSION ([pixel] = -99999)
+    COLOR 97 186 52
+  END
+  CLASS
+	NAME "MEDIO: Zonas de susceptibilidad alta a la ocurrencia de Huaycos, debido a la
+conformación de zonas con pendientes que van entre 15° - 25°, con
+formaciones que se caracterizan por ser colinas altas moderadamente
+disectadas y/o terrazas altas disectadas así también vertientes montañosas
+disectadas que comprenden fuertes procesos geodinámicos, sí mismo estas
+zonas son de susceptibilidad alta debido a formación litológicas que
+presentan materiales inconsolidados, en promedio estas zonas se
+caracterizan por ser zonas húmedas en laderas o zonas húmedas de terrazas aluviales."
+    EXPRESSION ([pixel] = -9999)
+    COLOR 255 255 51
+  END
+  CLASS
+	NAME "ALTO: Zonas de susceptibilidad media a la ocurrencia de Huayco, debido a la
+	conformación de un medio con pendientes entre 6° y 15 °, con formaciones
+que responden aterrazas medias sin disección, que implican un procesos de
+arrastre moderado, que va en relación directa con la litología que
+comprenden en general areniscas o lutitas con intercalaciones de calizas, en
+procesos de fracturamiento, en relación a la cobertura vegetal presentan
+zonas con bosques secos hasta humedales andinos y matorrales de valles
+secos interandinos."
+    EXPRESSION ([pixel] = -999)
+    COLOR 255 187 51
+  END
+  CLASS
+	NAME "MUY ALTO: Zonas de susceptibilidad baja a la ocurrencia de Huayco, debido a la
+conformación de un medio donde resaltan pendientes entre 0° a 5° con
+formaciones planas como altiplanicies y fondos de valle que no implican
+procesos geodinámicos verticales intensos, así mismo estas zonas de
+susceptibilidad baja también responden a las formaciones litológicas muy
+competentes, con una erodibilidad bastante alta y con cobertura que afianza
+el territorio aminorando procesos de movimientos en masa."
+    EXPRESSION ([pixel] = -99)
+    COLOR 255 51 51
+  END
+END # Layer

@@ -1,0 +1,81 @@
+LAYER
+  NAME "mnt_cuenca_rio_apurimac"
+  GROUP "Hidrología"
+  STATUS off
+  DATA "archivos/raster/mnt_cuenca_rio_apurimac.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Hidrología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "MNT - cuenca del río Apurímac"
+	"wms_abstract" "MNT - cuenca del río Apurímac - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mnt_cuenca_rio_apurimac.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "582093.271036912 8280995.07328732 935643.271036911 8648545.07328732"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Altitud (m.s.n.m)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "500 - 1000"
+    EXPRESSION ([pixel] >= 500 AND [pixel] < 1000)
+    COLOR 85 237 88
+  END
+  CLASS
+	NAME "1000 - 2000"
+    EXPRESSION ([pixel] >= 1000 AND [pixel] < 2000)
+    COLOR 245 250 92
+  END
+  CLASS
+	NAME "2000 - 2500"
+    EXPRESSION ([pixel] >= 2000 AND [pixel] < 2500)
+    COLOR 164 227 245
+  END 
+  CLASS
+	NAME "2500 - 3000"
+    EXPRESSION ([pixel] >= 2500 AND [pixel] < 3000)
+    COLOR 117 94 230
+  END 
+  CLASS
+	NAME "3000 - 3500"
+    EXPRESSION ([pixel] >= 3000 AND [pixel] < 3500)
+    COLOR 247 101 218
+  END 
+  CLASS
+	NAME "3500 - 4000"
+    EXPRESSION ([pixel] >= 3500 AND [pixel] < 4000)
+    COLOR 250 146 125
+  END 
+  CLASS
+	NAME "4000 - 4500"
+    EXPRESSION ([pixel] >= 4000 AND [pixel] < 4500)
+    COLOR 105 231 240
+  END 
+  CLASS
+	NAME "4500 - 5000"
+    EXPRESSION ([pixel] >= 4500 AND [pixel] < 5000)
+    COLOR 140 250 145
+  END 
+  CLASS
+	NAME "5000 - 6250"
+    EXPRESSION ([pixel] >= 5000 AND [pixel] <= 6270)
+    COLOR 255 55 0
+  END 
+END # Layer

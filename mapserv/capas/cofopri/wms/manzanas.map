@@ -1,0 +1,43 @@
+LAYER
+	NAME "manzanas"
+	GROUP "COFOPRI"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/allpa/cofopri/manzanas.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, id_dpto, id_prov, id_dist, cod_sect, cod_mzna, id_mzna, geom FROM cofopri.manzanas) as allpa using unique gid using srid=4326"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+	 "init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "COFOPRI"
+		"queryable" "true"
+		"wms_metadataurl_href" "LUISAMOS"
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Manzanas"
+		"wms_abstract" "Manzanas || Organismo de Formalización de la Propiedad Informal - COFOPRI :: Perú"
+		"wms_credit" "COFOPRI"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-81.30675509 -17.20814673 -69.085388666 -3.49657417600002"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Manzanas"
+		EXPRESSION /./
+		STYLE
+		COLOR -1 -1 -1
+		OUTLINECOLOR 255 0 0
+		WIDTH 1
+		END
+	END
+END # Layer

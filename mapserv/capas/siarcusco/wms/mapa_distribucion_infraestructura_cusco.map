@@ -1,0 +1,129 @@
+LAYER
+  NAME "mapa_distribucion_infraestructura_cusco"
+  GROUP "Infraestructura"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 2
+  TOLERANCEUNITS kilometers
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "infraestructura" 
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, infraestructura, descripcion_de_infraestructura, departamento, provincia, distrito, the_geom from geo.mapa_distribucion_infraestructura_cusco) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Infraestructura"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de distribución de Infraestructura Región Cusco"
+	"wms_abstract" "Mapa de distribución de Infraestructura Región Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_distribucion_infraestructura_cusco.rar" 
+	"autor" "© PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "627363.098384 8303857.990980 960234.072661 8615813.979040"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Infraestructura prioritarias"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "AEROPUERTO"
+	EXPRESSION "AEROPUERTO"
+	STYLE
+		COLOR 0 0 0
+		OUTLINECOLOR 255 255 255
+		SYMBOL "aeropuerto"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "HELIPUERTO"
+	EXPRESSION "HELIPUERTO"
+	STYLE
+		COLOR 0 0 0
+		OUTLINECOLOR 255 255 255
+		SYMBOL "helipuerto"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "PUENTE"
+	EXPRESSION "PUENTE"
+	STYLE
+		COLOR 169 0 230
+		OUTLINECOLOR 255 255 255
+		SYMBOL "puente"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "ESTACIONES HIDROELECTRICA"
+	EXPRESSION "ESTACIONES HIDROELECTRICA"
+	STYLE
+		COLOR 0 0 0
+		OUTLINECOLOR 255 255 255
+		SYMBOL "estaciones_hidroelectrica"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "CENTRAL TERMICA"
+	EXPRESSION "CENTRAL TERMICA"
+	STYLE
+		COLOR 255 115 223
+		OUTLINECOLOR 255 255 255
+		SYMBOL "central_termica"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "SUB ESTACION"
+	EXPRESSION "SUB ESTACION"
+	STYLE
+		COLOR 255 255 0
+		SYMBOL "sub_estacion"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "MINA METALICA"
+	EXPRESSION "MINA METALICA"
+	STYLE
+		COLOR 0 0 0
+		OUTLINECOLOR 255 255 255
+		SYMBOL "mina_metalica"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "MINA NO METALICA"
+	EXPRESSION "MINA NO METALICA"
+	STYLE
+		COLOR 255 0 0
+		OUTLINECOLOR 255 255 255
+		SYMBOL "mina_no_metalica"
+		SIZE 10
+	END
+  END
+  CLASS
+	NAME "PRESA"
+	EXPRESSION "PRESA"
+	STYLE
+		COLOR 169 0 230
+		OUTLINECOLOR 255 255 255
+		SYMBOL "presa"
+		SIZE 10
+	END
+  END
+END # Layer

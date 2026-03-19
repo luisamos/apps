@@ -1,0 +1,86 @@
+LAYER
+  NAME "evapotranspiracion_potencial_marzo_abril_mayo_cuencas_pampas_apurimac_urubamba"
+  GROUP "Evapotranspiración de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/evapotranspiracion_potencial_marzo_abril_mayo_cuencas_pampas_apurimac_urubamba.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Evapotranspiración de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Evapotranspiración potencial trimestral marzo, abril, mayo"
+	"wms_abstract" "Evapotranspiración potencial trimestral marzo, abril, mayo - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/evapotranspiracion_potencial_marzo_abril_mayo_cuencas_pampas_apurimac_urubamba.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.57263322 954170.47341366 8874879.57263322"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Evapotranspiración potencial (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "207 - 260"
+    EXPRESSION ([pixel] >= 207 AND [pixel] < 260)
+    COLOR 11 44 122
+  END
+  CLASS
+	NAME "260 - 280"
+    EXPRESSION ([pixel] >= 260 AND [pixel] < 280)
+    COLOR 33 110 158
+  END
+  CLASS
+	NAME "280 - 300"
+    EXPRESSION ([pixel] >= 280 AND [pixel] < 300)
+    COLOR 42 156 154
+  END
+  CLASS
+	NAME "300 - 320"
+    EXPRESSION ([pixel] >= 300 AND [pixel] < 320)
+    COLOR 58 176 121
+  END
+  CLASS
+	NAME "320 - 340"
+    EXPRESSION ([pixel] >= 320 AND [pixel] < 340)
+    COLOR 62 194 88
+  END
+  CLASS
+	NAME "340 - 360"
+    EXPRESSION ([pixel] >= 340 AND [pixel] < 360)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "360 - 380"
+    EXPRESSION ([pixel] >= 360 AND [pixel] < 380)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "380 - 400"
+    EXPRESSION ([pixel] >= 380 AND [pixel] < 400)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "400 - 420"
+    EXPRESSION ([pixel] >= 400 AND [pixel] < 420)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "420 - 431"
+    EXPRESSION ([pixel] >= 420 AND [pixel] <= 432)
+    COLOR 235 255 153
+  END
+END # Layer

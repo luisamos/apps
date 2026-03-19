@@ -1,0 +1,47 @@
+LAYER
+	NAME "predios"
+	GROUP "SBN"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/allpa/sbn/predios.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, nmb_dpto, nmb_prov, nmb_dist, condicion, tipo_regis, titular, nmb_lote, dir_lote, doc_rrpp, round(area_rrpp,2) as super_m2, geom FROM sbn.predios) as allpa using unique gid using srid=4326"
+    FILTER ("[nmb_dpto]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "SBN"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Predios"
+		"wms_abstract" "Predios || Superintendencia Nacional de Bienes Estatales - SBN :: Perú"
+		"wms_credit" "SBN"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-83.8771990496963 -33.4246471911148 -54.9078458688916 -0.0381613747475171"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Predios"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 154 103 66
+			WIDTH 1
+		END
+	END
+END # Layer

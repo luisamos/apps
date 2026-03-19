@@ -1,0 +1,47 @@
+LAYER
+	NAME "catastro_minero_19s"
+	GROUP "INGEMMET"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/allpa/sbn/predios.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, codigou, fec_denu, concesion, tit_conces, d_estado, carta, zona, leyenda, sustancia, depa, provi, distri, ROUND(hasdatum::numeric, 2) AS hasdatum, geom FROM ingemmet.catastro_minero_19s) as allpa using unique gid using srid=32719"
+    FILTER ("[depa]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "INGEMMET"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Catastro minero (19S)"
+		"wms_abstract" "Catastro minero (19S) || Instituto Geológico, Minero y Metalúrgico - INGEMMET :: Perú"
+		"wms_credit" "INGEMMET"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "174000 7975000 530814.5099999998 8680922.34"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Catastro minero (19S)"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 239 184 16
+			WIDTH 1
+		END
+	END
+END # Layer

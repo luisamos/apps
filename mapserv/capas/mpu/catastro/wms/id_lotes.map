@@ -1,0 +1,52 @@
+LAYER
+	NAME "id_lotes"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/id_lotes.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT gid, cod_sector, id_ubigeo, id_sector, cod_mzna, id_mzna, cod_lote, id_lote, geom FROM geo.tg_lote) as mpu using unique gid using srid=32718"
+	FILTER ("[id_lote]" == "%id%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "id_lote"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "ID Lotes"
+		"wms_abstract" "ID Lotes || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    	NAME "Lote"
+    	EXPRESSION /./
+    	STYLE
+      		OUTLINECOLOR 255 0 0
+      		COLOR -1 -1 -1
+      		WIDTH 2
+    	END
+    	LABEL
+			COLOR 0 0 0
+			SIZE 10
+			FONT "Vera"
+			TEXT "[id_lote]"
+		END
+    END
+END # Layer

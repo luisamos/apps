@@ -1,0 +1,52 @@
+LAYER
+	NAME "eje_via_cert"
+	GROUP "MPU"
+	TYPE line
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/eje_via.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT * FROM geo.tg_eje_via) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Eje de vía"
+		"wms_abstract" "Eje de vía || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    NAME "Eje de vía"
+    EXPRESSION /./
+	    LABEL
+	    TEXT "[tipo_via]. [nomb_via]"
+        COLOR 0 0 0
+        TYPE TRUETYPE
+        FONT Vera
+        SIZE 10
+        ANTIALIAS TRUE
+        POSITION AUTO     
+        ANGLE AUTO      
+      END # end of label
+
+      STYLE
+        #COLOR 0 0 0
+        WIDTH 0.25
+      END # STYLE
+	END
+END # Layer

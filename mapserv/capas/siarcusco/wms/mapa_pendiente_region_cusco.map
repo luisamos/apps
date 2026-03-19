@@ -1,0 +1,66 @@
+LAYER
+  NAME "mapa_pendiente_region_cusco"
+  GROUP "Fisiografía"
+  STATUS off
+  DATA "archivos/raster/mapa_pendiente_region_cusco.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:4326"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Fisiografía"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de pendiente Región Cusco"
+	"wms_abstract" "Mapa de pendiente Región Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_pendiente_region_cusco.rar" 
+	"autor" "© PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "-73.9992144148532 -15.49283511828 -70.2992144148532 -11.18283511828"
+	"wms_srs" "EPSG:4326"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Rango de Pendiente"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0° - 1°"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 86591.38643)
+    COLOR 107 191 65
+  END
+  CLASS
+	NAME "2° - 5°"
+    EXPRESSION ([pixel] >= 86591.38643 AND [pixel] < 432956.9322)
+    COLOR 154 214 64
+  END
+  CLASS
+	NAME "6° - 15°"
+    EXPRESSION ([pixel] >= 432956.9322 AND [pixel] < 1298870.797)
+    COLOR 255 255 64
+  END
+  CLASS
+	NAME "16° - 25°"
+    EXPRESSION ([pixel] >= 1298870.797 AND [pixel] < 2164784.661)
+    COLOR 255 217 64
+  END
+  CLASS
+	NAME "26° - 50°"
+    EXPRESSION ([pixel] >= 2164784.661 AND [pixel] < 3896612.39)
+    COLOR 255 140 64
+  END
+  CLASS
+	NAME "50° - mas"
+    EXPRESSION ([pixel] >= 3896612.39 AND [pixel] <= 7790478.5)
+    COLOR 255 64 64
+  END
+END # Layer

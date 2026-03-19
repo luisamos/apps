@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 5.5.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="legend" columnCount="4" printOrder="Horizontal" pageWidth="555" pageHeight="802" columnWidth="138" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6b65086b-74e0-4bec-834b-1b74d5ae2d31">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="icon" class="java.awt.Image"/>
+	<field name="level" class="java.lang.Integer"/>
+	<detail>
+		<band height="55" splitType="Prevent">
+			<printWhenExpression><![CDATA[!$F{name}.equals("")]]></printWhenExpression>
+			<frame>
+				<reportElement x="0" y="0" width="65" height="50" isPrintWhenDetailOverflows="true" uuid="886240d8-e95e-411e-b0eb-3ab20e06fa4a">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+				</reportElement>
+				<textField isStretchWithOverflow="true">
+					<reportElement x="0" y="0" width="65" height="20" uuid="804c03e8-4edc-4888-8dba-0c683717bfeb"/>
+					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<image scaleImage="RealHeight">
+					<reportElement stretchType="RelativeToTallestObject" x="0" y="23" width="50" height="10" uuid="067c1436-8c32-4bd6-9fd2-db394dc7366a"/>
+					<imageExpression><![CDATA[$F{icon}]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>
+

@@ -1,0 +1,69 @@
+LAYER
+  NAME "cuencas_hidrograficas"
+  GROUP "Cuencas y agua continental"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1' 
+  DUMP true
+  TRANSPARENCY 100
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/sinia/cuencas_hidrograficas.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  DATA "the_geom from (select gid,nivel1,nivel2,nivel3,nivel4,nivel5,nivel6,nivel7,nombre_unidad_hidrografica_nivel1,nombre_unidad_hidrografica_nivel2,nombre_unidad_hidrografica_nivel3,nombre_unidad_hidrografica_nivel4,nombre_unidad_hidrografica_nivel5,nombre_unidad_hidrografica_nivel6,nombre_unidad_hidrografica_nivel7,codigo,nombre,nivel,orden,area_km2,the_geom from geo.cuencas_hidrograficas_ana_2009) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  CLASSITEM "gid"
+  LABELITEM "nombre"
+  LABELMAXSCALEDENOM 7000000
+  LABELMAXSCALE 7000000
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Cuencas y agua continental"
+	"queryable" "true"
+	"wms_metadataurl_href" ""
+    "wms_metadataurl_format" "text/xml"        
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Cuencas Hidrográficas"
+	"wms_abstract" "Cuencas Hidrográficas - Copyright © Autoridad Nacional del Agua :: ANA 2009 :: http://geoservidor.minam.gob.pe/geoservidor/download.aspx"
+	"wms_dataurl" ""
+	"wms_dataurl_format" "text/html"
+	"wms_dataurl_href" "http://geoservidor.minam.gob.pe/geoservidor/download.aspx"
+	"autor" "ANA 2009"
+	"wms_extent" "-203260.789695469 7964768.91159927 1190990.76605372 9995732.85844146"   	  
+	"wms_srs" "EPSG:32718"	
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+
+  END
+  CLASS  
+	NAME "Cuencas Hidrográficas"
+	EXPRESSION /./
+    STYLE
+      OUTLINECOLOR 0 0 255
+      WIDTH 2
+      LINECAP BUTT
+      PATTERN 8 12 END
+    END 
+	LABEL
+		TYPE TRUETYPE
+		FONT "Vera"
+		SIZE 6
+		MINSIZE 6
+		MAXSIZE 6
+		POSITION cc
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 0 0 255
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END	
+END # Layer

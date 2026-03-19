@@ -1,0 +1,81 @@
+LAYER
+  NAME "promedio_multianual_precipitacion_acumulada"
+  GROUP "Precipitación multianual regiones de Cusco y Apurímac"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_precipitacion_acumulada.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Precipitación multianual regiones de Cusco y Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la precipitación acumulada"
+	"wms_abstract" "Promedio multianual de la precipitación acumulada - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_precipitacion_acumulada.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Precipitación (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "432 - 800"
+    EXPRESSION ([pixel] >= 432 AND [pixel] < 800)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "800 - 1000"
+    EXPRESSION ([pixel] >= 800 AND [pixel] < 1000)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "1000 - 1500"
+    EXPRESSION ([pixel] >= 1000 AND [pixel] < 1500)
+    COLOR 102 217 129
+  END
+  CLASS
+	NAME "1500 - 2000"
+    EXPRESSION ([pixel] >= 1500 AND [pixel] < 2000)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "2000 - 3000"
+    EXPRESSION ([pixel] >= 2000 AND [pixel] < 3000)
+    COLOR 99 255 201
+  END
+  CLASS
+	NAME "3000 - 4000"
+    EXPRESSION ([pixel] >= 3000 AND [pixel] < 4000)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "4000 - 5000"
+    EXPRESSION ([pixel] >= 4000 AND [pixel] < 5000)
+    COLOR 0 211 235
+  END
+  CLASS
+	NAME "5000 - 6000"
+    EXPRESSION ([pixel] >= 5000 AND [pixel] < 6000)
+    COLOR 20 153 255
+  END
+  CLASS
+	NAME "6000 - 6966"
+    EXPRESSION ([pixel] >= 6000 AND [pixel] <= 6966)
+    COLOR 20 5 255
+  END
+END # Layer

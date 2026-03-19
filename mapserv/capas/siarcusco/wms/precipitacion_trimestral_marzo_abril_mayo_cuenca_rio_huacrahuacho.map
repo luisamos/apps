@@ -1,0 +1,81 @@
+LAYER
+  NAME "precipitacion_trimestral_marzo_abril_mayo_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/precipitacion_trimestral_marzo_abril_mayo_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Precipitación trimestral marzo, abril, mayo de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Precipitación trimestral marzo, abril, mayo de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/precipitacion_trimestral_marzo_abril_mayo_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS  
+	NAME "Precipitación (mm)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "200 - 202"
+    EXPRESSION ([pixel] >= 200 AND [pixel] < 202)
+	COLOR 44 150 69
+  END
+  CLASS  
+	NAME "202 - 204"
+    EXPRESSION ([pixel] >= 202 AND [pixel] < 204)
+	COLOR 0 255 0
+  END
+  CLASS  
+	NAME "204 - 206"
+    EXPRESSION ([pixel] >= 204 AND [pixel] < 206)
+	COLOR 149 255 0
+  END
+  CLASS  
+	NAME "206 - 208"
+    EXPRESSION ([pixel] >= 206 AND [pixel] < 208)
+	COLOR 132 217 72
+  END
+  CLASS  
+	NAME "208 - 210"
+    EXPRESSION ([pixel] >= 208 AND [pixel] < 210)
+	COLOR 102 217 129
+  END
+  CLASS  
+	NAME "210 - 212"
+    EXPRESSION ([pixel] >= 210 AND [pixel] < 212)
+	COLOR 25 230 168
+  END
+  CLASS  
+	NAME "212 - 214"
+    EXPRESSION ([pixel] >= 212 AND [pixel] < 214)
+	COLOR 99 255 201
+  END
+  CLASS  
+	NAME "214 - 216"
+    EXPRESSION ([pixel] >= 214 AND [pixel] < 216)
+	COLOR 138 255 237
+  END
+  CLASS  
+	NAME "216 - 219"
+    EXPRESSION ([pixel] >= 216 AND [pixel] <= 219)
+	COLOR 41 248 255
+  END
+END # Layer

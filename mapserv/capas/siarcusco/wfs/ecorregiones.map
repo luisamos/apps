@@ -1,0 +1,130 @@
+LAYER
+  NAME "ecorregiones"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  DUMP true
+  STATUS off
+  TRANSPARENCY 100
+  SIZEUNITS pixels
+  DATA "the_geom from (select gid, ecorregion, subregion, descripcion, provincia, bioma, area_m2,area_ha, the_geom from geo.ecorregiones) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"layer_encoding" "LATIN1"	
+	"wfs_encoding" "LATIN1" 
+	"queryable" "true"
+	"wfs_title" "ecorregiones"
+	"wfs_abstract" "Ecorregiones del Departamento del Cusco - Copyright - Gerencia de Recursos Naturales y Medio Ambiente, Elaborado por Blg. Isrrael Aragon - Gobierno Regional Cusco - 2012 :: http://www.regioncusco.gob.pe"
+	"wfs_metadata_path" "metadata/ecorregiones.xml"
+	"wfs_metadata_type" "ISO19115:2003"
+	"wfs_metadataurl_type" "TC211"
+	"wfs_metadata_format" "text/xml"	
+	"wfs_extent" "-203260.789695469 7964768.91159927 1190990.76605372 9995732.85844146"   	  
+	"wfs_srs" "EPSG:32718"	
+	"gml_include_items" "all"
+    "gml_featureid" "gid"
+    "wfs_enable_request" "*"
+  END
+  CLASSITEM "subregion"
+  CLASS  
+	NAME "Subregión"
+	EXPRESSION "Subregión"
+	COLOR -1 -1 -1
+	OUTLINECOLOR -1 -1 -1
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Puna Subglacial y Nival"
+	EXPRESSION "Puna Subglacial y Nival"
+	COLOR 204 204 204
+	OUTLINECOLOR 204 204 204
+	TEMPLATE void 
+  END	
+  CLASS  
+	NAME "Puna Altoandina"
+	EXPRESSION "Puna Altoandina"
+	COLOR 130 130 130
+	OUTLINECOLOR 130 130 130
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Puna Humeda"
+	EXPRESSION "Puna Humeda"
+	COLOR 255 255 115
+	OUTLINECOLOR 255 255 115 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Pajonal Humedo"
+	EXPRESSION "Pajonal Humedo"
+	COLOR 230 230 0
+	OUTLINECOLOR 230 230 0
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Subpuna"
+	EXPRESSION "Subpuna"
+	COLOR 255 211 127
+	OUTLINECOLOR 255 211 127 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Mesoandina"
+	EXPRESSION "Mesoandina"
+	COLOR 230 152 0
+	OUTLINECOLOR 230 152 0 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Valle Seco"
+	EXPRESSION "Valle Seco"
+	COLOR 168 168 0
+	OUTLINECOLOR 168 168 0 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Bosque Enano"
+	EXPRESSION "Bosque Enano"
+	COLOR 163 255 115
+	OUTLINECOLOR 163 255 115 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Bosque Nublado"
+	EXPRESSION "Bosque Nublado"
+	COLOR 85 255 0
+	OUTLINECOLOR 85 255 0
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Bosque Húmedo Montañoso"
+	EXPRESSION "Bosque Húmedo Montañoso"
+	COLOR 76 230 0
+	OUTLINECOLOR 76 230 0 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Bosque subhumedo sabanero"
+	EXPRESSION "Bosque subhumedo sabanero"
+	COLOR 209 255 115
+	OUTLINECOLOR 209 255 115 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Transición Amazonía con Yungas"
+	EXPRESSION "Transición Amazonía con Yungas"
+	COLOR 56 168 0
+	OUTLINECOLOR 56 168 0 
+	TEMPLATE void 
+  END
+  CLASS  
+	NAME "Llanura Amazónica"
+	EXPRESSION "Llanura Amazónica"
+	COLOR 38 115 0
+	OUTLINECOLOR 38 115 0 
+	TEMPLATE void 
+  END
+END # Layer

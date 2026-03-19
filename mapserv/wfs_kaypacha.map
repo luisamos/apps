@@ -1,0 +1,152 @@
+#
+# FECHA DE CREACION     :	03-10-2024
+# FECHA DE MODIFICACION	:	10-03-2026
+#
+
+#
+# MAPFILE
+#
+MAP
+  NAME "WFS"
+
+  EXTENT -73.97399698387369 -15.458288233415203 -70.34507198008777 -11.212293479660332
+  STATUS on
+  UNITS meters
+  SIZE 800 600
+  MAXSIZE 2048
+  IMAGECOLOR -1 -1 -1
+  FONTSET "fuentes/fuentes.txt"
+  RESOLUTION 85
+  IMAGETYPE gif
+  DEBUG on
+  PROJECTION
+  "init=epsg:4326"
+  END
+
+#
+# FORMATOS DE IMAGEN
+#
+  OUTPUTFORMAT
+    NAME gif
+    DRIVER "GD/GIF"
+    MIMETYPE "image/gif"
+    IMAGEMODE PC256
+    EXTENSION "gif"
+  END
+
+  OUTPUTFORMAT
+    NAME png
+    DRIVER "GD/PNG"
+    MIMETYPE "image/png"
+    IMAGEMODE PC256
+    EXTENSION "png"
+  END
+
+  OUTPUTFORMAT
+    NAME GTiff
+    DRIVER "GDAL/GTiff"
+    MIMETYPE "image/tiff"
+    IMAGEMODE RGB
+    EXTENSION "tif"
+  END
+
+  OUTPUTFORMAT
+    NAME "CSV"
+    DRIVER "OGR/CSV"
+    MIMETYPE "text/csv"
+    FORMATOPTION "LCO:GEOMETRY=AS_WKT"
+    FORMATOPTION "STORAGE=memory"
+    FORMATOPTION "FORM=simple"
+    FORMATOPTION "FILENAME=kaypacha.csv"
+  END
+
+  OUTPUTFORMAT
+    NAME "OGRGML"
+    DRIVER "OGR/GML"
+    FORMATOPTION "STORAGE=filesystem"
+    FORMATOPTION "FORM=multipart"
+    FORMATOPTION "FILENAME=kaypacha.gml"
+  END
+
+  OUTPUTFORMAT
+    NAME "SHAPE-ZIP"
+    DRIVER "OGR/ESRI Shapefile"
+    FORMATOPTION "STORAGE=filesystem"
+    FORMATOPTION "FORM=zip"
+    FORMATOPTION "FILENAME=kaypacha.zip"
+  END
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GEOJSON"
+    MIMETYPE "application/json; subtype=geojson"
+    FORMATOPTION "STORAGE=stream"
+    FORMATOPTION "FORM=SIMPLE"
+    FORMATOPTION "LCO:RFC7946=YES"
+  END
+
+  #
+  # SERVICIO WFS
+  #
+  WEB
+    TEMPLATE "plantillas/mapa.html"
+    IMAGEPATH "/Apps/mapserv/temporal/"
+    IMAGEURL "temporal"
+    METADATA
+    "wfs_getcapabilities_version" "1.1.0"
+    "wfs_server_version" "1.1.0"
+    "wfs_encoding" "LATIN1"
+    "layer_encoding" "LATIN1"
+    "wfs_title"     "KayPacha - Servicio OGC:WFS"
+    "wfs_abstract" "Servicio de consulta y descarga, SERVICIO OGC: WEB  FACTURE SERVER (WFS)"
+    "wfs_onlineresource" "http://127.0.0.2/servicio/wfs?"
+    "wfs_service_onlineresource" "http://127.0.0.2/servicio/wfs?"    
+    "wfs_fees" "none"
+    "wfs_accessconstraints" "Ninguna"
+    "wfs_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+    "wfs_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+    "wfs_contactperson" "Ing. Luis Amos Valer Villegas"
+    "wfs_contactorganization" "Consultor TI :: KAYPACHA PERU"
+    "wfs_contactposition" "Administrador del servicio OGC: WFS"
+    "wfs_addresstype" "Lima - PERU"
+    "wfs_address" "Lima"
+    "wfs_city" "Lima"
+    "wfs_stateorprovince" "Lima"
+    "wfs_postcode" "Lima 01"
+    "wfs_country" "La Molina"
+    "wfs_hoursofservice" "24 Horas"
+    "wfs_contactinstructions" "during hours of service"
+    "wfs_role" "staff"
+    "wfs_contactvoicetelephone" "(+51) 961241598"
+    "wfs_contactfacsimiletelephone" "Fax: (+51) 961241598"
+    "wfs_contactelectronicmailaddress" "luisamos7@gmail.com" 
+    "wfs_attribution_onlineresource" ""
+    "wfs_accessconstraints" "ninguna"
+    "wfs_enable_request" "*"
+    END  # Metadata
+    #LOG "logs/wfs_kaypacha.log"
+  END  # Web
+
+#
+# LAYER
+#
+
+# GRUPO: CATASTRO URBANO
+INCLUDE "capas/kaypacha/wfs/sector.map"
+INCLUDE "capas/kaypacha/wfs/manzana.map"
+INCLUDE "capas/kaypacha/wfs/lote.map"
+INCLUDE "capas/kaypacha/wfs/eje_via.map"
+INCLUDE "capas/kaypacha/wfs/habilitacion_urbana.map"
+INCLUDE "capas/kaypacha/wfs/servicio_basico.map"
+INCLUDE "capas/kaypacha/wfs/clasificacion_predio.map"
+INCLUDE "capas/kaypacha/wfs/tipo_persona.map"
+
+# GRUPO: REPORTES
+INCLUDE "capas/kaypacha/wfs/reporte_servicio_basico.map"
+INCLUDE "capas/kaypacha/wfs/reporte_clasificacion_predio.map"
+INCLUDE "capas/kaypacha/wfs/reporte_tipo_persona.map"
+
+END #mapfile
+
+
+

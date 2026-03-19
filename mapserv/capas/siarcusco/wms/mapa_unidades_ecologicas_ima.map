@@ -1,0 +1,178 @@
+LAYER
+  NAME "mapa_unidades_ecologicas_ima"
+  GROUP "Biológico"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "simbolo"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, hectares_m2, descripcion, simbolo, porcentaje, area_m2, the_geom from geo.mapa_unidades_ecologicas_ima) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Biológico"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Unidades Ecológicas Región Cusco (IMA)"
+	"wms_abstract" "Mapa Unidades Ecológicas Región Cusco (IMA) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_unidades_ecologicas_ima.rar" 
+	"autor" "© IMA - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Unidades Ecológicas"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "bs-S, bosque seco - Subtropical"
+	EXPRESSION "bs-S"
+	COLOR 252 238 220
+  END
+  CLASS
+	NAME "bh-MBS, bosque húmedo - Montano Bajo Subtropical"
+	EXPRESSION "bh-MBS"
+	COLOR 252 220 243
+  END
+  CLASS
+	NAME "bh-MS, bosque húmedo - Montano Subtropical"
+	EXPRESSION "bh-MS"
+	COLOR 252 236 204
+  END
+  CLASS
+	NAME "bh-S, bosque húmedo - Subtropical"
+	EXPRESSION "bh-S"
+	COLOR 252 204 240
+  END
+  CLASS
+	NAME "bh-T, bosque húmedo - Tropical"
+	EXPRESSION "bh-T"
+	COLOR 204 217 252
+  END
+  CLASS
+	NAME "bmh-MBS, bosque muy húmedo - Montano Bajo Subtropical"
+	EXPRESSION "bmh-MBS"
+	COLOR 230 210 252
+  END
+  CLASS
+	NAME "bmh-MS, bosque muy húmedo - Montano Subtropical"
+	EXPRESSION "bmh-MS"
+	COLOR 199 238 252
+  END
+  CLASS
+	NAME "bmh-PT, bosque muy húmedo  - Premontano Tropical"
+	EXPRESSION "bmh-PT"
+	COLOR 197 252 229
+  END
+  CLASS
+	NAME "bmh-PT/bmh-S, bosque muy húmedo - Premontano Tropical transicional a bosque muy húmedo Subtropical"
+	EXPRESSION "bmh-PT/bmh-S"
+	COLOR 252 220 226
+  END
+  CLASS
+	NAME "bmh-S, bosque muy húmedo Subtropical"
+	EXPRESSION "bmh-S"
+	COLOR 213 252 202
+  END
+  CLASS
+	NAME "bmh-S/bp-S, bosque muy húmedo Subtropical transicional a bosque pluvial Subtropical"
+	EXPRESSION "bmh-S/bp-S"
+	COLOR 252 199 213
+  END
+  CLASS
+	NAME "bp-PT/bp-S, bosque pluvial Premontano Tropical transicional a bosque pluvial Subtropical"
+	EXPRESSION "bp-PT/bp-S"
+	COLOR 207 199 252
+  END
+  CLASS
+	NAME "bp-MBS, bosque pluvial Montano Bajo Subtropical"
+	EXPRESSION "bp-MBS"
+	COLOR 252 221 199
+  END
+  CLASS
+	NAME "bp-MBT/bp-MBS, bosque pluvial Montano Bajo Tropical transicional a bosque pluvial Montano Bajo Subtropical"
+	EXPRESSION "bp-MBT/bp-MBS"
+	COLOR 235 252 197
+  END
+  CLASS
+	NAME "bp-MS, bosque pluvial Montano Subtropical"
+	EXPRESSION "bp-MS"
+	COLOR 252 207 199
+  END
+  CLASS
+	NAME "bp-MT/bp-MS, bosque pluvial Montano Tropical transicional a bosque pluvial Montano Subtropical"
+	EXPRESSION "bp-MT/bp-MS"
+	COLOR 199 252 252
+  END
+  CLASS
+	NAME "bp-S, bosque pluvial Subtropical"
+	EXPRESSION "bp-S"
+	COLOR 252 197 251
+  END
+  CLASS
+	NAME "bs-MBS, bosque seco Montano Bajo Subtropical"
+	EXPRESSION "bs-MBS"
+	COLOR 252 221 199
+  END
+  CLASS
+	NAME "bs-S/bh-S, bosque seco Subtropical transicional a bosque húmedo Subtropical"
+	EXPRESSION "bs-S/bh-S"
+	COLOR 231 222 252
+  END
+  CLASS
+	NAME "bs-T/S, bosque seco Tropical transicional a Subtropical"
+	EXPRESSION "bs-T/S"
+	COLOR 225 252 239
+  END
+  CLASS
+	NAME "ee-MBS, estepa espinosa Montano Bajo Subtropical"
+	EXPRESSION "ee-MBS"
+	COLOR 249 252 220
+  END
+  CLASS
+	NAME "e-MS, estepa Montano Subtropical"
+	EXPRESSION "e-MS"
+	COLOR 229 252 220
+  END
+  CLASS
+	NAME "mte-S, monte espinoso Subtropical"
+	EXPRESSION "mte-S"
+	COLOR 220 241 252
+  END
+  CLASS
+	NAME "NS, Nival Subtropical"
+	EXPRESSION "NS"
+	COLOR 197 252 208
+  END
+  CLASS
+	NAME "pmh-SaS, paramo muy húmedo Subandino Subtropical"
+	EXPRESSION "pmh-SaS"
+	COLOR 252 226 217
+  END
+  CLASS
+	NAME "pps-SaS, paramo pluvial semisaturado Subandino Subtropical"
+	EXPRESSION "pps-SaS"
+	COLOR 252 243 197
+  END
+  CLASS
+	NAME "pp-SaS, paramo pluvial Subandino Subtropical"
+	EXPRESSION "pp-SaS"
+	COLOR 212 228 252
+  END
+  CLASS
+	NAME "tp-AS, tundra pluvial Andino Subtropical"
+	EXPRESSION "tp-AS"
+	COLOR 217 252 227
+  END
+END # Layer

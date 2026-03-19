@@ -1,0 +1,43 @@
+LAYER
+	NAME "predio_rural"
+	GROUP "MIDAGRI"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/allpa/midagri/predio_rural.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, coreca, codut, hoja, num_predio, datum, coprca, ide_unidad, idoficina, activo, origen, calculo, area, perimetro, geom FROM midagri.predio_rural) as allpa using unique gid using srid=4326"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MIDAGRI"
+		"queryable" "true"
+		"wms_metadataurl_href" "LUISAMOS"
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Predio Rural"
+		"wms_abstract" "Predio Rural || Ministerio de Desarrollo Agrario y Rural - MIDAGRI :: Perú"
+		"wms_credit" "MIDAGRI"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-78.911969039 -13.174006996 -68.672677514 -0.0422453909999945"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Predio rural"
+		EXPRESSION /./
+		STYLE
+			COLOR 0 0 0
+			OUTLINECOLOR 230 230 0
+			WIDTH 1
+		END
+	END
+END # Layer

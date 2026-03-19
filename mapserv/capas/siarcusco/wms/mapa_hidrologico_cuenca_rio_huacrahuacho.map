@@ -1,0 +1,57 @@
+LAYER
+  NAME "mapa_hidrologico_cuenca_rio_huacrahuacho"
+  GROUP "División Hidrográfica"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE line
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "gid"
+  LABELITEM "nombre"
+  LABELMAXSCALEDENOM 200000
+  LABELMAXSCALE 200000
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, tipo, nombre, existe, codigo, id, simbolo_rio, the_geom from geo.mapa_hidrologico_cuenca_rio_huacrahuacho) as siar using unique gid using srid=32719"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32719"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "División Hidrográfica"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Hidrológico de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Mapa Hidrológico de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+    "wms_dataurl_href" "../mapa_hidrologico_cuenca_rio_huacrahuacho.rar"
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "234648.111800 8382480.650000 264906.670000 8400865.772700"
+	"wms_srs" "EPSG:32719"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Ríos"
+	EXPRESSION /./
+    OUTLINECOLOR 0 111 255
+	LABEL
+		TYPE TRUETYPE
+		FONT "Arial"
+		SIZE 6
+		MINSIZE 6
+		MAXSIZE 6
+		POSITION cc
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 0 0 255
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END	
+END # Layer

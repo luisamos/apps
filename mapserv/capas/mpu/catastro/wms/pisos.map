@@ -1,0 +1,102 @@
+LAYER
+	NAME "pisos"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/pisos.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0]{1}[1-9]{1}$"
+		"default_codigo" "01,02,03,04,05,06,07,08"
+	END
+	DATA "geom FROM (SELECT objectid AS gid, id_lote, codi_piso, id_constru, area_grafi, tipo, geom FROM geo.tg_construccion) as mpu using unique gid using srid=32718"
+	FILTER ("[codi_piso]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "codi_piso"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Pisos"
+		"wms_abstract" "Pisos || Municipalidad Provincia de Urubamba :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+	END
+	CLASS
+		NAME "01"
+		EXPRESSION "01"
+		STYLE
+			COLOR 48 0 103
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "02"
+		EXPRESSION "02"
+		STYLE
+			COLOR 96 0 103
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "03"
+		EXPRESSION "03"
+		STYLE
+			COLOR 144 0 103
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "04"
+		EXPRESSION "04"
+		STYLE
+			COLOR 208 27 205
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "05"
+		EXPRESSION "05"
+		STYLE
+			COLOR 154 12 148
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "06"
+		EXPRESSION "06"
+		STYLE
+			COLOR 116 0 117
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "07"
+		EXPRESSION "07"
+		STYLE
+			COLOR 92 0 91
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "08"
+		EXPRESSION "08"
+		STYLE
+			COLOR 66 0 66
+			OUTLINECOLOR 79 79 79
+		END
+	END
+END # Layer

@@ -1,0 +1,99 @@
+LAYER
+	NAME "puerta"
+	GROUP "Catastro"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/kaypacha/puerta.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	#VALIDATION
+	#	"id" "^[a-zA-Z0-9 ]+$"
+	#END
+	DATA "geom FROM (SELECT gid, id_ubigeo, cod_puerta, id_lote, id_puerta, esta_puerta geom FROM geo.tg_puerta) as kaypacha using unique gid using srid=32719"
+	#FILTER ("[id_lote]" == "%id%")
+	INCLUDE "configuracion/postgresql_kaypacha.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELITEM "cod_puerta"
+	LABELMAXSCALEDENOM 5000
+	LABELMAXSCALE 5000
+	METADATA
+		"wms_group_title" "Predio urbano"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Puerta"
+		"wms_abstract" "Puerta || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Puerta"
+		EXPRESSION "P"
+		STYLE
+			COLOR 0 0 0
+			SIZE 20
+		END
+		LABEL
+			COLOR 0 0 0
+			OUTLINECOLOR 255 255 255
+            FONT "Arial"
+            TYPE TRUETYPE
+            SIZE 8
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+	CLASS
+		NAME "Puerta"
+		EXPRESSION "S"
+		STYLE
+			COLOR 255 0 0
+			SIZE 20
+		END
+		LABEL
+			COLOR 255 0 0
+			OUTLINECOLOR 255 255 255
+            FONT "Arial"
+            TYPE TRUETYPE
+            SIZE 8
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+	CLASS
+		NAME "Puerta"
+		EXPRESSION "G"
+		STYLE
+			COLOR 255 255 0
+			SIZE 20
+		END
+		LABEL
+			COLOR 255 255 0
+			OUTLINECOLOR 255 255 255
+            FONT "Arial"
+            TYPE TRUETYPE
+            SIZE 8
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+END # Layer

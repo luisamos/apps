@@ -1,0 +1,26 @@
+MAP
+    NAME "barra_escala"
+    EXTENT 807683.9653000003 8526364.0129 814882.6846000003 8531884.0174
+    SIZE 800 600
+    IMAGECOLOR 255 255 255
+
+    PROJECTION
+        "init=epsg:32718"
+    END
+
+    SCALEBAR
+        NAME "barra"
+        STATUS EMBED
+        LABEL
+            COLOR 0 0 0
+            ANTIALIAS ON
+            SIZE 15
+        END
+        UNITS METERS
+        POSITION lr
+        SIZE 450 20
+        INTERVALS 3
+        STYLE 0
+        #FORMAT "%lf"
+    END
+END
