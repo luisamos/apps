@@ -29,34 +29,11 @@ apps/
 
 ### Windows
 
-```powershell
-# 1. Clonar en C:\apps (ruta obligatoria)
-git clone https://github.com/luisamos/apps.git C:\apps
-
-# 2. Ejecutar el instalador como Administrador
-Set-ExecutionPolicy Bypass -Scope Process -Force
-C:\apps\tmp\Install-MS4W.ps1
-```
-
-El script solicita la **IP** y el **puerto** al inicio, actualiza los archivos `.map`
-y deja Apache corriendo como servicio de Windows.
-
 Documentación completa → [docs/INSTALL_WINDOWS.md](docs/INSTALL_WINDOWS.md)
 
 ---
 
 ### Ubuntu
-
-```bash
-# 1. Clonar en /apps (ruta obligatoria)
-sudo git clone https://github.com/luisamos/apps.git /apps
-
-# 2. Instalar dependencias
-sudo apt update && sudo apt install -y apache2 cgi-mapserver mapserver-bin libapache2-mod-mapcache
-sudo a2enmod cgi headers alias env
-
-# 3. Seguir la guía para configurar el VirtualHost e IP/puerto
-```
 
 Documentación completa → [docs/INSTALL_UBUNTU.md](docs/INSTALL_UBUNTU.md)
 
