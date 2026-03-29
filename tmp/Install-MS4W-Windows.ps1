@@ -3,14 +3,14 @@
 .SYNOPSIS
     Instalador automatizado de MS4W con MapServer / MapCache
 .DESCRIPTION
-    PREREQUISITO: clonar el repositorio en C:\apps
-        git clone https://github.com/luisamos/apps.git C:\apps
+    PREREQUISITO: clonar el repositorio en <UNIDAD>:\apps
+        git clone https://github.com/luisamos/apps.git D:\apps
 
     Luego este script hace todo lo demas:
     - Solicita la IP y el puerto donde correra MS4W (con valores por defecto)
-    - Descarga ms4w_5.0.0.zip desde ms4w.com si no existe en C:\apps\docs\
-    - Descomprime C:\apps\docs\ms4w_5.0.0.zip en C:\ms4w
-    - Verifica que C:\apps\mapserv, mapcache y logs existan (vienen del repo)
+    - Descarga ms4w_5.0.0.zip desde ms4w.com si no existe en <UNIDAD>:\apps\docs\
+    - Descomprime <UNIDAD>:\apps\docs\ms4w_5.0.0.zip en <UNIDAD>:\ms4w
+    - Verifica que <UNIDAD>:\apps\mapserv, mapcache y logs existan (vienen del repo)
     - Actualiza la IP y el puerto dentro de wms_kaypacha.map y wfs_kaypacha.map
     - Duplica mapserv.exe en cgi-bin\wms y cgi-bin\wfs
     - Agrega Listen <puerto> al httpd.conf y habilita mod_headers
@@ -20,19 +20,20 @@
 .NOTES
     Ejecutar como Administrador:
     Set-ExecutionPolicy Bypass -Scope Process -Force
-    C:\apps\tmp\Install-MS4W-Windows.ps1
+    D:\apps\tmp\Install-MS4W-Windows.ps1
 #>
 
 # --- RUTAS Y URLS -------------------------------------------------------
-$MS4W_ROOT    = "C:\ms4w"
-$APPS_ROOT    = "C:\apps"
-$APACHE_BIN   = "$MS4W_ROOT\Apache\cgi-bin"
-$APACHE_CONF  = "$MS4W_ROOT\Apache\conf"
-$APACHE_EXTRA = "$MS4W_ROOT\Apache\conf\extra"
-$MS4W_ZIP     = "$APPS_ROOT\docs\ms4w_5.0.0.zip"
+$INSTALL_DRIVE = $null
+$MS4W_ROOT    = $null
+$APPS_ROOT    = $null
+$APACHE_BIN   = $null
+$APACHE_CONF  = $null
+$APACHE_EXTRA = $null
+$MS4W_ZIP     = $null
 $MS4W_URL     = "https://ms4w.com/release/ms4w_5.0.0.zip"
 $SERVICE_NAME = "Apache MS4W Web Server"
-$LOG_FILE     = "$APPS_ROOT\logs\install_log.txt"
+$LOG_FILE     = $null
 
 # --- FUNCIONES AUXILIARES -----------------------------------------------
 function Write-Log {
@@ -77,6 +78,29 @@ Write-Host "       Instalador MS4W + MapServer / MapCache          " -Foreground
 Write-Host "  =====================================================" -ForegroundColor Green
 Write-Host ""
 Write-Log "Inicio de instalacion"
+
+# --- SOLICITAR UNIDAD DE INSTALACION -------------------------------------
+$INSTALL_DRIVE = Read-ValidatedInput `
+    -Prompt    "Unidad para instalar MS4W y apps (C:, D:, E:, ...)" `
+    -Default   "C:" `
+    -Validator { param($v) $v -match '^[A-Za-z]:$' } `
+    -ErrorMsg  "Unidad no valida. Usa el formato C:, D:, E:, etc."
+
+$INSTALL_DRIVE = $INSTALL_DRIVE.ToUpper()
+$MS4W_ROOT     = "$INSTALL_DRIVE\ms4w"
+$APPS_ROOT     = "$INSTALL_DRIVE\apps"
+$APACHE_BIN    = "$MS4W_ROOT\Apache\cgi-bin"
+$APACHE_CONF   = "$MS4W_ROOT\Apache\conf"
+$APACHE_EXTRA  = "$MS4W_ROOT\Apache\conf\extra"
+$MS4W_ZIP      = "$APPS_ROOT\docs\ms4w_5.0.0.zip"
+$LOG_FILE      = "$APPS_ROOT\logs\install_log.txt"
+$APPS_ROOT_APACHE = $APPS_ROOT -replace '\\', '/'
+
+if (-not (Test-Path $APPS_ROOT)) {
+    throw "No se encontro $APPS_ROOT. Clona el repositorio en esa ruta, por ejemplo:`n  git clone https://github.com/luisamos/apps.git $APPS_ROOT"
+}
+
+Write-Log "Unidad de instalacion seleccionada: $INSTALL_DRIVE (APPS=$APPS_ROOT, MS4W=$MS4W_ROOT)"
 
 # --- SOLICITAR IP Y PUERTO -----------------------------------------------
 Write-Host "  Configuracion del servidor" -ForegroundColor Yellow
@@ -162,13 +186,13 @@ Invoke-Step "Descargar ms4w_5.0.0.zip desde ms4w.com" {
 }
 
 # --- PASO 2: Instalar MS4W descomprimiendo el zip -------------------------
-Invoke-Step "Instalar MS4W en C:\ms4w" {
+Invoke-Step "Instalar MS4W en $MS4W_ROOT" {
     if (Test-Path "$MS4W_ROOT\Apache\bin\httpd.exe") {
         Write-Log "MS4W ya esta instalado en $MS4W_ROOT, se omite la descompresion." "WARN"
     } else {
         Write-Log "Descomprimiendo $MS4W_ZIP  -->  C:\"
-        Expand-Archive -Path $MS4W_ZIP -DestinationPath "C:\" -Force
-        Write-Log "MS4W descomprimido en $MS4W_ROOT"
+        Write-Log "Descomprimiendo $MS4W_ZIP  -->  $INSTALL_DRIVE\"
+        Expand-Archive -Path $MS4W_ZIP -DestinationPath "$INSTALL_DRIVE\" -Force
         if (-not (Test-Path "$MS4W_ROOT\Apache\bin\httpd.exe")) {
             throw "No se encontro httpd.exe tras la descompresion. Verifica que el zip contiene la carpeta ms4w/"
         }
@@ -176,11 +200,11 @@ Invoke-Step "Instalar MS4W en C:\ms4w" {
 }
 
 # --- PASO 3: Verificar directorios del repo --------------------------------
-Invoke-Step "Verificar C:\apps" {
+Invoke-Step "Verificar $APPS_ROOT" {
     foreach ($dir in @("$APPS_ROOT\mapserv", "$APPS_ROOT\mapcache", "$APPS_ROOT\logs")) {
         if (Test-Path $dir) { Write-Log "OK (del repo): $dir" }
         else { New-Item -ItemType Directory -Path $dir -Force | Out-Null; Write-Log "Creado: $dir" }
-    }    
+    }
 }
 
 # --- PASO 4: Actualizar IP y puerto en los archivos .map ------------------
@@ -242,8 +266,8 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     ServerAdmin luisamos7@gmail.com
     ServerName $SERVER_IP
     ServerAlias $SERVER_IP
-    ErrorLog "/apps/logs/error_kaypacha.log"
-    CustomLog "/apps/logs/custom_kaypacha.log" common
+    ErrorLog "$APPS_ROOT_APACHE/logs/error_kaypacha.log"
+    CustomLog "$APPS_ROOT_APACHE/logs/custom_kaypacha.log" common
 
     ScriptAlias /servicio/ "/ms4w/Apache/cgi-bin/"
 
@@ -263,8 +287,17 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
         Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     </IfModule>
 
-    SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=/apps/mapserv/wms_kaypacha.map
-    SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=/apps/mapserv/wfs_kaypacha.map
+    SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wms_kaypacha.map
+    SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wfs_kaypacha.map
+
+    <IfModule mapcache_module>
+        <Directory "$APPS_ROOT_APACHE/mapcache/">
+            AllowOverride None
+            Options None
+            Require all granted
+        </Directory>
+        MapCacheAlias /mapcache "$APPS_ROOT_APACHE/mapcache/mapcache.xml"
+    </IfModule>
 </VirtualHost>
 "@
     Set-Content -Path "$APACHE_EXTRA\httpd-vhosts.conf" -Value $vhost -Encoding UTF8

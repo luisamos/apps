@@ -15,3 +15,39 @@ LAYER
         "wms_abstract" "Esta capa contiene mosaicos de la Municipalidad Distrital de Wanchaq."
     END
 END
+
+LAYER
+    NAME "mpc_tramo_01"
+    GROUP "Base"
+    DATA "/apps/mapserv/archivos/raster/mpc_tramo_01.tif"
+    STATUS ON
+    TYPE RASTER
+    PROCESSING "BANDS=1,2,3"
+    OFFSITE 71 74 65
+    PROJECTION
+      "init=epsg:32719"
+    END
+    METADATA
+        "wms_group_title" "Cartografía base"
+        "wms_title" "Provincia de Canchis"
+        "wms_abstract" "Esta capa contiene mosaicos de la Municipalidad Provincial de Canchis."
+    END
+END
+
+LAYER
+    NAME "mpc_tramo_02"
+    GROUP "Base"
+    DATA "/apps/mapserv/archivos/raster/mpc_tramo_02.tif"
+    STATUS ON
+    TYPE RASTER
+    PROCESSING "BANDS=1,2,3"
+    OFFSITE 71 74 65
+    PROJECTION
+      "init=epsg:32719"
+    END
+    METADATA
+        "wms_group_title" "Cartografía base"
+        "wms_title" "Provincia de Canchis"
+        "wms_abstract" "Esta capa contiene mosaicos de la Municipalidad Provincial de Canchis."
+    END
+END

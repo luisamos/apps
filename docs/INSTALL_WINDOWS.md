@@ -9,21 +9,22 @@
 
 ---
 
-## Paso 1 — Clonar el repositorio en `C:\apps`
+## Paso 1 — Clonar el repositorio en la unidad deseada (`<UNIDAD>:\apps`)
 
-El repositorio **debe clonarse exactamente en `C:\apps`** porque todas las rutas
-de Apache, los archivos `.map` y los logs apuntan a esa ubicación.
+El instalador ahora solicita la unidad de instalación para soportar servidores
+donde `C:` está restringida. Clona el repositorio en la misma unidad que elijas
+en el instalador.
 
 Abrir **PowerShell como Administrador** y ejecutar:
 
 ```powershell
-git clone https://github.com/luisamos/apps.git C:\apps
+git clone https://github.com/luisamos/apps.git D:\apps
 ```
 
 Después de clonar, la estructura en disco queda así:
 
 ```
-C:\apps\
+D:\apps\
 ├── docs\
 │   ├── ms4w_5.0.0.zip          ← instalador de MS4W incluido en el repo
 │   ├── INSTALL_WINDOWS.md      ← este archivo
@@ -46,10 +47,10 @@ C:\apps\
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-C:\apps\tmp\Install-MS4W-Windows.ps1
+D:\apps\tmp\Install-MS4W-Windows.ps1
 ```
 
-El script te pedirá dos datos al inicio:
+El script te pedirá tres datos al inicio:
 
 ```
   IP del servidor   [127.0.0.2]: _
@@ -66,31 +67,31 @@ Una vez confirmada la configuración, el script ejecuta automáticamente los pas
 ## Lo que hace el script (pasos 3 al 10)
 
 **Paso 3 — Descargar e instalar MS4W**
-El script detecta si `C:\apps\docs\ms4w_5.0.0.zip` existe. Si no existe, lo descarga
-automáticamente desde `https://ms4w.com/release/ms4w_5.0.0.zip` mostrando una barra de
-progreso en consola. Una vez descargado, lo descomprime en `C:\ms4w`.
+El script detecta si `<UNIDAD>:\apps\docs\ms4w_5.0.0.zip` existe. Si no existe, lo descarga
+automáticamente desde el sitio oficial `https://ms4w.com/release/ms4w_5.0.0.zip` mostrando una barra de
+progreso en consola. Una vez descargado, lo descomprime en `<UNIDAD>:\ms4w`.
 Si MS4W ya estaba instalado, omite ambos pasos.
 
 **Paso 4 — Verificar directorios**
-Confirma que `C:\apps\mapserv`, `C:\apps\mapcache` y `C:\apps\logs` existen
+Confirma que `<UNIDAD>:\apps\mapserv`, `<UNIDAD>:\apps\mapcache` y `<UNIDAD>:\apps\logs` existen
 (vienen del `git clone`). No crea subcarpetas CGI adicionales; usa binarios en `cgi-bin`.
 
 **Paso 5 — Actualizar IP y puerto en los archivos `.map`**
-Abre `wms_kaypacha.map` y `wfs_kaypacha.map` en `C:\apps\mapserv\` y reemplaza
+Abre `wms_kaypacha.map` y `wfs_kaypacha.map` en `<UNIDAD>:\apps\mapserv\` y reemplaza
 la IP y el puerto en todas las directivas (`ows_onlineresource`, `wms_onlineresource`, URLs, etc.)
 con los valores que ingresaste.
 
 **Paso 6 — Duplicar `mapserv.exe`**
-Copia `C:\ms4w\Apache\cgi-bin\mapserv.exe` a:
+Copia `<UNIDAD>:\ms4w\Apache\cgi-bin\mapserv.exe` a:
 
-- `C:\ms4w\Apache\cgi-bin\wms`
-- `C:\ms4w\Apache\cgi-bin\wfs`
+- `<UNIDAD>:\ms4w\Apache\cgi-bin\wms`
+- `<UNIDAD>:\ms4w\Apache\cgi-bin\wfs`
 
 **Paso 7 — Configurar `httpd.conf`**
 Agrega `Listen <puerto>` junto al `Listen 80`, habilita `mod_headers` y deja habilitado `Include conf/extra/httpd-vhosts.conf` (descomentándolo si existe comentado).
 
 **Paso 8 — Generar el VirtualHost**
-Escribe `C:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicados:
+Escribe `<UNIDAD>:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicados:
 
 ```apache
 <VirtualHost <IP>:<PUERTO>>
@@ -116,6 +117,15 @@ Escribe `C:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicad
     </IfModule>
     SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=/apps/mapserv/wms_kaypacha.map
     SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=/apps/mapserv/wfs_kaypacha.map
+
+    <IfModule mapcache_module>
+        <Directory "<UNIDAD>:/apps/mapcache/">
+            AllowOverride None
+            Options None
+            Require all granted
+        </Directory>
+        MapCacheAlias /mapcache "<UNIDAD>:/apps/mapcache/mapcache.xml"
+    </IfModule>
 </VirtualHost>
 ```
 
@@ -128,14 +138,14 @@ netsh interface ip add address "Loopback Pseudo-Interface 1" <IP> 255.0.0.0
 
 **Paso 10 — Iniciar Apache**
 Verifica la sintaxis de configuración (`httpd -t`), registra Apache como
-servicio de Windows con nombre `Apache MS4W Web Server` y lo inicia. El log de instalación queda en `C:\apps\logs\install_log.txt`.
+servicio de Windows con nombre `Apache MS4W Web Server` y lo inicia. El log de instalación queda en `<UNIDAD>:\apps\logs\install_log.txt`.
 
 ---
 
 ## Resultado final en disco
 
 ```
-C:\
+D:\
 ├── ms4w\
 │   └── Apache\
 │       ├── bin\httpd.exe
@@ -199,7 +209,7 @@ http://127.0.0.2:8081/servicio/wfs?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabili
 | `mapserv.exe` no ejecuta     | CGI no configurado          | Verificar `ScriptAlias` y que `mod_cgi` esté habilitado       |
 | CORS bloqueado               | `mod_headers` deshabilitado | El script lo habilita automáticamente; reiniciar Apache       |
 | IP no responde               | Alias de loopback no creado | Ejecutar manualmente el comando `netsh` del Paso 9            |
-| Error al descomprimir `.zip` | PowerShell < 5.1            | Actualizar PowerShell o descomprimir manualmente en `C:\ms4w` |
+| Error al descomprimir `.zip` | PowerShell < 5.1            | Actualizar PowerShell o descomprimir manualmente en `D:\ms4w` |
 
 ---
 
@@ -209,13 +219,13 @@ Para revertir la instalación en Windows, ejecutar como Administrador:
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
-C:\apps\tmp\Uninstall-MS4W-Windows.ps1
+D:\apps\tmp\Uninstall-MS4W-Windows.ps1
 ```
 
 El desinstalador permite:
 
 - Detener y eliminar el servicio `Apache MS4W Web Server`.
-- Eliminar `C:\ms4w` (opcional).
+- Eliminar `D:\ms4w` (opcional).
 - Quitar la IP loopback `127.x.x.x` configurada durante instalación (opcional).
 
-Guarda su bitácora en: `C:\apps\logs\uninstall_log.txt`.
+Guarda su bitácora en: `D:\apps\logs\uninstall_log.txt`.
