@@ -11,3 +11,53 @@
 [2026-03-29 22:17:34] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
 [2026-03-29 22:17:34] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
 [2026-03-29 22:17:35] [ERROR] Error en 'Instalar MS4W en C:\ms4w': 
+[2026-03-29 22:25:20] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-03-29 22:25:28] [INFO] Configuracion confirmada — IP: 127.0.0.2  Puerto: 80
+[2026-03-29 22:25:28] [INFO] -- Descargar ms4w_5.0.0.zip desde ms4w.com --
+[2026-03-29 22:25:28] [INFO] Descargando desde https://ms4w.com/release/ms4w_5.0.0.zip
+[2026-03-29 22:32:31] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-03-29 22:32:39] [INFO] Configuracion confirmada — IP: 127.0.0.2  Puerto: 80
+[2026-03-29 22:32:39] [INFO] -- Descargar ms4w_5.0.0.zip desde ms4w.com --
+[2026-03-29 22:32:39] [WARN] ms4w_5.0.0.zip existente parece incompleto/corrupto (0.4 MB). Se eliminara para descargar nuevamente.
+[2026-03-29 22:32:39] [INFO] Descargando desde https://ms4w.com/release/ms4w_5.0.0.zip
+[2026-03-29 22:43:14] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-03-29 22:43:27] [INFO] Configuracion confirmada — IP: 127.0.0.2  Puerto: 80
+[2026-03-29 22:43:27] [INFO] -- Descargar ms4w_5.0.0.zip desde ms4w.com --
+[2026-03-29 22:43:27] [WARN] ms4w_5.0.0.zip existente parece incompleto/corrupto (0.1 MB). Se eliminara para descargar nuevamente.
+[2026-03-29 22:43:27] [INFO] Descargando desde https://ms4w.com/release/ms4w_5.0.0.zip
+[2026-03-29 22:43:27] [INFO] Intentando descarga con BITS...
+[2026-03-29 22:43:50] [INFO] Descarga completada: C:\apps\docs\ms4w_5.0.0.zip (394.9 MB)
+[2026-03-29 22:43:50] [INFO] Descargar ms4w_5.0.0.zip desde ms4w.com completado OK
+[2026-03-29 22:43:50] [INFO] -- Instalar MS4W en C:\ms4w --
+[2026-03-29 22:43:50] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
+[2026-03-29 22:43:50] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
+[2026-03-29 22:45:07] [INFO] Instalar MS4W en C:\ms4w completado OK
+[2026-03-29 22:45:07] [INFO] -- Verificar C:\apps --
+[2026-03-29 22:45:08] [INFO] OK (del repo): C:\apps\mapserv
+[2026-03-29 22:45:08] [INFO] OK (del repo): C:\apps\mapcache
+[2026-03-29 22:45:08] [INFO] OK (del repo): C:\apps\logs
+[2026-03-29 22:45:08] [INFO] Verificar C:\apps completado OK
+[2026-03-29 22:45:08] [INFO] -- Actualizar IP (127.0.0.2:80) en archivos .map --
+[2026-03-29 22:45:08] [INFO] Actualizado: wms_kaypacha.map  (IP=127.0.0.2 Puerto=80)
+[2026-03-29 22:45:08] [INFO] Actualizado: wfs_kaypacha.map  (IP=127.0.0.2 Puerto=80)
+[2026-03-29 22:45:08] [INFO] Actualizar IP (127.0.0.2:80) en archivos .map completado OK
+[2026-03-29 22:45:08] [INFO] -- Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extension) --
+[2026-03-29 22:45:08] [INFO] mapserv.exe copiado como cgi-bin\wms y cgi-bin\wfs
+[2026-03-29 22:45:08] [INFO] Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extension) completado OK
+[2026-03-29 22:45:08] [INFO] -- Configurar httpd.conf  (Listen 80 + mod_headers) --
+[2026-03-29 22:45:08] [WARN] 'Listen 80' ya estaba configurado
+[2026-03-29 22:45:08] [INFO] Descomentado Include conf/extra/httpd-vhosts.conf
+[2026-03-29 22:45:08] [INFO] Configurar httpd.conf  (Listen 80 + mod_headers) completado OK
+[2026-03-29 22:45:08] [INFO] -- Generar VirtualHost <127.0.0.2:80> --
+[2026-03-29 22:45:08] [INFO] VirtualHost escrito en C:\ms4w\Apache\conf\extra\httpd-vhosts.conf
+[2026-03-29 22:45:08] [INFO] Generar VirtualHost <127.0.0.2:80> completado OK
+[2026-03-29 22:45:08] [INFO] -- Configurar IP 127.0.0.2 en adaptador de red --
+[2026-03-29 22:45:09] [INFO] IP 127.0.0.2 agregada al adaptador loopback
+[2026-03-29 22:45:09] [INFO] Configurar IP 127.0.0.2 en adaptador de red completado OK
+[2026-03-29 22:45:09] [INFO] -- Registrar e iniciar Apache como servicio Windows --
+[2026-03-29 22:45:10] [INFO] Sintaxis OK
+[2026-03-29 22:45:11] [INFO] Servicio registrado
+[2026-03-29 22:45:12] [INFO] Apache iniciado
+[2026-03-29 22:45:14] [INFO] Estado del servicio: Running
+[2026-03-29 22:45:14] [INFO] Registrar e iniciar Apache como servicio Windows completado OK
+[2026-03-29 22:45:15] [INFO] Instalacion finalizada. IP=127.0.0.2 Puerto=80

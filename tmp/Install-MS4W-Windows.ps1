@@ -32,6 +32,7 @@ $APACHE_CONF  = $null
 $APACHE_EXTRA = $null
 $MS4W_ZIP     = $null
 $MS4W_URL     = "https://ms4w.com/release/ms4w_5.0.0.zip"
+$MS4W_MIN_BYTES = 50MB
 $SERVICE_NAME = "Apache MS4W Web Server"
 $LOG_FILE     = $null
 
@@ -72,6 +73,96 @@ function Read-ValidatedInput {
         if (& $Validator $val) { return $val }
         Write-Host "  X $ErrorMsg" -ForegroundColor Red
     }
+}
+
+function Test-ValidZipFile {
+    param([string]$Path)
+    if (-not (Test-Path $Path)) { return $false }
+    try {
+        $fs = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::Read)
+        try {
+            $zip = New-Object System.IO.Compression.ZipArchive($fs, [System.IO.Compression.ZipArchiveMode]::Read, $false)
+            try { return ($zip.Entries.Count -gt 0) }
+            finally { $zip.Dispose() }
+        }
+        finally { $fs.Dispose() }
+    } catch {
+        return $false
+    }
+}
+
+function Download-FileWithRetry {
+    param(
+        [string]$Url,
+        [string]$Destination,
+        [int]$TimeoutSec = 900
+    )
+
+    # Fuerza TLS moderno para evitar respuestas inesperadas por handshake
+    [System.Net.ServicePointManager]::SecurityProtocol = `
+        [System.Net.SecurityProtocolType]::Tls12 -bor `
+        [System.Net.SecurityProtocolType]::Tls13
+
+    $tmpFile = "$Destination.part"
+    if (Test-Path $tmpFile) { Remove-Item -Path $tmpFile -Force -ErrorAction SilentlyContinue }
+
+    # Metodo 1: BITS (mas estable para archivos grandes en Windows)
+    try {
+        Write-Log "Intentando descarga con BITS..."
+        Start-BitsTransfer -Source $Url -Destination $tmpFile -DisplayName "MS4W Download" -Description "Descargando ms4w_5.0.0.zip" -ErrorAction Stop
+    } catch {
+        Write-Log "BITS fallo: $($_.Exception.Message)" "WARN"
+    }
+
+    # Metodo 2: WebClient con timeout
+    if (-not (Test-Path $tmpFile)) {
+        try {
+            Write-Log "Intentando descarga con WebClient..."
+            $wc = New-Object System.Net.WebClient
+            $wc.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) MS4W-Installer")
+            $task = $wc.DownloadFileTaskAsync($Url, $tmpFile)
+            $sw = [System.Diagnostics.Stopwatch]::StartNew()
+            while (-not $task.IsCompleted) {
+                if ($sw.Elapsed.TotalSeconds -gt $TimeoutSec) {
+                    throw "Timeout de descarga ($TimeoutSec s)"
+                }
+                Start-Sleep -Milliseconds 400
+            }
+            if ($task.IsFaulted) { throw $task.Exception.InnerException }
+        } catch {
+            Write-Log "WebClient fallo: $($_.Exception.Message)" "WARN"
+        }
+    }
+
+    # Metodo 3: Invoke-WebRequest como ultimo recurso
+    if (-not (Test-Path $tmpFile)) {
+        Write-Log "Intentando descarga con Invoke-WebRequest..." "WARN"
+        Invoke-WebRequest `
+            -Uri $Url `
+            -OutFile $tmpFile `
+            -UseBasicParsing `
+            -TimeoutSec $TimeoutSec `
+            -Headers @{ "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) MS4W-Installer" }
+    }
+
+    if (-not (Test-Path $tmpFile)) {
+        throw "No fue posible descargar el archivo con ninguno de los metodos."
+    }
+
+    Move-Item -Path $tmpFile -Destination $Destination -Force
+}
+
+trap {
+    $msg = $_.Exception.Message
+    $detail = $_ | Out-String
+    Write-Log "FALLO NO CONTROLADO: $msg" "ERROR"
+    Write-Log "DETALLE: $detail" "ERROR"
+    Write-Host ""
+    Write-Host "  La instalacion fallo. Revisa el log en: $LOG_FILE" -ForegroundColor Red
+    Write-Host "  (Si ejecutas con doble click, abre PowerShell y ejecuta el script desde consola para evitar cierre automatico)." -ForegroundColor Yellow
+    Write-Host ""
+    Read-Host "  Presiona Enter para salir" | Out-Null
+    break
 }
 
 # --- PANTALLA DE BIENVENIDA ----------------------------------------------
@@ -147,44 +238,40 @@ Invoke-Step "Descargar ms4w_5.0.0.zip desde ms4w.com" {
         Write-Log "Creado directorio: $docsDir"
     }
 
+    $mustDownload = $true
     if (Test-Path $MS4W_ZIP) {
-        $sizeMB = [math]::Round((Get-Item $MS4W_ZIP).Length / 1MB, 1)
-        Write-Log "ms4w_5.0.0.zip ya existe ($sizeMB MB), se omite la descarga." "WARN"
-    } else {
+        $existingBytes = (Get-Item $MS4W_ZIP).Length
+        $sizeMB = [math]::Round($existingBytes / 1MB, 1)
+        if ($existingBytes -ge $MS4W_MIN_BYTES -and (Test-ValidZipFile -Path $MS4W_ZIP)) {
+            Write-Log "ms4w_5.0.0.zip ya existe ($sizeMB MB) y es valido, se omite la descarga." "WARN"
+            $mustDownload = $false
+        } else {
+            Write-Log "ms4w_5.0.0.zip existente parece incompleto/corrupto ($sizeMB MB). Se eliminara para descargar nuevamente." "WARN"
+            Remove-Item -Path $MS4W_ZIP -Force -ErrorAction Stop
+        }
+    }
+
+    if ($mustDownload) {
         Write-Log "Descargando desde $MS4W_URL"
         Write-Host "  Destino: $MS4W_ZIP" -ForegroundColor DarkGray
         Write-Host "  Esto puede tardar varios minutos segun la velocidad de internet..." -ForegroundColor DarkGray
 
-        try {
-            # WebClient con barra de progreso en consola
-            $wc = New-Object System.Net.WebClient
-            $wc.add_DownloadProgressChanged({
-                param($s, $e)
-                if ($e.TotalBytesToReceive -gt 0) {
-                    $pct   = [math]::Round(($e.BytesReceived / $e.TotalBytesToReceive) * 100, 1)
-                    $recvMB  = [math]::Round($e.BytesReceived / 1MB, 1)
-                    $totalMB = [math]::Round($e.TotalBytesToReceive / 1MB, 1)
-                    Write-Host ("`r  [{0,-30}] {1}% — {2} MB / {3} MB  " -f `
-                        ("=" * [int]($pct / 100 * 30)), $pct, $recvMB, $totalMB) `
-                        -NoNewline -ForegroundColor Cyan
-                }
-            })
-            $task = $wc.DownloadFileTaskAsync($MS4W_URL, $MS4W_ZIP)
-            while (-not $task.IsCompleted) { Start-Sleep -Milliseconds 300 }
-            Write-Host ""
-            if ($task.IsFaulted) { throw $task.Exception.InnerException }
-
-        } catch {
-            Write-Host ""
-            Write-Log "Reintentando con Invoke-WebRequest..." "WARN"
-            Invoke-WebRequest -Uri $MS4W_URL -OutFile $MS4W_ZIP -UseBasicParsing
-        }
+        Download-FileWithRetry -Url $MS4W_URL -Destination $MS4W_ZIP -TimeoutSec 1200
 
         if (-not (Test-Path $MS4W_ZIP)) {
             throw "La descarga fallo. Verifica la conexion o descarga manualmente desde:`n  $MS4W_URL`ny coloca el archivo en $MS4W_ZIP"
         }
 
-        $sizeMB = [math]::Round((Get-Item $MS4W_ZIP).Length / 1MB, 1)
+        $downloadedBytes = (Get-Item $MS4W_ZIP).Length
+        if ($downloadedBytes -lt $MS4W_MIN_BYTES) {
+            $sizeMB = [math]::Round($downloadedBytes / 1MB, 1)
+            throw "La descarga termino con un archivo demasiado pequeno ($sizeMB MB). Se esperaba un paquete mucho mayor. Elimina el archivo y reintenta."
+        }
+        if (-not (Test-ValidZipFile -Path $MS4W_ZIP)) {
+            throw "El archivo descargado no es un .zip valido. Reintenta la descarga o descarga manualmente desde $MS4W_URL"
+        }
+
+        $sizeMB = [math]::Round($downloadedBytes / 1MB, 1)
         Write-Log "Descarga completada: $MS4W_ZIP ($sizeMB MB)"
     }
 }
