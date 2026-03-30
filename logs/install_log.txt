@@ -1,0 +1,13 @@
+[2026-03-29 22:15:51] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-03-29 22:16:16] [INFO] Configuracion confirmada — IP: 127.0.0.2  Puerto: 80
+[2026-03-29 22:16:16] [INFO] -- Descargar ms4w_5.0.0.zip desde ms4w.com --
+[2026-03-29 22:16:16] [INFO] Descargando desde https://ms4w.com/release/ms4w_5.0.0.zip
+[2026-03-29 22:17:15] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-03-29 22:17:34] [INFO] Configuracion confirmada — IP: 127.0.0.2  Puerto: 80
+[2026-03-29 22:17:34] [INFO] -- Descargar ms4w_5.0.0.zip desde ms4w.com --
+[2026-03-29 22:17:34] [WARN] ms4w_5.0.0.zip ya existe (0.4 MB), se omite la descarga.
+[2026-03-29 22:17:34] [INFO] Descargar ms4w_5.0.0.zip desde ms4w.com completado OK
+[2026-03-29 22:17:34] [INFO] -- Instalar MS4W en C:\ms4w --
+[2026-03-29 22:17:34] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
+[2026-03-29 22:17:34] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.0.0.zip  -->  C:\
+[2026-03-29 22:17:35] [ERROR] Error en 'Instalar MS4W en C:\ms4w': 

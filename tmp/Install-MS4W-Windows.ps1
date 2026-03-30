@@ -44,9 +44,13 @@ function Write-Log {
         "ERROR" { "Red" } "WARN" { "Yellow" } default { "Cyan" }
     }
     Write-Host $line -ForegroundColor $color
-    $logDir = Split-Path $LOG_FILE
+    $effectiveLogFile = $LOG_FILE
+    if ([string]::IsNullOrWhiteSpace($effectiveLogFile)) {
+        $effectiveLogFile = Join-Path ([System.IO.Path]::GetTempPath()) "install_ms4w_bootstrap.log"
+    }
+    $logDir = Split-Path $effectiveLogFile
     if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
-    Add-Content -Path $LOG_FILE -Value $line
+    Add-Content -Path $effectiveLogFile -Value $line
 }
 
 function Invoke-Step {
