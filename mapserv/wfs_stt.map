@@ -1,6 +1,6 @@
 #
 # FECHA DE CREACION     :	07-11-2024
-# FECHA DE MODIFICACION	:	07-11-2024
+# FECHA DE MODIFICACION	:	27-04-2026
 #
 
 #
@@ -76,12 +76,19 @@ MAP
   END
 
   OUTPUTFORMAT
-    NAME "geojson"
-    DRIVER "OGR/GEOJSON"
-    MIMETYPE "application/json; subtype=geojson"
-    FORMATOPTION "STORAGE=stream"
+    NAME "json"
+    DRIVER "OGR/GeoJSON"
+    MIMETYPE "application/geo+json"
     FORMATOPTION "FORM=SIMPLE"
-    FORMATOPTION "LCO:RFC7946=YES"
+    EXTENSION "json"
+  END
+
+  OUTPUTFORMAT
+    NAME "geojson"
+    DRIVER "OGR/GeoJSON"
+    MIMETYPE "application/geojson"
+    EXTENSION "json"
+    FORMATOPTION "FORM=SIMPLE"
   END
 
   #
@@ -99,7 +106,7 @@ MAP
   	"wfs_title"     "STT"
   	"wfs_abstract" "STT :: PERU, SERVICIO OGC: WEB  FACTURE SERVER (WFS)"
   	"wfs_onlineresource" "http://127.0.0.1/servicio/wfs?"
-  	"wfs_service_onlineresource" "http://127.0.0.1/servicio/wfs?"
+  	"wfs_service_onlineresource" "http://127.0.0.3/servicio/wfs?"
   	"wfs_fees" "none"
   	"wfs_accessconstraints" "Ninguna"
   	"wfs_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"

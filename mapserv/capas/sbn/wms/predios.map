@@ -11,7 +11,7 @@ LAYER
 	#FOOTER "plantillas/fin.html"
 	STATUS on
 	DATA "geom FROM (SELECT gid, nmb_dpto, nmb_prov, nmb_dist, condicion, tipo_regis, titular, nmb_lote, dir_lote, doc_rrpp, round(area_rrpp,2) as super_m2, geom FROM sbn.predios) as allpa using unique gid using srid=4326"
-    FILTER ("[nmb_dpto]" IN "CUSCO")
+    #FILTER ("[nmb_dpto]" IN "CUSCO")
 	INCLUDE "configuracion/postgresql_allpa.map"
 	PROJECTION
 		"init=epsg:4326"
