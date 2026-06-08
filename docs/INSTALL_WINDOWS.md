@@ -25,7 +25,7 @@ Después de clonar, la estructura en disco queda así:
 ```
 C:\apps\
 ├── docs\
-│   ├── ms4w_5.0.0.zip          ← instalador de MS4W incluido en el repo
+│   ├── ms4w_5.2.0.zip          ← instalador de MS4W incluido en el repo
 │   ├── INSTALL_WINDOWS.md      ← este archivo
 │   └── INSTALL_UBUNTU.md
 ├── logs\                        ← logs de Apache (se generan al correr)
@@ -46,6 +46,9 @@ C:\apps\
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
+```
+
+```powershell
 C:\apps\tmp\Install-MS4W-Windows.ps1
 ```
 
@@ -66,10 +69,11 @@ Una vez confirmada la configuración, el script ejecuta automáticamente los pas
 ## Lo que hace el script (pasos 3 al 10)
 
 **Paso 3 — Descargar e instalar MS4W**
-El script detecta si `C:\apps\docs\ms4w_5.0.0.zip` existe. Si no existe, lo descarga
-automáticamente desde `https://ms4w.com/release/ms4w_5.0.0.zip` mostrando una barra de
-progreso en consola. Una vez descargado, lo descomprime en `C:\ms4w`.
-Si MS4W ya estaba instalado, omite ambos pasos.
+El script detecta si `<UNIDAD>:\apps\docs\ms4w_5.2.0.zip` existe y es un ZIP válido. Si ya existe,
+lo usa directamente y no intenta descargarlo. Si no existe, lo descarga automáticamente desde el sitio
+oficial `https://ms4w.com/release/ms4w_5.2.0.zip`; si queda incompleto o corrupto, reintenta con otro
+método de descarga antes de descomprimirlo en `<UNIDAD>:\ms4w`.
+Si MS4W ya estaba instalado, omite la descompresión.
 
 **Paso 4 — Verificar directorios**
 Confirma que `C:\apps\mapserv`, `C:\apps\mapcache` y `C:\apps\logs` existen
@@ -149,7 +153,7 @@ C:\
 │               └── httpd-vhosts.conf   ← generado con tu IP y puerto
 └── apps\                               ← clonado desde GitHub
     ├── docs\
-    │   └── ms4w_5.0.0.zip
+    │   └── ms4w_5.2.0.zip
     ├── logs\
     │   ├── error_kaypacha.log
     │   ├── custom_kaypacha.log

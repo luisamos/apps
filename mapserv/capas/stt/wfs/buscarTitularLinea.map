@@ -2,7 +2,7 @@ LAYER
 	NAME "buscarTitularLinea"
 	TYPE line
 	STATUS on
-	DATA "geom FROM (SELECT * FROM geo.v_buscartitular_linea) as stt using unique gid using srid=32719"
+	DATA "geom FROM (SELECT * FROM geo.v_buscar_titular_linea) as stt using unique gid using srid=32719"
 	INCLUDE "configuracion/postgresql_stt.map"
 	CLASSITEM "gid"
 	PROJECTION
@@ -20,6 +20,7 @@ LAYER
 		"gml_featureid" "gid"
 		"gml_dni_type" "Character"
 		"gml_gid_type" "Integer"
+		"gml_codigo_type" "Character"
 		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"		
 	END
 	CLASS

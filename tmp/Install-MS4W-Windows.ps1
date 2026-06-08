@@ -3,14 +3,14 @@
 .SYNOPSIS
     Instalador automatizado de MS4W con MapServer / MapCache
 .DESCRIPTION
-    PREREQUISITO: clonar el repositorio en C:\apps
-        git clone https://github.com/luisamos/apps.git C:\apps
+    PREREQUISITO: clonar el repositorio en <UNIDAD>:\apps
+        git clone https://github.com/luisamos/apps.git D:\apps
 
     Luego este script hace todo lo demas:
     - Solicita la IP y el puerto donde correra MS4W (con valores por defecto)
-    - Descarga ms4w_5.0.0.zip desde ms4w.com si no existe en C:\apps\docs\
-    - Descomprime C:\apps\docs\ms4w_5.0.0.zip en C:\ms4w
-    - Verifica que C:\apps\mapserv, mapcache y logs existan (vienen del repo)
+    - Descarga ms4w_5.2.0.zip desde ms4w.com si no existe en <UNIDAD>:\apps\docs\
+    - Descomprime <UNIDAD>:\apps\docs\ms4w_5.2.0.zip en <UNIDAD>:\ms4w
+    - Verifica que <UNIDAD>:\apps\mapserv, mapcache y logs existan (vienen del repo)
     - Actualiza la IP y el puerto dentro de wms_kaypacha.map y wfs_kaypacha.map
     - Duplica mapserv.exe en cgi-bin\wms y cgi-bin\wfs
     - Agrega Listen <puerto> al httpd.conf y habilita mod_headers
@@ -20,19 +20,23 @@
 .NOTES
     Ejecutar como Administrador:
     Set-ExecutionPolicy Bypass -Scope Process -Force
-    C:\apps\tmp\Install-MS4W-Windows.ps1
+    D:\apps\tmp\Install-MS4W-Windows.ps1
 #>
 
 # --- RUTAS Y URLS -------------------------------------------------------
-$MS4W_ROOT    = "C:\ms4w"
-$APPS_ROOT    = "C:\apps"
-$APACHE_BIN   = "$MS4W_ROOT\Apache\cgi-bin"
-$APACHE_CONF  = "$MS4W_ROOT\Apache\conf"
-$APACHE_EXTRA = "$MS4W_ROOT\Apache\conf\extra"
-$MS4W_ZIP     = "$APPS_ROOT\docs\ms4w_5.0.0.zip"
-$MS4W_URL     = "https://ms4w.com/release/ms4w_5.0.0.zip"
+$INSTALL_DRIVE = $null
+$MS4W_ROOT    = $null
+$APPS_ROOT    = $null
+$APACHE_BIN   = $null
+$APACHE_CONF  = $null
+$APACHE_EXTRA = $null
+$MS4W_ZIP     = $null
+$MS4W_VERSION = "5.2.0"
+$MS4W_FILE    = "ms4w_$MS4W_VERSION.zip"
+$MS4W_URL     = "https://ms4w.com/release/$MS4W_FILE"
+$MS4W_MIN_BYTES = 50MB
 $SERVICE_NAME = "Apache MS4W Web Server"
-$LOG_FILE     = "$APPS_ROOT\logs\install_log.txt"
+$LOG_FILE     = $null
 
 # --- FUNCIONES AUXILIARES -----------------------------------------------
 function Write-Log {
@@ -43,9 +47,13 @@ function Write-Log {
         "ERROR" { "Red" } "WARN" { "Yellow" } default { "Cyan" }
     }
     Write-Host $line -ForegroundColor $color
-    $logDir = Split-Path $LOG_FILE
+    $effectiveLogFile = $LOG_FILE
+    if ([string]::IsNullOrWhiteSpace($effectiveLogFile)) {
+        $effectiveLogFile = Join-Path ([System.IO.Path]::GetTempPath()) "install_ms4w_bootstrap.log"
+    }
+    $logDir = Split-Path $effectiveLogFile
     if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir -Force | Out-Null }
-    Add-Content -Path $LOG_FILE -Value $line
+    Add-Content -Path $effectiveLogFile -Value $line
 }
 
 function Invoke-Step {
@@ -69,6 +77,146 @@ function Read-ValidatedInput {
     }
 }
 
+function Test-ValidZipFile {
+    param([string]$Path)
+    if (-not (Test-Path $Path)) { return $false }
+    try {
+        $fs = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::Read)
+        try {
+            $zip = New-Object System.IO.Compression.ZipArchive($fs, [System.IO.Compression.ZipArchiveMode]::Read, $false)
+            try { return ($zip.Entries.Count -gt 0) }
+            finally { $zip.Dispose() }
+        }
+        finally { $fs.Dispose() }
+    } catch {
+        return $false
+    }
+}
+
+function Test-Ms4wPackage {
+    param(
+        [string]$Path,
+        [long]$MinimumBytes = $MS4W_MIN_BYTES
+    )
+
+    if (-not (Test-Path $Path)) { return $false }
+
+    $bytes = (Get-Item $Path).Length
+    if ($bytes -lt $MinimumBytes) { return $false }
+
+    return (Test-ValidZipFile -Path $Path)
+}
+
+function Remove-FileIfExists {
+    param([string]$Path)
+    if (Test-Path $Path) { Remove-Item -Path $Path -Force -ErrorAction SilentlyContinue }
+}
+
+function Set-ModernSecurityProtocol {
+    # Fuerza TLS moderno, pero sin romper PowerShell/.NET antiguos que no tienen Tls13.
+    $protocol = [System.Net.SecurityProtocolType]::Tls12
+    if ([Enum]::GetNames([System.Net.SecurityProtocolType]) -contains "Tls13") {
+        $protocol = $protocol -bor [System.Net.SecurityProtocolType]::Tls13
+    }
+    [System.Net.ServicePointManager]::SecurityProtocol = $protocol
+}
+
+function Complete-DownloadIfValid {
+    param(
+        [string]$TempPath,
+        [string]$Destination,
+        [long]$MinimumBytes
+    )
+
+    if (Test-Ms4wPackage -Path $TempPath -MinimumBytes $MinimumBytes) {
+        Move-Item -Path $TempPath -Destination $Destination -Force
+        return $true
+    }
+
+    if (Test-Path $TempPath) {
+        $sizeMB = [math]::Round((Get-Item $TempPath).Length / 1MB, 1)
+        Write-Log "Descarga temporal invalida ($sizeMB MB); se elimina y se intentara otro metodo." "WARN"
+        Remove-FileIfExists -Path $TempPath
+    }
+    return $false
+}
+
+function Download-FileWithRetry {
+    param(
+        [string]$Url,
+        [string]$Destination,
+        [int]$TimeoutSec = 900,
+        [long]$MinimumBytes = 50MB
+    )
+
+    Set-ModernSecurityProtocol
+
+    $tmpFile = "$Destination.part"
+    Remove-FileIfExists -Path $tmpFile
+
+    try {
+        Write-Log "Intentando descarga con BITS..."
+        Start-BitsTransfer -Source $Url -Destination $tmpFile -DisplayName "MS4W Download" -Description "Descargando $MS4W_FILE" -ErrorAction Stop
+    } catch {
+        Write-Log "BITS fallo: $($_.Exception.Message)" "WARN"
+        Remove-FileIfExists -Path $tmpFile
+    }
+    if (Complete-DownloadIfValid -TempPath $tmpFile -Destination $Destination -MinimumBytes $MinimumBytes) { return }
+
+    try {
+        Write-Log "Intentando descarga con WebClient..."
+        $wc = New-Object System.Net.WebClient
+        try {
+            $wc.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) MS4W-Installer")
+            $task = $wc.DownloadFileTaskAsync($Url, $tmpFile)
+            $sw = [System.Diagnostics.Stopwatch]::StartNew()
+            while (-not $task.IsCompleted) {
+                if ($sw.Elapsed.TotalSeconds -gt $TimeoutSec) {
+                    throw "Timeout de descarga ($TimeoutSec s)"
+                }
+                Start-Sleep -Milliseconds 400
+            }
+            if ($task.IsFaulted) { throw $task.Exception.InnerException }
+        } finally {
+            $wc.Dispose()
+        }
+    } catch {
+        Write-Log "WebClient fallo: $($_.Exception.Message)" "WARN"
+        Remove-FileIfExists -Path $tmpFile
+    }
+    if (Complete-DownloadIfValid -TempPath $tmpFile -Destination $Destination -MinimumBytes $MinimumBytes) { return }
+
+    try {
+        Write-Log "Intentando descarga con Invoke-WebRequest..." "WARN"
+        Invoke-WebRequest `
+            -Uri $Url `
+            -OutFile $tmpFile `
+            -UseBasicParsing `
+            -TimeoutSec $TimeoutSec `
+            -Headers @{ "User-Agent" = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) MS4W-Installer" } `
+            -ErrorAction Stop
+    } catch {
+        Write-Log "Invoke-WebRequest fallo: $($_.Exception.Message)" "WARN"
+        Remove-FileIfExists -Path $tmpFile
+    }
+    if (Complete-DownloadIfValid -TempPath $tmpFile -Destination $Destination -MinimumBytes $MinimumBytes) { return }
+
+    throw "No fue posible descargar un paquete valido desde $Url. Descargalo manualmente y copialo en $Destination"
+}
+
+trap {
+    $msg = $_.Exception.Message
+    $detail = $_ | Out-String
+    Write-Log "FALLO NO CONTROLADO: $msg" "ERROR"
+    Write-Log "DETALLE: $detail" "ERROR"
+    Write-Host ""
+    Write-Host "  La instalacion fallo. Revisa el log en: $LOG_FILE" -ForegroundColor Red
+    Write-Host "  (Si ejecutas con doble click, abre PowerShell y ejecuta el script desde consola para evitar cierre automatico)." -ForegroundColor Yellow
+    Write-Host ""
+    Read-Host "  Presiona Enter para salir" | Out-Null
+    break
+}
+
 # --- PANTALLA DE BIENVENIDA ----------------------------------------------
 Clear-Host
 Write-Host ""
@@ -77,6 +225,29 @@ Write-Host "       Instalador MS4W + MapServer / MapCache          " -Foreground
 Write-Host "  =====================================================" -ForegroundColor Green
 Write-Host ""
 Write-Log "Inicio de instalacion"
+
+# --- SOLICITAR UNIDAD DE INSTALACION -------------------------------------
+$INSTALL_DRIVE = Read-ValidatedInput `
+    -Prompt    "Unidad para instalar MS4W y apps (C:, D:, E:, ...)" `
+    -Default   "C:" `
+    -Validator { param($v) $v -match '^[A-Za-z]:$' } `
+    -ErrorMsg  "Unidad no valida. Usa el formato C:, D:, E:, etc."
+
+$INSTALL_DRIVE = $INSTALL_DRIVE.ToUpper()
+$MS4W_ROOT     = "$INSTALL_DRIVE\ms4w"
+$APPS_ROOT     = "$INSTALL_DRIVE\apps"
+$APACHE_BIN    = "$MS4W_ROOT\Apache\cgi-bin"
+$APACHE_CONF   = "$MS4W_ROOT\Apache\conf"
+$APACHE_EXTRA  = "$MS4W_ROOT\Apache\conf\extra"
+$MS4W_ZIP      = "$APPS_ROOT\docs\$MS4W_FILE"
+$LOG_FILE      = "$APPS_ROOT\logs\install_log.txt"
+$APPS_ROOT_APACHE = $APPS_ROOT -replace '\\', '/'
+
+if (-not (Test-Path $APPS_ROOT)) {
+    throw "No se encontro $APPS_ROOT. Clona el repositorio en esa ruta, por ejemplo:`n  git clone https://github.com/luisamos/apps.git $APPS_ROOT"
+}
+
+Write-Log "Unidad de instalacion seleccionada: $INSTALL_DRIVE (APPS=$APPS_ROOT, MS4W=$MS4W_ROOT)"
 
 # --- SOLICITAR IP Y PUERTO -----------------------------------------------
 Write-Host "  Configuracion del servidor" -ForegroundColor Yellow
@@ -112,49 +283,32 @@ if ($confirm -ne "" -and $confirm -notmatch "^[Ss]$") {
 Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT"
 
 # --- PASO 1: Descargar MS4W si no existe en docs/ -------------------------
-Invoke-Step "Descargar ms4w_5.0.0.zip desde ms4w.com" {
+Invoke-Step "Preparar paquete $MS4W_FILE" {
     $docsDir = "$APPS_ROOT\docs"
     if (-not (Test-Path $docsDir)) {
         New-Item -ItemType Directory -Path $docsDir -Force | Out-Null
         Write-Log "Creado directorio: $docsDir"
     }
 
+    $mustDownload = $true
     if (Test-Path $MS4W_ZIP) {
-        $sizeMB = [math]::Round((Get-Item $MS4W_ZIP).Length / 1MB, 1)
-        Write-Log "ms4w_5.0.0.zip ya existe ($sizeMB MB), se omite la descarga." "WARN"
-    } else {
+        $existingBytes = (Get-Item $MS4W_ZIP).Length
+        $sizeMB = [math]::Round($existingBytes / 1MB, 1)
+        if (Test-Ms4wPackage -Path $MS4W_ZIP) {
+            Write-Log "$MS4W_FILE ya existe en $MS4W_ZIP ($sizeMB MB) y es valido; se instala sin descargar." "WARN"
+            $mustDownload = $false
+        } else {
+            Write-Log "$MS4W_FILE existente parece incompleto/corrupto ($sizeMB MB). Se eliminara para descargar nuevamente." "WARN"
+            Remove-Item -Path $MS4W_ZIP -Force -ErrorAction Stop
+        }
+    }
+
+    if ($mustDownload) {
         Write-Log "Descargando desde $MS4W_URL"
         Write-Host "  Destino: $MS4W_ZIP" -ForegroundColor DarkGray
         Write-Host "  Esto puede tardar varios minutos segun la velocidad de internet..." -ForegroundColor DarkGray
 
-        try {
-            # WebClient con barra de progreso en consola
-            $wc = New-Object System.Net.WebClient
-            $wc.add_DownloadProgressChanged({
-                param($s, $e)
-                if ($e.TotalBytesToReceive -gt 0) {
-                    $pct   = [math]::Round(($e.BytesReceived / $e.TotalBytesToReceive) * 100, 1)
-                    $recvMB  = [math]::Round($e.BytesReceived / 1MB, 1)
-                    $totalMB = [math]::Round($e.TotalBytesToReceive / 1MB, 1)
-                    Write-Host ("`r  [{0,-30}] {1}% — {2} MB / {3} MB  " -f `
-                        ("=" * [int]($pct / 100 * 30)), $pct, $recvMB, $totalMB) `
-                        -NoNewline -ForegroundColor Cyan
-                }
-            })
-            $task = $wc.DownloadFileTaskAsync($MS4W_URL, $MS4W_ZIP)
-            while (-not $task.IsCompleted) { Start-Sleep -Milliseconds 300 }
-            Write-Host ""
-            if ($task.IsFaulted) { throw $task.Exception.InnerException }
-
-        } catch {
-            Write-Host ""
-            Write-Log "Reintentando con Invoke-WebRequest..." "WARN"
-            Invoke-WebRequest -Uri $MS4W_URL -OutFile $MS4W_ZIP -UseBasicParsing
-        }
-
-        if (-not (Test-Path $MS4W_ZIP)) {
-            throw "La descarga fallo. Verifica la conexion o descarga manualmente desde:`n  $MS4W_URL`ny coloca el archivo en $MS4W_ZIP"
-        }
+        Download-FileWithRetry -Url $MS4W_URL -Destination $MS4W_ZIP -TimeoutSec 1200 -MinimumBytes $MS4W_MIN_BYTES
 
         $sizeMB = [math]::Round((Get-Item $MS4W_ZIP).Length / 1MB, 1)
         Write-Log "Descarga completada: $MS4W_ZIP ($sizeMB MB)"
@@ -162,13 +316,12 @@ Invoke-Step "Descargar ms4w_5.0.0.zip desde ms4w.com" {
 }
 
 # --- PASO 2: Instalar MS4W descomprimiendo el zip -------------------------
-Invoke-Step "Instalar MS4W en C:\ms4w" {
+Invoke-Step "Instalar MS4W en $MS4W_ROOT" {
     if (Test-Path "$MS4W_ROOT\Apache\bin\httpd.exe") {
         Write-Log "MS4W ya esta instalado en $MS4W_ROOT, se omite la descompresion." "WARN"
     } else {
-        Write-Log "Descomprimiendo $MS4W_ZIP  -->  C:\"
-        Expand-Archive -Path $MS4W_ZIP -DestinationPath "C:\" -Force
-        Write-Log "MS4W descomprimido en $MS4W_ROOT"
+        Write-Log "Descomprimiendo $MS4W_ZIP  -->  $INSTALL_DRIVE\"
+        Expand-Archive -Path $MS4W_ZIP -DestinationPath "$INSTALL_DRIVE\" -Force
         if (-not (Test-Path "$MS4W_ROOT\Apache\bin\httpd.exe")) {
             throw "No se encontro httpd.exe tras la descompresion. Verifica que el zip contiene la carpeta ms4w/"
         }
@@ -176,11 +329,11 @@ Invoke-Step "Instalar MS4W en C:\ms4w" {
 }
 
 # --- PASO 3: Verificar directorios del repo --------------------------------
-Invoke-Step "Verificar C:\apps" {
+Invoke-Step "Verificar $APPS_ROOT" {
     foreach ($dir in @("$APPS_ROOT\mapserv", "$APPS_ROOT\mapcache", "$APPS_ROOT\logs")) {
         if (Test-Path $dir) { Write-Log "OK (del repo): $dir" }
         else { New-Item -ItemType Directory -Path $dir -Force | Out-Null; Write-Log "Creado: $dir" }
-    }    
+    }
 }
 
 # --- PASO 4: Actualizar IP y puerto en los archivos .map ------------------
@@ -242,8 +395,8 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     ServerAdmin luisamos7@gmail.com
     ServerName $SERVER_IP
     ServerAlias $SERVER_IP
-    ErrorLog "/apps/logs/error_kaypacha.log"
-    CustomLog "/apps/logs/custom_kaypacha.log" common
+    ErrorLog "$APPS_ROOT_APACHE/logs/error_kaypacha.log"
+    CustomLog "$APPS_ROOT_APACHE/logs/custom_kaypacha.log" common
 
     ScriptAlias /servicio/ "/ms4w/Apache/cgi-bin/"
 
@@ -263,8 +416,17 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
         Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     </IfModule>
 
-    SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=/apps/mapserv/wms_kaypacha.map
-    SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=/apps/mapserv/wfs_kaypacha.map
+    SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wms_kaypacha.map
+    SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wfs_kaypacha.map
+
+    <IfModule mapcache_module>
+        <Directory "$APPS_ROOT_APACHE/mapcache/">
+            AllowOverride None
+            Options None
+            Require all granted
+        </Directory>
+        MapCacheAlias /mapcache "$APPS_ROOT_APACHE/mapcache/mapcache.xml"
+    </IfModule>
 </VirtualHost>
 "@
     Set-Content -Path "$APACHE_EXTRA\httpd-vhosts.conf" -Value $vhost -Encoding UTF8

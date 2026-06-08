@@ -2,7 +2,7 @@ LAYER
 	NAME "lote"
 	TYPE polygon
 	STATUS on
-	DATA "geom FROM (SELECT gid, id_ubigeo, cod_sector, cod_mzna, cod_lote, id_lote, ROUND(area_grafi::numeric, 2) AS area_grafi, ROUND(peri_grafi::numeric, 2) AS peri_grafi, cuc, geom FROM geo.tg_lote) as kaypacha using unique gid using srid=32719"
+	DATA "geom FROM (SELECT * FROM geo.vw_lote) as kaypacha using unique gid using srid=32719"
 	INCLUDE "configuracion/postgresql_allpa.map"
 	CLASSITEM "gid"
 	PROJECTION

@@ -8,7 +8,7 @@ con soporte para Windows (MS4W) y Ubuntu (Apache2 + apt).
 ```
 apps/
 ├── docs/
-│   ├── ms4w_5.0.0.zip          ← instalador MS4W para Windows
+│   ├── ms4w_5.2.0.zip          ← instalador MS4W para Windows
 │   ├── INSTALL_WINDOWS.md      ← guía de instalación en Windows
 │   └── INSTALL_UBUNTU.md       ← guía de instalación en Ubuntu
 ├── logs/                       ← logs de Apache

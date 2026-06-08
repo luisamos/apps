@@ -20,7 +20,7 @@ LAYER
 		"gml_include_items" "all"
 		"gml_featureid" "gid"
 		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson,json"
-		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+		"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
 	END
 	CLASS
 		NAME "predios"
