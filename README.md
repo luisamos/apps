@@ -1,6 +1,6 @@
-# apps — MapServer / MapCache
+# Servidor de Mapas (MapServer / MapCache)
 
-Repositorio de configuración para servicios WMS y WFS basados en MapServer,
+Repositorio de configuración para exponer los servicios OGC: WMS y WFS, servicio de cacheado de mapas basados en MapServer/MapCache ,
 con soporte para Windows (MS4W) y Ubuntu (Apache2 + apt).
 
 ## Estructura
