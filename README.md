@@ -46,6 +46,9 @@ Ejecutar **PowerShell como Administrador**:
 
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force
+```
+
+```powershell
 C:\apps\tmp\Uninstall-MS4W-Windows.ps1
 ```
 
@@ -62,6 +65,9 @@ El desinstalador permite:
 
 ```bash
 sudo chmod +x /apps/tmp/Uninstall-Mapserv-Ubuntu.sh
+```
+
+```bash
 sudo /apps/tmp/Uninstall-Mapserv-Ubuntu.sh
 ```
 
