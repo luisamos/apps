@@ -38,16 +38,6 @@ apps/
 
 ---
 
-## Instalación
-
-### Windows
-
-## Documentación completa → [docs/INSTALL_WINDOWS.md](docs/INSTALL_WINDOWS.md)
-
-### Ubuntu / Linux
-
-## Documentación completa → [docs/INSTALL_UBUNTU.md](docs/INSTALL_UBUNTU.md)
-
 ## Desinstalación rápida
 
 ### Windows
