@@ -1,6 +1,6 @@
 git init
 git add .
-git commit -m "v.2.6 | 10/06/2026 09:57"
+git commit -m "v.2.7 | 15/06/2026 23:06"
 git branch -M main
 git remote add origin https://github.com/luisamos/apps.git
 git push -u origin main
