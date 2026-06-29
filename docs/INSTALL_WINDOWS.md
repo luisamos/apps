@@ -52,21 +52,31 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 C:\apps\tmp\Install-MS4W-Windows.ps1
 ```
 
-El script te pedirá dos datos al inicio:
+El script te pedirá cuatro datos al inicio:
 
 ```
-  IP del servidor   [127.0.0.2]: _
-  Puerto del servidor    [8081]: _
+  IP del servidor                                  [127.0.0.2]: _
+  Puerto del servidor                                   [8081]: _
+  SRID/EPSG de las capas (solo el numero, p.ej. 32719) [32719]: _
+  EXTENT minx miny maxx maxy (unidades del SRID)    [<extent>]: _
 ```
 
 Presiona **Enter** para usar los valores por defecto, o ingresa los tuyos.
-El script valida que la IP tenga formato correcto y que el puerto sea un número entre 1 y 65535.
+
+- La **IP** se valida con formato `n.n.n.n` y el **puerto** debe ser un número entre 1 y 65535.
+- El **SRID/EPSG** es el código de referencia espacial de las capas catastrales de
+  `/mapserv/capas/kaypacha` (solo el número, p.ej. `32719` para UTM 19S o `4326` para geográficas).
+- El **EXTENT** define el área sobre la cual se publicarán los servicios WMS y WFS, expresado en las
+  unidades del SRID indicado, con el formato `minx miny maxx maxy` (4 números separados por espacios).
+
+Los valores por defecto de **SRID** y **EXTENT** se detectan automáticamente leyéndolos de la capa de
+referencia `mapserv\capas\kaypacha\wms\lote.map`, por lo que normalmente basta con presionar **Enter**.
 
 Una vez confirmada la configuración, el script ejecuta automáticamente los pasos del 3 al 10 descritos abajo.
 
 ---
 
-## Lo que hace el script (pasos 3 al 10)
+## Lo que hace el script (pasos 3 al 11)
 
 **Paso 3 — Descargar e instalar MS4W**
 El script detecta si `<UNIDAD>:\apps\docs\ms4w_5.2.0.zip` existe y es un ZIP válido. Si ya existe,
@@ -84,16 +94,33 @@ Abre `wms_kaypacha.map` y `wfs_kaypacha.map` en `C:\apps\mapserv\` y reemplaza
 la IP y el puerto en todas las directivas (`ows_onlineresource`, `wms_onlineresource`, URLs, etc.)
 con los valores que ingresaste.
 
-**Paso 6 — Duplicar `mapserv.exe`**
+**Paso 6 — Configurar SRID y EXTENT en los archivos `.map`**
+Con el SRID y el EXTENT indicados, el script reconfigura automáticamente la georreferenciación de
+los servicios:
+
+- **Capas de `C:\apps\mapserv\capas\kaypacha\`** (subcarpetas `wms\` y `wfs\`): en cada `.map`
+  actualiza el SRID en la consulta de datos (`using srid=<SRID>`), la proyección
+  (`init=epsg:<SRID>`), el SRS anunciado (`"wms_srs"` / `"wfs_srs"` → `EPSG:<SRID>`) y el área
+  publicada (`"wms_extent" "minx miny maxx maxy"`).
+- **Archivos principales `wms_kaypacha.map` y `wfs_kaypacha.map`**: actualiza el `EXTENT` a nivel
+  `MAP` (sin tocar el `EXTENT` del bloque `REFERENCE`), la `PROJECTION` (`init=epsg:<SRID>`) y el
+  SRS anunciado en los metadatos del servicio.
+
+> El reemplazo respeta las capas que usan deliberadamente otro SRID (por ejemplo, las capas de
+> reportes en `EPSG:4326`): solo se sustituye el SRID catastral anterior por el nuevo, no los
+> demás códigos EPSG. Por eso el paso es **idempotente** y puede reejecutarse sin dañar la
+> configuración.
+
+**Paso 7 — Duplicar `mapserv.exe`**
 Copia `C:\ms4w\Apache\cgi-bin\mapserv.exe` a:
 
 - `C:\ms4w\Apache\cgi-bin\wms`
 - `C:\ms4w\Apache\cgi-bin\wfs`
 
-**Paso 7 — Configurar `httpd.conf`**
+**Paso 8 — Configurar `httpd.conf`**
 Agrega `Listen <puerto>` junto al `Listen 80`, habilita `mod_headers` y deja habilitado `Include conf/extra/httpd-vhosts.conf` (descomentándolo si existe comentado).
 
-**Paso 8 — Generar el VirtualHost**
+**Paso 9 — Generar el VirtualHost**
 Escribe `C:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicados:
 
 ```apache
@@ -123,14 +150,14 @@ Escribe `C:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicad
 </VirtualHost>
 ```
 
-**Paso 9 — Alias de IP en loopback**
+**Paso 10 — Alias de IP en loopback**
 Si la IP empieza con `127.` la agrega al adaptador loopback de Windows:
 
 ```powershell
 netsh interface ip add address "Loopback Pseudo-Interface 1" <IP> 255.0.0.0
 ```
 
-**Paso 10 — Iniciar Apache**
+**Paso 11 — Iniciar Apache**
 Verifica la sintaxis de configuración (`httpd -t`), registra Apache como
 servicio de Windows con nombre `Apache MS4W Web Server` y lo inicia. El log de instalación queda en `C:\apps\logs\install_log.txt`.
 
@@ -160,8 +187,10 @@ C:\
     │   └── install_log.txt
     ├── mapcache\
     ├── mapserv\
-    │   ├── wms_kaypacha.map                 ← IP y puerto actualizados
-    │   └── wfs_kaypacha.map                 ← IP y puerto actualizados
+    │   ├── capas\
+    │   │   └── kaypacha\                     ← SRID y EXTENT actualizados (wms\ y wfs\)
+    │   ├── wms_kaypacha.map                 ← IP, puerto, SRID y EXTENT actualizados
+    │   └── wfs_kaypacha.map                 ← IP, puerto, SRID y EXTENT actualizados
     └── tmp\
         ├── Install-MS4W-Windows.ps1    ← instalador Windows
         ├── Install-Mapserv-Ubuntu.sh      ← instalador Ubuntu
@@ -204,6 +233,7 @@ http://127.0.0.2:8081/servicio/wfs?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabili
 | CORS bloqueado               | `mod_headers` deshabilitado | El script lo habilita automáticamente; reiniciar Apache       |
 | IP no responde               | Alias de loopback no creado | Ejecutar manualmente el comando `netsh` del Paso 9            |
 | Error al descomprimir `.zip` | PowerShell < 5.1            | Actualizar PowerShell o descomprimir manualmente en `C:\ms4w` |
+| Capas fuera del área / vacías | SRID o EXTENT incorrectos  | Reejecutar el instalador e ingresar el SRID y el EXTENT correctos (el paso es idempotente) |
 
 ---
 

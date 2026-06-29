@@ -266,10 +266,43 @@ $SERVER_PORT = Read-ValidatedInput `
     -Validator { param($v) $n = 0; [int]::TryParse($v, [ref]$n) -and $n -ge 1 -and $n -le 65535 } `
     -ErrorMsg  "Puerto no valido. Debe ser un numero entre 1 y 65535."
 
+# --- DETECTAR SRID Y EXTENT ACTUALES (valores por defecto) ----------------
+# Se leen desde una capa de referencia para proponerlos como valores por defecto.
+$DEFAULT_SRID   = "32719"
+$DEFAULT_EXTENT = "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+$refLayer = "$APPS_ROOT\mapserv\capas\kaypacha\wms\lote.map"
+if (Test-Path $refLayer) {
+    $refContent = Get-Content $refLayer -Raw -Encoding UTF8
+    if ($refContent -match 'using\s+srid=(\d+)') { $DEFAULT_SRID = $Matches[1] }
+    if ($refContent -match '"wms_extent"\s+"([^"]+)"') { $DEFAULT_EXTENT = $Matches[1] }
+}
+
+Write-Host ""
+Write-Host "  Configuracion geoespacial (capas de /mapserv/capas/kaypacha)" -ForegroundColor Yellow
+Write-Host "  -------------------------------------------------" -ForegroundColor DarkGray
+Write-Host ""
+
+# SRID sobre el cual se desplegaran los servicios WMS y WFS
+$SERVICE_SRID = Read-ValidatedInput `
+    -Prompt    "SRID/EPSG de las capas (solo el numero, p.ej. 32719)" `
+    -Default   $DEFAULT_SRID `
+    -Validator { param($v) $v -match '^\d{4,6}$' } `
+    -ErrorMsg  "SRID no valido. Ingresa solo el codigo numerico EPSG, p.ej. 32719 o 4326."
+
+# EXTENT (en las unidades del SRID indicado): minx miny maxx maxy
+$SERVICE_EXTENT = Read-ValidatedInput `
+    -Prompt    "EXTENT minx miny maxx maxy (unidades del SRID)" `
+    -Default   $DEFAULT_EXTENT `
+    -Validator { param($v) ($v.Trim() -split '\s+').Count -eq 4 -and -not (($v.Trim() -split '\s+') | Where-Object { $_ -notmatch '^-?\d+(\.\d+)?$' }) } `
+    -ErrorMsg  "EXTENT no valido. Deben ser 4 numeros separados por espacios: minx miny maxx maxy."
+$SERVICE_EXTENT = ($SERVICE_EXTENT.Trim() -split '\s+') -join ' '
+
 Write-Host ""
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
 Write-Host ("  |  IP configurada : " + $SERVER_IP)                  -ForegroundColor Cyan
 Write-Host ("  |  Puerto         : " + $SERVER_PORT)                 -ForegroundColor Cyan
+Write-Host ("  |  SRID/EPSG      : " + $SERVICE_SRID)                -ForegroundColor Cyan
+Write-Host ("  |  EXTENT         : " + $SERVICE_EXTENT)              -ForegroundColor Cyan
 Write-Host ("  |  WMS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wms") -ForegroundColor Cyan
 Write-Host ("  |  WFS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wfs") -ForegroundColor Cyan
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
@@ -280,7 +313,7 @@ if ($confirm -ne "" -and $confirm -notmatch "^[Ss]$") {
     Write-Host "  Instalacion cancelada." -ForegroundColor Yellow
     exit 0
 }
-Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT"
+Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT  SRID: $SERVICE_SRID  EXTENT: $SERVICE_EXTENT"
 
 # --- PASO 1: Descargar MS4W si no existe en docs/ -------------------------
 Invoke-Step "Preparar paquete $MS4W_FILE" {
@@ -352,7 +385,53 @@ Invoke-Step "Actualizar IP (${SERVER_IP}:${SERVER_PORT}) en archivos .map" {
     }
 }
 
-# --- PASO 5: Duplicar mapserv.exe en wms y wfs (sin extension) ------------
+# --- PASO 5: Configurar SRID y EXTENT en los archivos .map ----------------
+Invoke-Step "Configurar SRID ($SERVICE_SRID) y EXTENT en archivos .map de Kaypacha" {
+    $OLD_SRID = $DEFAULT_SRID
+
+    # 5.1 — Capas de /mapserv/capas/kaypacha (WMS y WFS)
+    $capasDir = "$APPS_ROOT\mapserv\capas\kaypacha"
+    if (Test-Path $capasDir) {
+        $layerFiles = Get-ChildItem -Path $capasDir -Recurse -Filter *.map -File
+        foreach ($f in $layerFiles) {
+            $c = Get-Content $f.FullName -Raw -Encoding UTF8
+            $orig = $c
+            # SRID principal del catastro: se reemplaza solo el SRID anterior,
+            # respetando capas que usan deliberadamente otro SRID (p.ej. EPSG:4326 en reportes).
+            $c = $c -replace "using\s+srid=$OLD_SRID", "using srid=$SERVICE_SRID"
+            $c = $c -replace "init=epsg:$OLD_SRID", "init=epsg:$SERVICE_SRID"
+            $c = $c -replace "EPSG:$OLD_SRID\b", "EPSG:$SERVICE_SRID"
+            # EXTENT de cada capa (metadato wms_extent)
+            $c = $c -replace '("wms_extent"\s+")[^"]*(")', "`${1}$SERVICE_EXTENT`${2}"
+            if ($c -ne $orig) {
+                Set-Content -Path $f.FullName -Value $c -Encoding UTF8
+                Write-Log "SRID/EXTENT actualizado en capa: capas\kaypacha\$($f.Directory.Name)\$($f.Name)"
+            }
+        }
+    } else {
+        Write-Log "No se encontro $capasDir, se omite la configuracion de capas." "WARN"
+    }
+
+    # 5.2 — Archivos principales wms_kaypacha.map y wfs_kaypacha.map
+    foreach ($mapFile in @("$APPS_ROOT\mapserv\wms_kaypacha.map", "$APPS_ROOT\mapserv\wfs_kaypacha.map")) {
+        if (Test-Path $mapFile) {
+            $c = Get-Content $mapFile -Raw -Encoding UTF8
+            # EXTENT a nivel MAP (primera ocurrencia; NO toca el EXTENT del bloque REFERENCE)
+            $rxExtent = [regex]'(?m)^(\s*EXTENT\s+).*$'
+            $c = $rxExtent.Replace($c, "`${1}$SERVICE_EXTENT", 1)
+            # PROJECTION a nivel MAP
+            $c = $c -replace 'init=epsg:\d+', "init=epsg:$SERVICE_SRID"
+            # SRS anunciado: se reemplaza el SRID anterior por el nuevo
+            $c = $c -replace "EPSG:$OLD_SRID\b", "EPSG:$SERVICE_SRID"
+            Set-Content -Path $mapFile -Value $c -Encoding UTF8
+            Write-Log "SRID/EXTENT actualizado en: $(Split-Path $mapFile -Leaf)  (SRID=$SERVICE_SRID)"
+        } else {
+            Write-Log "No encontrado, se omite: $mapFile" "WARN"
+        }
+    }
+}
+
+# --- PASO 6: Duplicar mapserv.exe en wms y wfs (sin extension) ------------
 Invoke-Step "Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extension)" {
     $src = "$APACHE_BIN\mapserv.exe"
     if (-not (Test-Path $src)) { throw "mapserv.exe no encontrado en $src" }
@@ -361,7 +440,7 @@ Invoke-Step "Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extensi
     Write-Log "mapserv.exe copiado como cgi-bin\wms y cgi-bin\wfs"
 }
 
-# --- PASO 6: Configurar httpd.conf ----------------------------------------
+# --- PASO 7: Configurar httpd.conf ----------------------------------------
 Invoke-Step "Configurar httpd.conf  (Listen $SERVER_PORT + mod_headers)" {
     $httpdConf = "$APACHE_CONF\httpd.conf"
     if (-not (Test-Path $httpdConf)) { throw "No se encontro $httpdConf" }
@@ -384,7 +463,7 @@ Invoke-Step "Configurar httpd.conf  (Listen $SERVER_PORT + mod_headers)" {
     Set-Content -Path $httpdConf -Value $c -Encoding UTF8
 }
 
-# --- PASO 7: Generar VirtualHost ------------------------------------------
+# --- PASO 8: Generar VirtualHost ------------------------------------------
 Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     if (-not (Test-Path $APACHE_EXTRA)) { New-Item -ItemType Directory -Path $APACHE_EXTRA -Force | Out-Null }
     $vhost = @"
@@ -433,7 +512,7 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     Write-Log "VirtualHost escrito en $APACHE_EXTRA\httpd-vhosts.conf"
 }
 
-# --- PASO 8: Agregar IP al loopback (solo 127.x.x.x) ---------------------
+# --- PASO 9: Agregar IP al loopback (solo 127.x.x.x) ---------------------
 Invoke-Step "Configurar IP $SERVER_IP en adaptador de red" {
     if ($SERVER_IP -match "^127\.") {
         $existing = netsh interface ip show address "Loopback Pseudo-Interface 1" 2>&1
@@ -446,7 +525,7 @@ Invoke-Step "Configurar IP $SERVER_IP en adaptador de red" {
     }
 }
 
-# --- PASO 9: Registrar e iniciar Apache como servicio ---------------------
+# --- PASO 10: Registrar e iniciar Apache como servicio --------------------
 Invoke-Step "Registrar e iniciar Apache como servicio Windows" {
     $httpdExe = "$MS4W_ROOT\Apache\bin\httpd.exe"
     $result = & $httpdExe -t 2>&1
