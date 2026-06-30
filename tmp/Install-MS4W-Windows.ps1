@@ -7,13 +7,14 @@
         git clone https://github.com/luisamos/apps.git D:\apps
 
     Luego este script hace todo lo demas:
-    - Solicita la IP, el puerto, el SRID, el EXTENT y la ruta del raster de la ortofoto
+    - Solicita IP, puerto, SRID, EXTENT, ruta del raster de la ortofoto y entidad
     - Descarga ms4w_5.2.0.zip desde ms4w.com si no existe en <UNIDAD>:\apps\docs\
     - Descomprime <UNIDAD>:\apps\docs\ms4w_5.2.0.zip en <UNIDAD>:\ms4w
     - Verifica que <UNIDAD>:\apps\mapserv, mapcache y logs existan (vienen del repo)
     - Actualiza la IP y el puerto dentro de wms_kaypacha.map y wfs_kaypacha.map
     - Configura el SRID y el EXTENT en los .map de /mapserv/capas/kaypacha
-    - Actualiza la ruta DATA del raster (ECW/GeoTIFF) en ortofoto.map
+    - Reemplaza el nombre de la entidad/propietario en title y abstract de cada capa
+    - Actualiza la ruta DATA y el EXTENT del raster (ECW/GeoTIFF) en ortofoto.map
     - Duplica mapserv.exe en cgi-bin\wms y cgi-bin\wfs
     - Agrega Listen <puerto> al httpd.conf y habilita mod_headers
     - Genera httpd-vhosts.conf con DocumentRoot, GDAL_DRIVER_PATH y MapCache
@@ -323,6 +324,23 @@ $RASTER_PATH = Read-ValidatedInput `
     -ErrorMsg  "Ruta no valida. Debe terminar en .ecw, .tif, .tiff, .jp2, .img o .vrt"
 $RASTER_PATH = $RASTER_PATH -replace '\\', '/'
 
+# --- DETECTAR ENTIDAD/PROPIETARIO DE LAS CAPAS (valor por defecto) ---------
+# Nombre de la entidad que aparece en los abstract/title de cada capa.
+$DEFAULT_ENTITY = "Municipalidad Distrital de Wanchaq"
+if (Test-Path $refLayer) {
+    if ($refContent -match '"wms_abstract"\s+"Lote \|\| (.+?)(?: - Cusco)? ::') {
+        $DEFAULT_ENTITY = $Matches[1].Trim()
+    }
+}
+$OLD_ENTITY = $DEFAULT_ENTITY
+
+$ENTITY_NAME = Read-ValidatedInput `
+    -Prompt    "Nombre de la entidad/propietario de las capas" `
+    -Default   $DEFAULT_ENTITY `
+    -Validator { param($v) -not [string]::IsNullOrWhiteSpace($v) } `
+    -ErrorMsg  "El nombre de la entidad no puede estar vacio."
+$ENTITY_NAME = $ENTITY_NAME.Trim()
+
 Write-Host ""
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
 Write-Host ("  |  IP configurada : " + $SERVER_IP)                  -ForegroundColor Cyan
@@ -330,6 +348,7 @@ Write-Host ("  |  Puerto         : " + $SERVER_PORT)                 -Foreground
 Write-Host ("  |  SRID/EPSG      : " + $SERVICE_SRID)                -ForegroundColor Cyan
 Write-Host ("  |  EXTENT         : " + $SERVICE_EXTENT)              -ForegroundColor Cyan
 Write-Host ("  |  Raster ortofoto: " + $RASTER_PATH)                 -ForegroundColor Cyan
+Write-Host ("  |  Entidad        : " + $ENTITY_NAME)                 -ForegroundColor Cyan
 Write-Host ("  |  WMS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wms") -ForegroundColor Cyan
 Write-Host ("  |  WFS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wfs") -ForegroundColor Cyan
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
@@ -340,7 +359,7 @@ if ($confirm -ne "" -and $confirm -notmatch "^[Ss]$") {
     Write-Host "  Instalacion cancelada." -ForegroundColor Yellow
     exit 0
 }
-Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT  SRID: $SERVICE_SRID  EXTENT: $SERVICE_EXTENT  Raster: $RASTER_PATH"
+Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT  SRID: $SERVICE_SRID  EXTENT: $SERVICE_EXTENT  Raster: $RASTER_PATH  Entidad: $ENTITY_NAME"
 
 # --- PASO 1: Descargar MS4W si no existe en docs/ -------------------------
 Invoke-Step "Preparar paquete $MS4W_FILE" {
@@ -412,9 +431,11 @@ Invoke-Step "Actualizar IP (${SERVER_IP}:${SERVER_PORT}) en archivos .map" {
     }
 }
 
-# --- PASO 5: Configurar SRID y EXTENT en los archivos .map ----------------
-Invoke-Step "Configurar SRID ($SERVICE_SRID) y EXTENT en archivos .map de Kaypacha" {
-    $OLD_SRID = $DEFAULT_SRID
+# --- PASO 5: Configurar SRID, EXTENT y entidad en los archivos .map -------
+Invoke-Step "Configurar SRID ($SERVICE_SRID), EXTENT y entidad en archivos .map de Kaypacha" {
+    $OLD_SRID    = $DEFAULT_SRID
+    $entityRx    = [regex]::Escape($OLD_ENTITY)
+    $entityRepl  = $ENTITY_NAME.Replace('$', '$$')   # protege '$' en el reemplazo
 
     # 5.1 — Capas de /mapserv/capas/kaypacha (WMS y WFS)
     $capasDir = "$APPS_ROOT\mapserv\capas\kaypacha"
@@ -430,9 +451,13 @@ Invoke-Step "Configurar SRID ($SERVICE_SRID) y EXTENT en archivos .map de Kaypac
             $c = $c -replace "EPSG:$OLD_SRID\b", "EPSG:$SERVICE_SRID"
             # EXTENT de cada capa (metadato wms_extent)
             $c = $c -replace '("wms_extent"\s+")[^"]*(")', "`${1}$SERVICE_EXTENT`${2}"
+            # Nombre de la entidad/propietario en title y abstract de cada capa
+            if ($OLD_ENTITY -ne $ENTITY_NAME) {
+                $c = $c -replace $entityRx, $entityRepl
+            }
             if ($c -ne $orig) {
                 Set-Content -Path $f.FullName -Value $c -Encoding UTF8
-                Write-Log "SRID/EXTENT actualizado en capa: capas\kaypacha\$($f.Directory.Name)\$($f.Name)"
+                Write-Log "Actualizado (SRID/EXTENT/entidad): capas\kaypacha\$($f.Directory.Name)\$($f.Name)"
             }
         }
     } else {
@@ -457,17 +482,27 @@ Invoke-Step "Configurar SRID ($SERVICE_SRID) y EXTENT en archivos .map de Kaypac
         }
     }
 
-    # 5.3 — Ruta del raster en la capa ortofoto (DATA)
+    # 5.3 — Capa ortofoto: ruta del raster (DATA) y EXTENT a nivel LAYER
+    # El EXTENT explicito evita la advertencia "Ex_GeographicBoundingBox could not be
+    # established" en el GetCapabilities cuando el raster aun no existe en disco.
     if (Test-Path $ortofotoMap) {
         $c = Get-Content $ortofotoMap -Raw -Encoding UTF8
         $rxData = [regex]'(?im)^(\s*DATA\s+")[^"]*(")'
         if ($rxData.IsMatch($c)) {
             $c = $rxData.Replace($c, "`${1}$RASTER_PATH`${2}", 1)
-            Set-Content -Path $ortofotoMap -Value $c -Encoding UTF8
             Write-Log "Raster de ortofoto actualizado: $RASTER_PATH"
         } else {
             Write-Log "No se encontro directiva DATA en ortofoto.map; se omite." "WARN"
         }
+        # EXTENT a nivel LAYER: se actualiza si existe, o se inserta tras OFFSITE/TYPE.
+        $rxLayerExtent = [regex]'(?m)^(\s*EXTENT\s+).*$'
+        if ($rxLayerExtent.IsMatch($c)) {
+            $c = $rxLayerExtent.Replace($c, "`${1}$SERVICE_EXTENT", 1)
+        } else {
+            $c = $c -replace '(?im)^(\s*)(PROJECTION\b)', "`${1}EXTENT $SERVICE_EXTENT`r`n`${1}`${2}"
+        }
+        Set-Content -Path $ortofotoMap -Value $c -Encoding UTF8
+        Write-Log "EXTENT de ortofoto configurado: $SERVICE_EXTENT"
     } else {
         Write-Log "No se encontro $ortofotoMap; se omite la ruta del raster." "WARN"
     }

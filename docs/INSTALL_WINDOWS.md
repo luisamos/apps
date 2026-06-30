@@ -52,7 +52,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force
 C:\apps\tmp\Install-MS4W-Windows.ps1
 ```
 
-El script te pedirá cinco datos al inicio:
+El script te pedirá seis datos al inicio:
 
 ```
   IP del servidor                                  [127.0.0.2]: _
@@ -60,6 +60,7 @@ El script te pedirá cinco datos al inicio:
   SRID/EPSG de las capas (solo el numero, p.ej. 32719) [32719]: _
   EXTENT minx miny maxx maxy (unidades del SRID)    [<extent>]: _
   Ruta del raster de la ortofoto (ECW/GeoTIFF)      [<raster>]: _
+  Nombre de la entidad/propietario de las capas     [<entidad>]: _
 ```
 
 Presiona **Enter** para usar los valores por defecto, o ingresa los tuyos.
@@ -72,10 +73,12 @@ Presiona **Enter** para usar los valores por defecto, o ingresa los tuyos.
 - La **ruta del raster de la ortofoto** es el archivo `ECW`/`GeoTIFF` que usa la capa `ortofoto`
   (directiva `DATA` de `ortofoto.map`), p.ej. `C:/apps/mapserv/archivos/raster/machupicchu.ecw`.
   Debe terminar en `.ecw`, `.tif`, `.tiff`, `.jp2`, `.img` o `.vrt`.
+- El **nombre de la entidad/propietario** es el texto que aparece en el `title`/`abstract` de cada
+  capa (por defecto `Municipalidad Distrital de Wanchaq`); el script lo reemplaza por el que indiques.
 
-Los valores por defecto de **SRID**, **EXTENT** y **ruta del raster** se detectan automáticamente
-leyéndolos de `mapserv\capas\kaypacha\wms\lote.map` y `ortofoto.map` (ajustando la unidad de disco),
-por lo que normalmente basta con presionar **Enter**.
+Los valores por defecto de **SRID**, **EXTENT**, **ruta del raster** y **entidad** se detectan
+automáticamente leyéndolos de `mapserv\capas\kaypacha\wms\lote.map` y `ortofoto.map` (ajustando la
+unidad de disco), por lo que normalmente basta con presionar **Enter**.
 
 Una vez confirmada la configuración, el script ejecuta automáticamente los pasos del 3 al 12 descritos abajo.
 
@@ -99,14 +102,15 @@ Abre `wms_kaypacha.map` y `wfs_kaypacha.map` en `C:\apps\mapserv\` y reemplaza
 la IP y el puerto en todas las directivas (`ows_onlineresource`, `wms_onlineresource`, URLs, etc.)
 con los valores que ingresaste.
 
-**Paso 6 — Configurar SRID y EXTENT en los archivos `.map`**
-Con el SRID y el EXTENT indicados, el script reconfigura automáticamente la georreferenciación de
-los servicios:
+**Paso 6 — Configurar SRID, EXTENT y entidad en los archivos `.map`**
+Con el SRID, el EXTENT y la entidad indicados, el script reconfigura automáticamente la
+georreferenciación y los metadatos de los servicios:
 
 - **Capas de `C:\apps\mapserv\capas\kaypacha\`** (subcarpetas `wms\` y `wfs\`): en cada `.map`
   actualiza el SRID en la consulta de datos (`using srid=<SRID>`), la proyección
-  (`init=epsg:<SRID>`), el SRS anunciado (`"wms_srs"` / `"wfs_srs"` → `EPSG:<SRID>`) y el área
-  publicada (`"wms_extent" "minx miny maxx maxy"`).
+  (`init=epsg:<SRID>`), el SRS anunciado (`"wms_srs"` / `"wfs_srs"` → `EPSG:<SRID>`), el área
+  publicada (`"wms_extent" "minx miny maxx maxy"`) y el **nombre de la entidad/propietario** en el
+  `title`/`abstract` (reemplaza `Municipalidad Distrital de Wanchaq` por el que indiques).
 - **Archivos principales `wms_kaypacha.map` y `wfs_kaypacha.map`**: actualiza el `EXTENT` a nivel
   `MAP` (sin tocar el `EXTENT` del bloque `REFERENCE`), la `PROJECTION` (`init=epsg:<SRID>`) y el
   SRS anunciado en los metadatos del servicio.
@@ -116,9 +120,11 @@ los servicios:
 > demás códigos EPSG. Por eso el paso es **idempotente** y puede reejecutarse sin dañar la
 > configuración.
 
-Además, actualiza la directiva `DATA` de `capas\kaypacha\wms\ortofoto.map` con la **ruta del raster
-de la ortofoto** que indicaste (p.ej. `C:/apps/mapserv/archivos/raster/machupicchu.ecw`), ajustando la
-unidad de disco a la de instalación.
+Además, en `capas\kaypacha\wms\ortofoto.map` actualiza la directiva `DATA` con la **ruta del raster
+de la ortofoto** que indicaste (ajustando la unidad de disco) y fija el `EXTENT` a nivel `LAYER` (más
+el metadato `"wms_extent"`). Esto **evita la advertencia** del `GetCapabilities`
+*"Ex_GeographicBoundingBox could not be established for this layer"* cuando el archivo raster todavía
+no existe en disco.
 
 **Paso 7 — Duplicar `mapserv.exe`**
 Copia `C:\ms4w\Apache\cgi-bin\mapserv.exe` a:

@@ -20,7 +20,7 @@ LAYER
 		"wms_metadataurl_format" "text/xml"
 		"wms_metadataurl_type" "TC211"
 		"wms_title" "Parque"
-		"wms_abstract" "Parque || Municipalidad Distrital a Wanchaq - Cusco :: Perú"
+		"wms_abstract" "Parque || Municipalidad Distrital de Wanchaq - Cusco :: Perú"
 		"wms_dataurl" ""
 		"wms_dataurl_format" "text/html"
 		"wms_dataurl_href" ""

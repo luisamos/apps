@@ -6,6 +6,7 @@ LAYER
     TYPE RASTER
     PROCESSING "BANDS=1,2,3"
     OFFSITE 71 74 65
+    EXTENT 178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547
     PROJECTION
       "init=epsg:32719"
     END
@@ -13,5 +14,7 @@ LAYER
         "wms_group_title" "Cartografía base"
         "wms_title" "Distrito de Wanchaq"
         "wms_abstract" "Esta capa contiene mosaicos de la Municipalidad Distrital de Wanchaq."
+        "wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+        "wms_srs" "EPSG:32719"
     END
 END
