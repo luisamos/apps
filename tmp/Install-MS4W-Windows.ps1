@@ -7,14 +7,17 @@
         git clone https://github.com/luisamos/apps.git D:\apps
 
     Luego este script hace todo lo demas:
-    - Solicita la IP y el puerto donde correra MS4W (con valores por defecto)
+    - Solicita la IP, el puerto, el SRID, el EXTENT y la ruta del raster de la ortofoto
     - Descarga ms4w_5.2.0.zip desde ms4w.com si no existe en <UNIDAD>:\apps\docs\
     - Descomprime <UNIDAD>:\apps\docs\ms4w_5.2.0.zip en <UNIDAD>:\ms4w
     - Verifica que <UNIDAD>:\apps\mapserv, mapcache y logs existan (vienen del repo)
     - Actualiza la IP y el puerto dentro de wms_kaypacha.map y wfs_kaypacha.map
+    - Configura el SRID y el EXTENT en los .map de /mapserv/capas/kaypacha
+    - Actualiza la ruta DATA del raster (ECW/GeoTIFF) en ortofoto.map
     - Duplica mapserv.exe en cgi-bin\wms y cgi-bin\wfs
     - Agrega Listen <puerto> al httpd.conf y habilita mod_headers
-    - Genera httpd-vhosts.conf con la IP y puerto indicados
+    - Genera httpd-vhosts.conf con DocumentRoot, GDAL_DRIVER_PATH y MapCache
+    - Habilita MapCache ajustando mapcache.xml (IP/puerto y unidad de instalacion)
     - Agrega la IP al adaptador loopback si es 127.x.x.x
     - Registra Apache como servicio de Windows y lo arranca
 .NOTES
@@ -297,12 +300,36 @@ $SERVICE_EXTENT = Read-ValidatedInput `
     -ErrorMsg  "EXTENT no valido. Deben ser 4 numeros separados por espacios: minx miny maxx maxy."
 $SERVICE_EXTENT = ($SERVICE_EXTENT.Trim() -split '\s+') -join ' '
 
+# --- DETECTAR RUTA DEL RASTER (ortofoto) ----------------------------------
+# Ruta del archivo raster (ECW/GeoTIFF) usado por la capa ortofoto del WMS.
+$DEFAULT_RASTER = "$APPS_ROOT_APACHE/mapserv/archivos/raster/machupicchu.ecw"
+$ortofotoMap = "$APPS_ROOT\mapserv\capas\kaypacha\wms\ortofoto.map"
+if (Test-Path $ortofotoMap) {
+    $ortoContent = Get-Content $ortofotoMap -Raw -Encoding UTF8
+    if ($ortoContent -match '(?im)^\s*DATA\s+"([^"]+)"') {
+        $detected = $Matches[1]
+        # Normaliza la unidad al disco de instalacion y usa "/"
+        $detected = $detected -replace '\\', '/'
+        $detected = $detected -replace '^[A-Za-z]:', $INSTALL_DRIVE
+        $detected = $detected -replace '^/apps', "$APPS_ROOT_APACHE"
+        $DEFAULT_RASTER = $detected
+    }
+}
+
+$RASTER_PATH = Read-ValidatedInput `
+    -Prompt    "Ruta del raster de la ortofoto (ECW/GeoTIFF)" `
+    -Default   $DEFAULT_RASTER `
+    -Validator { param($v) $v -match '\.(ecw|tif|tiff|jp2|img|vrt)$' } `
+    -ErrorMsg  "Ruta no valida. Debe terminar en .ecw, .tif, .tiff, .jp2, .img o .vrt"
+$RASTER_PATH = $RASTER_PATH -replace '\\', '/'
+
 Write-Host ""
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
 Write-Host ("  |  IP configurada : " + $SERVER_IP)                  -ForegroundColor Cyan
 Write-Host ("  |  Puerto         : " + $SERVER_PORT)                 -ForegroundColor Cyan
 Write-Host ("  |  SRID/EPSG      : " + $SERVICE_SRID)                -ForegroundColor Cyan
 Write-Host ("  |  EXTENT         : " + $SERVICE_EXTENT)              -ForegroundColor Cyan
+Write-Host ("  |  Raster ortofoto: " + $RASTER_PATH)                 -ForegroundColor Cyan
 Write-Host ("  |  WMS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wms") -ForegroundColor Cyan
 Write-Host ("  |  WFS : http://" + $SERVER_IP + ":" + $SERVER_PORT + "/servicio/wfs") -ForegroundColor Cyan
 Write-Host "  +-------------------------------------------------+" -ForegroundColor DarkCyan
@@ -313,7 +340,7 @@ if ($confirm -ne "" -and $confirm -notmatch "^[Ss]$") {
     Write-Host "  Instalacion cancelada." -ForegroundColor Yellow
     exit 0
 }
-Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT  SRID: $SERVICE_SRID  EXTENT: $SERVICE_EXTENT"
+Write-Log "Configuracion confirmada — IP: $SERVER_IP  Puerto: $SERVER_PORT  SRID: $SERVICE_SRID  EXTENT: $SERVICE_EXTENT  Raster: $RASTER_PATH"
 
 # --- PASO 1: Descargar MS4W si no existe en docs/ -------------------------
 Invoke-Step "Preparar paquete $MS4W_FILE" {
@@ -429,6 +456,21 @@ Invoke-Step "Configurar SRID ($SERVICE_SRID) y EXTENT en archivos .map de Kaypac
             Write-Log "No encontrado, se omite: $mapFile" "WARN"
         }
     }
+
+    # 5.3 — Ruta del raster en la capa ortofoto (DATA)
+    if (Test-Path $ortofotoMap) {
+        $c = Get-Content $ortofotoMap -Raw -Encoding UTF8
+        $rxData = [regex]'(?im)^(\s*DATA\s+")[^"]*(")'
+        if ($rxData.IsMatch($c)) {
+            $c = $rxData.Replace($c, "`${1}$RASTER_PATH`${2}", 1)
+            Set-Content -Path $ortofotoMap -Value $c -Encoding UTF8
+            Write-Log "Raster de ortofoto actualizado: $RASTER_PATH"
+        } else {
+            Write-Log "No se encontro directiva DATA en ortofoto.map; se omite." "WARN"
+        }
+    } else {
+        Write-Log "No se encontro $ortofotoMap; se omite la ruta del raster." "WARN"
+    }
 }
 
 # --- PASO 6: Duplicar mapserv.exe en wms y wfs (sin extension) ------------
@@ -463,9 +505,18 @@ Invoke-Step "Configurar httpd.conf  (Listen $SERVER_PORT + mod_headers)" {
     Set-Content -Path $httpdConf -Value $c -Encoding UTF8
 }
 
-# --- PASO 8: Generar VirtualHost ------------------------------------------
+# --- PASO 8: Generar VirtualHost (con DocumentRoot y MapCache) ------------
 Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     if (-not (Test-Path $APACHE_EXTRA)) { New-Item -ItemType Directory -Path $APACHE_EXTRA -Force | Out-Null }
+
+    $MS4W_ROOT_APACHE = $MS4W_ROOT -replace '\\', '/'
+    $DOCROOT_APACHE   = "$APPS_ROOT_APACHE/www/visor-kaypacha"
+    $docRootWin       = "$APPS_ROOT\www\visor-kaypacha"
+    if (-not (Test-Path $docRootWin)) {
+        New-Item -ItemType Directory -Path $docRootWin -Force | Out-Null
+        Write-Log "Creado DocumentRoot: $docRootWin"
+    }
+
     $vhost = @"
 # VirtualHost MS4W MapServer/MapCache
 # Generado por Install-MS4W-Windows.ps1  |  IP: $SERVER_IP  |  Puerto: $SERVER_PORT
@@ -474,8 +525,19 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     ServerAdmin luisamos7@gmail.com
     ServerName $SERVER_IP
     ServerAlias $SERVER_IP
+    DocumentRoot "$DOCROOT_APACHE"
     ErrorLog "$APPS_ROOT_APACHE/logs/error_kaypacha.log"
     CustomLog "$APPS_ROOT_APACHE/logs/custom_kaypacha.log" common
+
+    <Directory "$DOCROOT_APACHE">
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride all
+        Order allow,deny
+        allow from all
+        Header set Access-Control-Allow-Origin "*"
+        Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+    </Directory>
 
     ScriptAlias /servicio/ "/ms4w/Apache/cgi-bin/"
 
@@ -484,6 +546,7 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
         Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
         Order allow,deny
         Allow from all
+        Require all granted
         <IfModule mod_headers.c>
             Header set Access-Control-Allow-Origin "*"
         </IfModule>
@@ -497,6 +560,8 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
 
     SetEnvIf Request_URI "/servicio/wms" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wms_kaypacha.map
     SetEnvIf Request_URI "/servicio/wfs" MS_MAPFILE=$APPS_ROOT_APACHE/mapserv/wfs_kaypacha.map
+
+    SetEnv GDAL_DRIVER_PATH "$MS4W_ROOT_APACHE/gdalplugins"
 
     <IfModule mapcache_module>
         <Directory "$APPS_ROOT_APACHE/mapcache/">
@@ -512,7 +577,27 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
     Write-Log "VirtualHost escrito en $APACHE_EXTRA\httpd-vhosts.conf"
 }
 
-# --- PASO 9: Agregar IP al loopback (solo 127.x.x.x) ---------------------
+# --- PASO 9: Configurar y habilitar MapCache (mapcache.xml) ----------------
+Invoke-Step "Configurar MapCache (mapcache.xml) con IP/puerto y unidad $INSTALL_DRIVE" {
+    $mapcacheXml = "$APPS_ROOT\mapcache\mapcache.xml"
+    if (-not (Test-Path $mapcacheXml)) {
+        Write-Log "No se encontro $mapcacheXml; se omite la configuracion de MapCache." "WARN"
+        return
+    }
+
+    # El servicio WMS/WMTS al que apunta MapCache. Si el puerto es 80 se omite (host por defecto).
+    $WMS_HOST = if ($SERVER_PORT -eq "80") { $SERVER_IP } else { "${SERVER_IP}:${SERVER_PORT}" }
+
+    $c = Get-Content $mapcacheXml -Raw -Encoding UTF8
+    # Ajusta la unidad de instalacion en las rutas (<base>, <template>, <dbfile>, <lock_dir>)
+    $c = $c -replace '[A-Za-z]:/apps', "$APPS_ROOT_APACHE"
+    # Apunta cada fuente WMS a la IP y puerto indicados
+    $c = $c -replace '(<url>\s*http://)[^/]+(/servicio/wms\?\s*</url>)', "`${1}$WMS_HOST`${2}"
+    Set-Content -Path $mapcacheXml -Value $c -Encoding UTF8
+    Write-Log "mapcache.xml actualizado (host WMS=$WMS_HOST, unidad=$INSTALL_DRIVE)"
+}
+
+# --- PASO 10: Agregar IP al loopback (solo 127.x.x.x) --------------------
 Invoke-Step "Configurar IP $SERVER_IP en adaptador de red" {
     if ($SERVER_IP -match "^127\.") {
         $existing = netsh interface ip show address "Loopback Pseudo-Interface 1" 2>&1
@@ -525,7 +610,7 @@ Invoke-Step "Configurar IP $SERVER_IP en adaptador de red" {
     }
 }
 
-# --- PASO 10: Registrar e iniciar Apache como servicio --------------------
+# --- PASO 11: Registrar e iniciar Apache como servicio --------------------
 Invoke-Step "Registrar e iniciar Apache como servicio Windows" {
     $httpdExe = "$MS4W_ROOT\Apache\bin\httpd.exe"
     $result = & $httpdExe -t 2>&1

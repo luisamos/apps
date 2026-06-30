@@ -1,7 +1,7 @@
 LAYER
     NAME "wanchaq"
     GROUP "Base"
-    DATA "/apps/mapserv/archivos/raster/wanchaq.tif"
+    DATA "/apps/mapserv/archivos/raster/machupicchu.ecw"
     STATUS ON
     TYPE RASTER
     PROCESSING "BANDS=1,2,3"
