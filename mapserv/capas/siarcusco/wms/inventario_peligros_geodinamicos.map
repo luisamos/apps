@@ -1,0 +1,166 @@
+LAYER
+  NAME "inventario_peligros_geodinamicos"
+  GROUP "Fisiografía"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 2
+  TOLERANCEUNITS kilometers
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "tipo_peligro"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, departamento, provincia, distrito, tipo_peligro, peligro, norte, este, zona, altitud_msnm, paraje, fecha_muestra, grado_peligro, grado_vulnerabilidad, riesgo_estado, fecha, dpto, tipo, nombre, causas, observacion, observacion1, fuente, riesgo, dato, the_geom from geo.inventario_peligros_geodinamicos) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Fisiografía"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Inventario de Peligros Geodinámicos"
+	"wms_abstract" "Inventario de Peligros Geodinámicos de la Región Cusco - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/inventario_peligros_geodinamicos.rar" 
+	"autor" "© PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Peligros geodinámicos"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+ CLASS
+	NAME "Alud"
+	EXPRESSION "Alud"
+	STYLE		
+        SYMBOL "alud_aluvion_huayco"
+        COLOR 230 0 0		
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Aluvión"
+	EXPRESSION "Aluvión"
+    STYLE		
+        SYMBOL "alud_aluvion_huayco"
+        COLOR 169 0 230
+        SIZE 12		
+    END	
+  END
+ CLASS
+	NAME "Caida"
+	EXPRESSION "Caida"
+    STYLE		
+        SYMBOL "caida_derrumbre"
+        COLOR 56 168 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Derumbre"
+	EXPRESSION "Derumbre"
+    STYLE		
+        SYMBOL "caida_derrumbre"
+        COLOR 255 0 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Deslizamiento"
+	EXPRESSION "Deslizamiento"
+    STYLE		
+        SYMBOL "deslizaminto"
+        COLOR 255 170 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Erosión Fluvial"
+	EXPRESSION "Erosión Fluvial"
+    STYLE		
+        SYMBOL "erosion"
+        COLOR 23 182 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Erosión Fluvial - Inundación"
+	EXPRESSION "Erosión Fluvial - Inundación"
+    STYLE		
+        SYMBOL "erosion"
+        COLOR 214 29 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Erosión de Ladera"
+	EXPRESSION "Erosión de Ladera"
+    STYLE		
+        SYMBOL "erosion_ladera"
+        COLOR 255 255 0
+        SIZE 12
+    END
+  END
+ CLASS
+	NAME "Flujo"
+	EXPRESSION "Flujo"
+    STYLE		
+        SYMBOL "flujo"
+        COLOR 255 0 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Huayco"
+	EXPRESSION "Huayco"
+    STYLE		
+        SYMBOL "alud_aluvion_huayco"
+        COLOR 0 255 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Hundimiento"
+	EXPRESSION "Hundimiento"
+    STYLE		
+        SYMBOL "hundimiento"
+        COLOR 0 0 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Inundación"
+	EXPRESSION "Inundación"
+    STYLE		
+        SYMBOL "inundacion"
+        COLOR 230 0 102
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Mov. Complejo"
+	EXPRESSION "Mov. Complejo"
+    STYLE		
+        SYMBOL "mov_complejo_reptacion"
+        COLOR 0 255 0
+        SIZE 12
+    END	
+  END
+ CLASS
+	NAME "Reptacion"
+	EXPRESSION "Reptacion"
+    STYLE		
+        SYMBOL "mov_complejo_reptacion"
+        COLOR 255 0 0
+        SIZE 12		
+    END
+  END
+END # Layer

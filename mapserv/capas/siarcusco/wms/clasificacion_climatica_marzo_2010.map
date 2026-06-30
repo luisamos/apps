@@ -1,0 +1,166 @@
+LAYER
+  NAME "clasificacion_climatica_marzo_2010"
+  GROUP "Caracterización Climática"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "codigo"
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/siarcusco/clasificacion_climatica.html"
+  FOOTER   "plantillas/fin.html"
+  DATA "the_geom from (select gid,codigo,the_geom from geo.clasificacion_climatica_marzo_2010) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Caracterización Climática"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Clasificación Climática"
+	"wms_abstract" "Clasificación Climática - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/clasificacion_climatica_marzo_2010.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+    "wms_exclude_items" "gid"
+  END
+  CLASS
+	NAME "Climas"
+    EXPRESSION ("")
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "A(r) A' H4"
+    EXPRESSION "A(r) A' H4"
+    COLOR 1 219 0
+  END
+  CLASS
+	NAME "A(r) B'1 H4"
+    EXPRESSION "A(r) B'1 H4"
+    COLOR 52 127 0
+  END
+  CLASS
+	NAME "A(r) B'2 H3"
+    EXPRESSION "A(r) B'2 H3"
+    COLOR 187 187 187
+  END
+  CLASS
+	NAME "B(o,i) C' H3"
+    EXPRESSION "B(o,i) C' H3"
+    COLOR 186 164 0
+  END
+  CLASS
+	NAME "B(o,i) D' H3"
+    EXPRESSION "B(o,i) D' H3"
+    COLOR 0 208 220
+  END
+  CLASS
+	NAME "B(r) A' H3"
+    EXPRESSION "B(r) A' H3"
+    COLOR 71 112 10
+  END
+  CLASS
+	NAME "B(r) A' H4"
+    EXPRESSION "B(r) A' H4"
+    COLOR 220 205 0
+  END
+  CLASS
+	NAME "B(r) B'1 H4"
+    EXPRESSION "B(r) B'1 H4"
+    COLOR 124 166 152
+  END
+  CLASS
+	NAME "B(r) C' H3"
+    EXPRESSION "B(r) C' H3"
+    COLOR 80 138 0
+  END
+  CLASS
+	NAME "C(o,i) B'2 H3"
+    EXPRESSION "C(o,i) B'2 H3"
+    COLOR 255 199 174
+  END
+  CLASS
+	NAME "C(o,i) C' H2"
+    EXPRESSION "C(o,i) C' H2"
+    COLOR 98 69 99
+  END
+  CLASS
+	NAME "C(o,i,p) C' H2"
+    EXPRESSION "C(o,i,p) C' H2"
+    COLOR 253 79 78
+  END
+  CLASS
+	NAME "Nieve"
+    EXPRESSION "N"
+    COLOR 245 254 223
+	OUTLINECOLOR 0 0 0
+  END
+  CLASS
+	NAME "------------"    
+  END
+  CLASS
+	NAME "Descripción"    
+  END
+  CLASS
+	NAME "PRECIPITACION EFECTIVA"    
+  END
+  CLASS
+	NAME "A    Muy lluvioso"    
+  END
+  CLASS
+	NAME "B    Lluvioso"    
+  END
+  CLASS
+	NAME "C    Semiseco"    
+  END
+  CLASS
+	NAME "EFICIENCIA DE TEMPERATURA"    
+  END
+  CLASS
+	NAME "A'    Cálido"    
+  END
+  CLASS
+	NAME "B'1  Semicálido"    
+  END
+  CLASS
+	NAME "B'2  Templado"    
+  END
+  CLASS
+	NAME "DISTRIBUCION DE LA PRECIPITACION EN EL AÑO"    
+  END
+  CLASS
+	NAME "r  Precipitación abundante en todas las estaciones del año"    
+  END
+  CLASS
+	NAME "i  Invierno seco"    
+  END
+  CLASS
+	NAME "p  Primavera seca"    
+  END
+  CLASS
+	NAME "o  Otoño seco"    
+  END
+  CLASS
+	NAME "HUMEDAD ATMOSFERICA"    
+  END
+  CLASS
+	NAME "H1   Muy seco"    
+  END
+  CLASS
+	NAME "H2   Seco"    
+  END
+  CLASS
+	NAME "H3   Húmedo"    
+  END
+  CLASS
+	NAME "H4   Muy húmedo"    
+  END
+END # Layer

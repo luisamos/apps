@@ -1,0 +1,101 @@
+LAYER
+  NAME "anomalia_precipitacion_anual_2031_2040_subcuenca_velille"
+  GROUP "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+  STATUS off
+  DATA "archivos/raster/anomalia_precipitacion_anual_2031_2040_subcuenca_velille.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Anomalía de la precipitación anual (2031-2040), subcuenca Velille"
+	"wms_abstract" "Anomalía de la precipitación anual (2031-2040), subcuenca Velille, modelo MIHR - Escenario A1B - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/anomalia_precipitacion_anual_2031_2040_subcuenca_velille.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "788606.88139489 8327190.32960862 855056.88139489 8468940.32960862"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Modelo MIHR - Escenario A1B"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME " "
+    EXPRESSION ([pixel] = -9999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Anomalía de pp (%)"
+    EXPRESSION ([pixel] = -999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-18 - -16"
+    EXPRESSION ([pixel] >= -18 AND [pixel] < -16)
+    COLOR 243 255 20
+  END
+  CLASS
+	NAME "-16 - -15"
+    EXPRESSION ([pixel] >= -16 AND [pixel] < -15)
+    COLOR 208 240 0
+  END
+  CLASS
+	NAME "-15 - -14"
+    EXPRESSION ([pixel] >= -15 AND [pixel] < -14)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "-14 - -13"
+    EXPRESSION ([pixel] >= -14 AND [pixel] < -13)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "-13 - -12"
+    EXPRESSION ([pixel] >= -13 AND [pixel] < -12)
+    COLOR 80 196 51
+  END
+  CLASS
+	NAME "-12 - -11"
+    EXPRESSION ([pixel] >= -12 AND [pixel] < -11)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "-11 - -10"
+    EXPRESSION ([pixel] >= -11 AND [pixel] < -10)
+    COLOR 0 168 132
+  END
+  CLASS
+	NAME "-10 - -9"
+    EXPRESSION ([pixel] >= -10 AND [pixel] < -9)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "-9 - -8"
+    EXPRESSION ([pixel] >= -9 AND [pixel] < -8)
+    COLOR 0 166 255
+  END
+  CLASS
+	NAME "-8 - -7"
+    EXPRESSION ([pixel] >= -8 AND [pixel] < -7)
+    COLOR 0 0 255
+  END
+  CLASS
+	NAME "-7 - -4.8"
+    EXPRESSION ([pixel] >= -7 AND [pixel] <= -4.8)
+    COLOR 168 0 230
+  END
+END # Layer

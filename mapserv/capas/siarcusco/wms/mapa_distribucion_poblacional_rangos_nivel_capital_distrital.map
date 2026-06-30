@@ -1,0 +1,75 @@
+LAYER
+  NAME "mapa_distribucion_poblacional_rangos_nivel_capital_distrital"
+  GROUP "Social"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 2
+  TOLERANCEUNITS kilometers
+  PROCESSING 'LABEL_NO_CLIP=1'
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, codigo_distrito, departamento, provincia, distrito, total_de_poblacion, fuente, x, y, the_geom from geo.mapa_distribucion_poblacional_rangos_nivel_capital_distrital) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Social"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de distribución poblacional por rangos a nivel de capital Distrital (INEI)"
+	"wms_abstract" "Mapa de distribución poblacional por rangos a nivel de capital Distrital (INEI) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_distribucion_poblacional_rangos_nivel_capital_distrital.rar" 
+	"autor" "© PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "627363.098384 8303857.990980 960234.072661 8615813.979040"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Centros Poblados (N° de habitantes)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME '150 - 1000 Centro Poblado Urbano muy pequeño'
+	EXPRESSION ([total_de_poblacion] >= 158 AND [total_de_poblacion] < 1000)
+	STYLE
+		SYMBOL 'circulo'
+		COLOR 85 255 0
+		SIZE 7
+	END
+  END
+  CLASS
+	NAME '1001 - 5000 Centro Poblado Urbano pequeño'
+	EXPRESSION ([total_de_poblacion] >= 1000 AND [total_de_poblacion] < 5000)
+	STYLE
+		SYMBOL 'circulo'
+		COLOR 255 255 0
+		SIZE 11
+	END
+  END
+  CLASS
+	NAME '5001 - 30000 Centro Poblado Urbano mediano'
+	EXPRESSION ([total_de_poblacion] >= 5000 AND [total_de_poblacion] < 30000)
+	STYLE
+		SYMBOL 'circulo'
+		COLOR 255 170 0
+		SIZE 16	
+	END
+  END
+  CLASS
+	NAME '30001 - mas Centro Poblado Urbano grande'
+	EXPRESSION ([total_de_poblacion] >= 30000 AND [total_de_poblacion] <= 319257)
+	STYLE
+		SYMBOL 'circulo'
+		COLOR 230 0 0
+		SIZE 20
+	END
+  END
+END # Layer

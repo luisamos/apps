@@ -1,0 +1,57 @@
+LAYER
+	NAME "provincias"
+	GROUP "IGN"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/allpa/ign/provincias.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, iddpto, departamen, idprov, provincia, capital, fuente, geom FROM ign.provincias) as allpa using unique gid using srid=4326"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	LABELITEM "provincia"
+	LABELMAXSCALEDENOM 2000000
+	LABELMAXSCALE 2000000
+	METADATA
+		"wms_group_title" "IGN"
+		"queryable" "true"
+		"wms_metadataurl_href" "LUISAMOS"
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Provincias"
+		"wms_abstract" "Provincias || Instituto Geográfico Nacional - IGN :: Perú"
+		"wms_credit" "IGN"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-81.3282304899999 -18.3509277359999 -68.6522791029996 -0.0386059679999562"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Provincias"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 38 166 154
+			WIDTH 1
+		END
+		LABEL
+			TEXT "PROV. [provincia]"
+			COLOR 38 166 154
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS false
+		END
+	END
+END # Layer

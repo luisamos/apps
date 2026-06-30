@@ -1,0 +1,78 @@
+LAYER
+	NAME "clasificacion_predio"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/clasificacion_predio.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0]{1}[1-9]{1}$"
+		"default_codigo" "01,02,03,04,05"
+	END
+	DATA "geom FROM (SELECT * FROM public.v_clasificacion_predio) as mpu using unique gid using srid=32718"
+	FILTER ("[codi_clasi]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "codi_clasi"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Clasificación de predio"
+		"wms_abstract" "Clasificación de predio || Municipalidad Provincia de Urubamba :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_exclude_items" "codi_clasi,codi_luz,codi_agua,codi_telefono,codi_desague,codi_gas,codi_internet,codi_tvcable"
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+	END
+	CLASS
+		NAME "CASA HABITACITACIÓN"
+		EXPRESSION "01"
+		STYLE
+			COLOR 128 141 141
+			OUTLINECOLOR 79 79 79
+		END
+	END
+	CLASS
+		NAME "TIENDA - DEPÓSITO - ALMACEN"
+		EXPRESSION "02"
+		STYLE
+			COLOR 124 82 140
+			OUTLINECOLOR 71 26 90
+		END
+	END
+	CLASS
+		NAME "PREDIO EN EDIFICIO"
+		EXPRESSION "03"
+		STYLE
+			COLOR 76 115 147
+			OUTLINECOLOR 11 63 96
+		END
+	END
+	CLASS
+		NAME "OTROS"
+		EXPRESSION "04"
+		STYLE
+			COLOR 75 149 130
+			OUTLINECOLOR 4 98 79
+		END
+	END
+	CLASS
+		NAME "TERRENO SIN CONSTRUIR"
+		EXPRESSION "05"
+		STYLE
+			COLOR 183 130 61
+			OUTLINECOLOR 72 36 0
+		END
+	END
+END # Layer

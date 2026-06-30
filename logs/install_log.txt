@@ -1,0 +1,75 @@
+[2026-06-29 23:21:37] [INFO] Unidad de instalacion seleccionada: C: (APPS=C:\apps, MS4W=C:\ms4w)
+[2026-06-29 23:22:19] [INFO] Configuracion confirmada — IP: 127.0.0.1  Puerto: 80  SRID: 32718  EXTENT: 760133.1070907626 8524431.575746633 783630.700165417 8552463.306938704  Raster: C:/apps/mapserv/archivos/raster/machupicchu.ecw  Entidad: Municipalidad Distrital de Machupicchu
+[2026-06-29 23:22:19] [INFO] -- Preparar paquete ms4w_5.2.0.zip --
+[2026-06-29 23:22:19] [INFO] Descargando desde https://ms4w.com/release/ms4w_5.2.0.zip
+[2026-06-29 23:22:19] [INFO] Intentando descarga con BITS...
+[2026-06-29 23:23:18] [INFO] Descarga completada: C:\apps\docs\ms4w_5.2.0.zip (434.3 MB)
+[2026-06-29 23:23:18] [INFO] Preparar paquete ms4w_5.2.0.zip completado OK
+[2026-06-29 23:23:18] [INFO] -- Instalar MS4W en C:\ms4w --
+[2026-06-29 23:23:18] [INFO] Descomprimiendo C:\apps\docs\ms4w_5.2.0.zip  -->  C:\
+[2026-06-29 23:24:33] [INFO] Instalar MS4W en C:\ms4w completado OK
+[2026-06-29 23:24:33] [INFO] -- Verificar C:\apps --
+[2026-06-29 23:24:33] [INFO] OK (del repo): C:\apps\mapserv
+[2026-06-29 23:24:33] [INFO] OK (del repo): C:\apps\mapcache
+[2026-06-29 23:24:33] [INFO] OK (del repo): C:\apps\logs
+[2026-06-29 23:24:33] [INFO] Verificar C:\apps completado OK
+[2026-06-29 23:24:33] [INFO] -- Actualizar IP (127.0.0.1:80) en archivos .map --
+[2026-06-29 23:24:33] [INFO] Actualizado: wms_kaypacha.map  (IP=127.0.0.1 Puerto=80)
+[2026-06-29 23:24:33] [INFO] Actualizado: wfs_kaypacha.map  (IP=127.0.0.1 Puerto=80)
+[2026-06-29 23:24:33] [INFO] Actualizar IP (127.0.0.1:80) en archivos .map completado OK
+[2026-06-29 23:24:33] [INFO] -- Configurar SRID (32718), EXTENT y entidad en archivos .map de Kaypacha --
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\clasificacion_predio.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\eje_via.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\habilitacion_urbana.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\lote.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\manzana.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\reporte_clasificacion_predio.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\reporte_servicio_basico.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\reporte_tipo_persona.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\sector.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\servicio_basico.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wfs\tipo_persona.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\clasificacion_predio.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\comercio.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\construccion.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\eje_via.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\habilitacion_urbana.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\id_lote.map
+[2026-06-29 23:24:33] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\lote.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\manzana.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\ortofoto.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\parque.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\puerta.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\sector.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\servicio_basico.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\tipo_persona.map
+[2026-06-29 23:24:34] [INFO] Actualizado (SRID/EXTENT/entidad): capas\kaypacha\wms\vertice_lote.map
+[2026-06-29 23:24:34] [INFO] SRID/EXTENT actualizado en: wms_kaypacha.map  (SRID=32718)
+[2026-06-29 23:24:34] [INFO] SRID/EXTENT actualizado en: wfs_kaypacha.map  (SRID=32718)
+[2026-06-29 23:24:34] [INFO] Raster de ortofoto actualizado: C:/apps/mapserv/archivos/raster/machupicchu.ecw
+[2026-06-29 23:24:34] [INFO] EXTENT de ortofoto configurado: 760133.1070907626 8524431.575746633 783630.700165417 8552463.306938704
+[2026-06-29 23:24:34] [INFO] Configurar SRID (32718), EXTENT y entidad en archivos .map de Kaypacha completado OK
+[2026-06-29 23:24:34] [INFO] -- Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extension) --
+[2026-06-29 23:24:34] [INFO] mapserv.exe copiado como cgi-bin\wms y cgi-bin\wfs
+[2026-06-29 23:24:34] [INFO] Duplicar mapserv.exe  -->  cgi-bin\wms  y  cgi-bin\wfs (sin extension) completado OK
+[2026-06-29 23:24:34] [INFO] -- Configurar httpd.conf  (Listen 80 + mod_headers) --
+[2026-06-29 23:24:34] [WARN] 'Listen 80' ya estaba configurado
+[2026-06-29 23:24:34] [INFO] Descomentado Include conf/extra/httpd-vhosts.conf
+[2026-06-29 23:24:34] [INFO] Configurar httpd.conf  (Listen 80 + mod_headers) completado OK
+[2026-06-29 23:24:34] [INFO] -- Generar VirtualHost <127.0.0.1:80> --
+[2026-06-29 23:24:34] [INFO] Creado DocumentRoot: C:\apps\www\visor-kaypacha
+[2026-06-29 23:24:34] [INFO] VirtualHost escrito en C:\ms4w\Apache\conf\extra\httpd-vhosts.conf
+[2026-06-29 23:24:34] [INFO] Generar VirtualHost <127.0.0.1:80> completado OK
+[2026-06-29 23:24:34] [INFO] -- Configurar MapCache (mapcache.xml) con IP/puerto y unidad C: --
+[2026-06-29 23:24:34] [INFO] mapcache.xml actualizado (host WMS=127.0.0.1, unidad=C:)
+[2026-06-29 23:24:34] [INFO] Configurar MapCache (mapcache.xml) con IP/puerto y unidad C: completado OK
+[2026-06-29 23:24:34] [INFO] -- Configurar IP 127.0.0.1 en adaptador de red --
+[2026-06-29 23:24:35] [INFO] IP 127.0.0.1 agregada al adaptador loopback
+[2026-06-29 23:24:35] [INFO] Configurar IP 127.0.0.1 en adaptador de red completado OK
+[2026-06-29 23:24:35] [INFO] -- Registrar e iniciar Apache como servicio Windows --
+[2026-06-29 23:24:38] [INFO] Sintaxis OK
+[2026-06-29 23:24:39] [INFO] Servicio registrado
+[2026-06-29 23:24:41] [INFO] Apache iniciado
+[2026-06-29 23:24:43] [INFO] Estado del servicio: Running
+[2026-06-29 23:24:43] [INFO] Registrar e iniciar Apache como servicio Windows completado OK
+[2026-06-29 23:24:43] [INFO] Instalacion finalizada. IP=127.0.0.1 Puerto=80

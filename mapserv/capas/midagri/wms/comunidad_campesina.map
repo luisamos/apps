@@ -1,0 +1,60 @@
+LAYER
+	NAME "comunidad_campesina"
+	GROUP "MIDAGRI"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/allpa/midagri/comunidades_campesinas.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT gid, nomcom, depar, provi, distr, ubidis, codigo :: integer AS codigo, counco, zutm, dathor, geom FROM midagri.comunidad_campesina) as allpa using unique gid using srid=4326"
+    FILTER ("[depar]" IN "CUSCO")
+	#FILTER ('[anp_felec]'<='2015-11-09')
+	#FILTER "([anp_felec] <= '2015-11-09')"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	LABELITEM "nomcom"
+	LABELMAXSCALEDENOM 2000000
+	LABELMAXSCALE 2000000
+	METADATA
+		"wms_group_title" "MIDAGRI"
+		"queryable" "true"
+		"wms_metadataurl_href" "LUISAMOS"
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Comunidad Campesina"
+		"wms_abstract" "Comunidad Campesina || Ministerio de Desarrollo Agrario y Rural - MIDAGRI :: Perú"
+		"wms_credit" "MIDAGRI"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-78.911969039 -13.174006996 -68.672677514 -0.0422453909999945"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Comunidad Campesina"
+		EXPRESSION /./
+		STYLE
+			COLOR 255 167 127
+			OUTLINECOLOR 230 0 0
+			WIDTH 1
+		END
+		LABEL
+			TEXT "CC [nomcom]"
+			COLOR  10 10 10
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS false
+		END
+	END
+END # Layer

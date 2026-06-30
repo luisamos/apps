@@ -1,0 +1,43 @@
+throwErrorOnExtraParameters: true
+
+templates:
+    A4_VERTICAL: !template
+        reportTemplate: A4_HORIZONTAL.jrxml
+        attributes:
+          title: !string
+            default: "Reporte GEO PERU"
+          map: !map
+            width: 650
+            height: 480
+            maxDpi: 400
+          overviewMap: !overviewMap
+            width: 146
+            height: 125
+            maxDpi: 400
+            zoomFactor: 9
+          legend: !legend {}
+          scalebar: !scalebar
+           width: 107
+           height: 15
+          overlayLayers: !staticLayers
+            default:
+             layers:
+              - type: "grid"
+                numberOfLines: [10, 10]
+                labelColor: rgba(0,0,0,0)
+                haloColor: rgba(0,0,0,0)
+        processors:
+        - !addBackgroundLayers
+          inputMapper:
+           overlayLayers: staticLayers
+           map: map
+        - !reportBuilder
+          directory: '.'
+        - !createMap {}
+        - !createScalebar {}
+        - !createOverviewMap {}
+        - !prepareLegend # create a datasource for the report with the 'legend' attribute
+          maxWidth: 58
+          dpi: 100
+          template: legend.jrxml
+

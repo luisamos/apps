@@ -1,0 +1,96 @@
+LAYER
+  NAME "promedio_multianual_evapotranspitacion_real_acumulada_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_evapotranspitacion_real_acumulada_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la Evapotranspiración real Acumulada de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Promedio multianual de la Evapotranspiración real Acumulada de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_evapotranspitacion_real_acumulada_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Evapotranspiración real (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "387 - 410"
+    EXPRESSION ([pixel] >= 387 AND [pixel] < 410)
+    COLOR 62 194 88
+  END
+  CLASS
+	NAME "410 - 420"
+    EXPRESSION ([pixel] >= 410 AND [pixel] < 420)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "420 - 430"
+    EXPRESSION ([pixel] >= 420 AND [pixel] < 430)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "430 - 440"
+    EXPRESSION ([pixel] >= 430 AND [pixel] < 440)
+    COLOR 147 255 5
+  END
+  CLASS
+	NAME "440 - 450"
+    EXPRESSION ([pixel] >= 440 AND [pixel] < 450)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "450 - 460"
+    EXPRESSION ([pixel] >= 450 AND [pixel] < 460)
+    COLOR 204 230 7
+  END
+  CLASS
+	NAME "460 - 470"
+    EXPRESSION ([pixel] >= 460 AND [pixel] < 470)
+    COLOR 208 247 52
+  END
+  CLASS
+	NAME "470 - 480"
+    EXPRESSION ([pixel] >= 470 AND [pixel] < 480)
+    COLOR 220 255 105
+  END
+  CLASS
+	NAME "480 - 490"
+    EXPRESSION ([pixel] >= 480 AND [pixel] < 490)
+    COLOR 245 255 112
+  END
+  CLASS
+	NAME "490 - 500"
+    EXPRESSION ([pixel] >= 490 AND [pixel] < 500)
+    COLOR 250 250 7
+  END
+  CLASS
+	NAME "500 - 510"
+    EXPRESSION ([pixel] >= 500 AND [pixel] < 510)
+    COLOR 255 208 0
+  END
+  CLASS
+	NAME "510 - 529"
+    EXPRESSION ([pixel] >= 510 AND [pixel] <= 530)
+    COLOR 250 143 0
+  END
+END # Layer

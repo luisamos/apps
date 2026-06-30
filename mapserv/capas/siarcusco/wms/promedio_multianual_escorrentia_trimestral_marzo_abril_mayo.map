@@ -1,0 +1,96 @@
+LAYER
+  NAME "promedio_multianual_escorrentia_trimestral_marzo_abril_mayo"
+  GROUP "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_escorrentia_trimestral_marzo_abril_mayo.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de escorrentía trimestral (mar, abr, may)"
+	"wms_abstract" "Promedio multianual de escorrentía trimestral (mar, abr, may), de las cuencas Pampas, Apurímac y Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_escorrentia_trimestral_marzo_abril_mayo.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.5726332 956086.47341366 8874879.5726332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Escorrentía (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-14 - 60"
+    EXPRESSION ([pixel] >= -14 AND [pixel] < 60)
+    COLOR 11 44 122
+  END
+  CLASS
+	NAME "60 - 100"
+    EXPRESSION ([pixel] >= 60 AND [pixel] < 100)
+    COLOR 19 89 133
+  END
+  CLASS
+	NAME "100 - 150"
+    EXPRESSION ([pixel] >= 100 AND [pixel] < 150)
+    COLOR 33 110 158
+  END
+  CLASS
+	NAME "150 - 200"
+    EXPRESSION ([pixel] >= 150 AND [pixel] < 200)
+    COLOR 42 156 154
+  END
+  CLASS
+	NAME "200 - 250"
+    EXPRESSION ([pixel] >= 200 AND [pixel] < 250)
+    COLOR 58 176 121
+  END
+  CLASS
+	NAME "250 - 300"
+    EXPRESSION ([pixel] >= 250 AND [pixel] < 300)
+    COLOR 62 194 88
+  END
+  CLASS
+	NAME "300 - 350"
+    EXPRESSION ([pixel] >= 300 AND [pixel] < 350)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "350 - 400"
+    EXPRESSION ([pixel] >= 350 AND [pixel] < 400)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "400 - 450"
+    EXPRESSION ([pixel] >= 400 AND [pixel] < 450)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "450 - 500"
+    EXPRESSION ([pixel] >= 450 AND [pixel] < 500)
+    COLOR 252 242 88
+  END
+  CLASS
+	NAME "500 - 550"
+    EXPRESSION ([pixel] >= 500 AND [pixel] < 550)
+    COLOR 240 180 17
+  END
+  CLASS
+	NAME "550 - 631"
+    EXPRESSION ([pixel] >= 500 AND [pixel] <= 632)
+    COLOR 219 122 37
+  END
+END # Layer

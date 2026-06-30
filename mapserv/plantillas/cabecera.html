@@ -1,0 +1,228 @@
+<!-- MapServer Template -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<html><head><meta http-equiv="content-type" content="text/html; charset=LATIN1"></meta>
+<style type="text/css">
+table, th, td { border:1px solid #e5e5e5; border-collapse:collapse; font-family: arial; font-size: 8pt; color: #333333;}             
+th, td { valign: top;  text-align: left; } 
+th { background-color: #aed7ff; }
+caption { border:1px solid #e5e5e5; border-collapse:collapse; font-family: arial; font-weight: bold; font-size: 9pt; text-align: left; color: #333333; }
+</style>
+<title>Información Proporcionada</title>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../senamhi/js/DataTables-1.9.4/media/css/table.css" media="screen"/>
+<script type="text/javascript" src="../senamhi/js/jongha/dist/jquery.jsontotable.min.js"></script>
+<script type="text/javascript" src="../senamhi/js/DataTables-1.9.4/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="../senamhi/js/highcharts.js"></script>
+<script type="text/javascript" src="../senamhi/js/exporting.js"></script>
+<script type="text/javascript" src="../senamhi/js/php.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(e) {
+
+	$('#form_search').submit(function(e) {
+		e.preventDefault();
+		$.ajax({
+			type: "POST",
+			beforeSend: function(object) {
+				$('#div_result').html('');
+				$('#loader').show();
+				//$('#div_result').attr('url__',$('#form_search').serialize());
+			},
+			data: $('#form_search').serialize(),
+			cache: false,
+			url: '../senamhi/tabla_datos.php',
+			success: function(datos) {
+				console.log(datos);
+				$('#div_result').html(datos);
+			}
+		});	
+	});
+});
+
+function iniciar(){
+	$("#idEstacion").hide();
+	var idEstacion = $("#idEstacion").val();
+	console.log(idEstacion);
+	var parametros = $("#idParametro");
+	
+	var	url_estaciones = '../senamhi/tmp/param_' + idEstacion + '.json';
+	if (!file_exists(url_estaciones))	
+		url_estaciones = "../senamhi/response.php?method=param&idEstacion=" + idEstacion;	
+
+	var jqxhr = $.ajax({
+		url : url_estaciones, 
+		dataType : 'json',
+		async: true,
+		beforeSend: function( xhr ) {
+			parametros.find('option').remove().end().append('<option value="">Cargando...</option>').val('');
+		},
+		success: function(data) {
+			parametros.empty();
+			parametros.append('<option value="__">Seleccione ...</option>');
+			for (var i=0; i<data.length; i++) {
+				parametros.append('<option value="' + data[i].C_COD_PARAG + '||' + data[i].C_COD_CORRP + '">' + data[i].V_NOM_PARA + '</option>');
+			}			
+		}
+		});
+
+		jqxhr.fail(function() {
+			parametros.find('option').remove().end().append('<option value="">Informaci&oacute;n no disponible ...</option>').val('');
+		});
+	anios_disponibles(idEstacion);
+}
+
+function anios_disponibles(idEstacion){
+	var anios__ = $("#idAnio");
+	var meses__ = $("#idMes");
+	var array__ = new Array();
+
+	var	url_estaciones = '../senamhi/tmp/mesesest_' + idEstacion + '.json';
+	if (!file_exists(url_estaciones))
+		url_estaciones = "../senamhi/response.php?method=mesesest&idEstacion=" + idEstacion;		
+	
+	var jqxhr = $.ajax({
+		url : url_estaciones, 
+		dataType : 'json',
+		async: true,
+		beforeSend: function( xhr ) {
+			anios__.find('option').remove().end().append('<option value="">Cargando...</option>').val('');
+			meses__.find('option').remove().end().append('<option value="">Cargando...</option>').val('');
+		},
+		success: function(data) {
+
+			for (var i=0; i<data.length; i++) {
+				codigo = parseInt(data[i].ANIO);
+				array__[codigo] = codigo;
+			}
+			array__ = ordenarPorValor(array__)
+			anios__.empty();
+			anios__.append('<option value="__">Seleccione ...</option>');
+			for (var indice in array__) {
+				anios__.append('<option value="' + array__[indice] + '">' + array__[indice] + '</option>');
+			}
+			anios__.find('option').last().attr("selected",true);
+			
+			var anio = anios__.val().toString();
+			var lista_meses = Array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Setiembre','Octubre','Noviembre','Diciembre');
+			meses__.empty();
+			meses__.append('<option value="__">Seleccione ...</option>');
+			for (var i=0; i<data.length; i++) {
+				if (data[i].ANIO == anio) {
+					meses__.append('<option value="' + data[i].MES + '">' + lista_meses[parseInt(data[i].MES)-1] + '</option>');
+				}
+			}
+			meses__.find('option').last().attr("selected",true);
+		}
+	});
+	jqxhr.fail(function() {
+		anios__.find('option').remove().end().append('<option value="">Informaci&oacute;n no disponible ...</option>').val('');
+		meses__.find('option').remove().end().append('<option value="">Informaci&oacute;n no disponible ...</option>').val('');
+	});
+}
+
+function ordenarPorValor(tabla){
+      var valoresOrdenados = new Array();
+      var objectOrdenado = [];  // o var objectOrdenado = [];
+      for (var indice in tabla)  // extraemos los valores y los ordenamos
+      {
+           valoresOrdenados.push(tabla[indice]);
+      }
+      valoresOrdenados.sort();  // o .sort(funcion)
+      for (var indice in tabla)  // recreamos la tabla reasignando los valores de cada índice
+      {
+          objectOrdenado[indice] = valoresOrdenados.shift();
+      }
+      return objectOrdenado;
+}
+
+function obtener_estacion(cod) {
+	var array__ = new Array();
+	var result = null;
+	var jqxhr = $.ajax({
+		url : "../senamhi/files/estaciones_senamhi.json", 
+		dataType : 'json',
+		async: false,
+		success: function(data) {
+			result = data;
+		}
+	});
+	jqxhr.fail(function() {
+		result = false;
+	})
+	if (!result)
+		return false;
+	for (var j=0; j<result.length; j++) {
+		if (result[j].C_COD_ESTA.toString() == cod) {
+			array__['C_COD_ESTA'] = result[j].C_COD_ESTA;
+			array__['V_NOM_ESTA'] = result[j].V_NOM_ESTA;
+			array__['LON'] = result[j].LON;
+			array__['LAT'] = result[j].LAT;
+			array__['C_COD_DIST'] = result[j].C_COD_DIST.substr(3, 6);
+			array__['C_COD_STIPO'] = result[j].C_COD_STIPO;
+			array__['V_NOM_STIPO'] = result[j].V_NOM_STIPO;
+			break;
+		}
+	}
+	return array__;
+}
+
+function obtener_distrito(cod) {
+	var array__ = new Array();
+	var result = null;
+	var jqxhr = $.ajax({
+		url : "../visor/json/distrito.json", 
+		dataType : 'json',
+		async: false,
+		success: function(data) {
+			result = data;
+		}
+	});
+	jqxhr.fail(function() {
+		result = false;
+	})
+	if (!result)
+		return false;
+	for (var j=0; j<result.length; j++) {
+		if (result[j].COD_DIST.toString() == cod) {
+			array__['NOMBRE_DEP'] = result[j].NOMBRE_DEP;
+			array__['NOMBRE_PROV'] = result[j].NOMBRE_PROV;
+			array__['NOMBRE_DIST'] = result[j].NOMBRE_DIST;
+			break;
+		}
+	}
+	return array__;
+}
+
+function obtener_parametro(cod) {
+	var array__ = new Array();
+	var result = null;
+	var jqxhr = $.ajax({
+		url : "../senamhi/parametros_senamhi.php", 
+		dataType : 'json',
+		async: false,
+		success: function(data) {
+			result = data;
+		}
+	});
+	jqxhr.fail(function() {
+		result = false;
+	})
+	if (!result)
+		return false;
+	for (var j=0; j<result.length; j++) {
+		if (result[j].C_COD_CORRP.toString() == cod) {
+			array__['V_NOM_PARAG'] = result[j].V_NOM_PARAG;
+			array__['V_NOM_PARA'] = result[j].V_NOM_PARA;
+			array__['SIMB_PARA'] = result[j].SIMB_PARA;
+			array__['DESC_SIMB'] = result[j].DESC_SIMB;
+			break;
+		}
+	}
+	return array__;
+}
+</script>
+</head><body onload="iniciar()">
+<table cellspacing="3" cellpadding="3" width="100%">     

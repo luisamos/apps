@@ -1,0 +1,62 @@
+LAYER
+  NAME "mapa_pendiente_cuenca_rio_urubamba"
+  GROUP "Hidrología"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "gridcode"
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void
+  DATA "the_geom from (select gid, gridcode, clasificacion, area_km2, the_geom from geo.mapa_pendiente_cuenca_rio_urubamba) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1" 
+	"wms_group_title" "Hidrología"	
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de pendiente de la cuenca del río Urubamba"
+	"wms_abstract" "Mapa de pendiente de la cuenca del río Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_pendiente_cuenca_rio_urubamba.rar"
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"	
+	"wms_extent" "633655.151883206 8377015.85100903 955051.84811366 8875397.05338108"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+    "wms_exclude_items" "gid,gridcode"
+ END	
+  CLASS
+	NAME "Clases de pendientes"
+    EXPRESSION "-99999"
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0 - 5% Casi a nivel o nivel"
+    EXPRESSION "1"
+    COLOR 56 168 0
+  END
+  CLASS
+	NAME "5 - 15% Ligeramente inclinada a inclinada"
+    EXPRESSION "2"
+    COLOR 139 209 0
+  END
+  CLASS
+	NAME "15 - 30% Fuertemente inclinada"
+    EXPRESSION "3"
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "30 - 50% Moderadamente empinada a empinada"
+    EXPRESSION "4"
+    COLOR 255 128 0
+  END
+  CLASS
+	NAME "50 - 100% Muy empinada a extremadamente empinada"
+    EXPRESSION "5"
+    COLOR 255 0 0
+  END
+END # Layer

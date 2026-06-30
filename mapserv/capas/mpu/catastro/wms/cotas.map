@@ -1,0 +1,59 @@
+LAYER
+	NAME "cotas"
+	GROUP "MPU"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/mpu/mpu/cotas.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT ROW_NUMBER() OVER (ORDER BY id_lote) as gid, distancia, geom FROM public.calcular_distancias('%id%')) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Lotes"
+		"wms_abstract" "Lotes || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+    	NAME "gid"
+    	EXPRESSION /./
+    	STYLE
+			SYMBOL "cuadrado"
+			COLOR 0 0 0
+    	END
+    	LABEL
+			COLOR 50 50 50
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 11
+			ANTIALIAS TRUE
+			PARTIALS FALSE
+			MINDISTANCE 100
+			BUFFER 2
+			OFFSET 4 4
+			ANGLE AUTO
+			TEXT "[distancia]"
+		END		
+    END
+    
+END # Layer
+

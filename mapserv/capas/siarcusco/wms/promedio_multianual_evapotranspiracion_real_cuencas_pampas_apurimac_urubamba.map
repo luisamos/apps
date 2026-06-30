@@ -1,0 +1,86 @@
+LAYER
+  NAME "promedio_multianual_evapotranspiracion_real_cuencas_pampas_apurimac_urubamba"
+  GROUP "Evapotranspiración de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_evapotranspiracion_real_cuencas_pampas_apurimac_urubamba.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Evapotranspiración de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la Evapotranspiración real acumulada"
+	"wms_abstract" "Promedio multianual de la Evapotranspiración real acumulada - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_evapotranspiracion_real_cuencas_pampas_apurimac_urubamba.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.5726332 956086.47341366 8874879.5726332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Evapotranspiración real (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "246 - 400"
+    EXPRESSION ([pixel] >= 246 AND [pixel] < 400)
+    COLOR 62 194 88
+  END
+  CLASS
+	NAME "400 - 440"
+    EXPRESSION ([pixel] >= 400 AND [pixel] < 440)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "440 - 480"
+    EXPRESSION ([pixel] >= 440 AND [pixel] < 480)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "480 - 520"
+    EXPRESSION ([pixel] >= 480 AND [pixel] < 520)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "520 - 560"
+    EXPRESSION ([pixel] >= 520 AND [pixel] < 560)
+    COLOR 204 230 7
+  END
+  CLASS
+	NAME "560 - 600"
+    EXPRESSION ([pixel] >= 560 AND [pixel] < 600)
+    COLOR 220 255 105
+  END
+  CLASS
+	NAME "600 - 650"
+    EXPRESSION ([pixel] >= 600 AND [pixel] < 650)
+    COLOR 250 250 7
+  END
+  CLASS
+	NAME "650 - 700"
+    EXPRESSION ([pixel] >= 650 AND [pixel] < 700)
+    COLOR 255 208 0
+  END
+  CLASS
+	NAME "700 - 750"
+    EXPRESSION ([pixel] >= 700 AND [pixel] < 750)
+    COLOR 255 145 0
+  END
+  CLASS
+	NAME "750 - 808"
+    EXPRESSION ([pixel] >= 750 AND [pixel] <= 808)
+    COLOR 245 118 128
+  END
+END # Layer

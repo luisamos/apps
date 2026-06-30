@@ -1,0 +1,101 @@
+LAYER
+  NAME "precipitacion_trimestral_setiembre_octubre_noviembre_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/precipitacion_trimestral_setiembre_octubre_noviembre_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Precipitación trimestral setiembre, octubre, noviembre de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Precipitación trimestral setiembre, octubre, noviembre de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/precipitacion_trimestral_setiembre_octubre_noviembre_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS  
+	NAME "Precipitación (mm)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "173 - 175"
+    EXPRESSION ([pixel] >= 173 AND [pixel] < 175)
+	COLOR 44 150 69
+  END
+  CLASS  
+	NAME "175 - 176"
+    EXPRESSION ([pixel] >= 175 AND [pixel] < 176)
+	COLOR 0 255 0
+  END
+  CLASS  
+	NAME "176 - 177"
+    EXPRESSION ([pixel] >= 176 AND [pixel] < 177)
+	COLOR 149 255 0
+  END
+  CLASS  
+	NAME "177 - 178"
+    EXPRESSION ([pixel] >= 177 AND [pixel] < 178)
+	COLOR 132 217 72
+  END
+  CLASS  
+	NAME "178 - 179"
+    EXPRESSION ([pixel] >= 178 AND [pixel] < 179)
+	COLOR 102 217 129
+  END
+  CLASS  
+	NAME "179 - 180"
+    EXPRESSION ([pixel] >= 179 AND [pixel] < 180)
+	COLOR 25 230 168
+  END
+  CLASS  
+	NAME "180 - 181"
+    EXPRESSION ([pixel] >= 180 AND [pixel] < 181)
+	COLOR 99 255 201
+  END
+  CLASS  
+	NAME "181 - 182"
+    EXPRESSION ([pixel] >= 181 AND [pixel] < 182)
+	COLOR 138 255 237
+  END
+  CLASS  
+	NAME "182 - 183"
+    EXPRESSION ([pixel] >= 182 AND [pixel] < 183)
+	COLOR 41 248 255
+  END
+  CLASS  
+	NAME "183 - 184"
+    EXPRESSION ([pixel] >= 183 AND [pixel] < 184)
+	COLOR 0 211 235
+  END
+  CLASS  
+	NAME "184 - 185"
+    EXPRESSION ([pixel] >= 184 AND [pixel] < 185)
+	COLOR 0 137 235
+  END
+  CLASS  
+	NAME "185 - 186"
+    EXPRESSION ([pixel] >= 185 AND [pixel] < 186)
+	COLOR 0 76 168
+  END
+  CLASS  
+	NAME "186 - 189"
+    EXPRESSION ([pixel] >= 186 AND [pixel] <= 189)
+	COLOR 0 0 191
+  END
+END # Layer

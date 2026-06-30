@@ -1,0 +1,96 @@
+LAYER
+  NAME "mapa_escorrentia_anual_decadal_1980_1989"
+  GROUP "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/mapa_escorrentia_anual_decadal_1980_1989.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de escorrentía anual decadal (1980 - 1989)"
+	"wms_abstract" "Mapa de escorrentía anual decadal (1980 - 1989), de las cuencas Pampas, Apurímac y Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_escorrentia_anual_decadal_1980_1989.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.5726332 956086.47341366 8874879.5726332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Escorrentía (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "52 - 200"
+    EXPRESSION ([pixel] >= 52 AND [pixel] < 200)
+    COLOR 11 44 122
+  END
+  CLASS
+	NAME "200 - 300"
+    EXPRESSION ([pixel] >= 200 AND [pixel] < 300)
+    COLOR 19 89 133
+  END
+  CLASS
+	NAME "300 - 400"
+    EXPRESSION ([pixel] >= 300 AND [pixel] < 400)
+    COLOR 33 110 158
+  END
+  CLASS
+	NAME "400 - 500"
+    EXPRESSION ([pixel] >= 400 AND [pixel] < 500)
+    COLOR 42 156 154
+  END
+  CLASS
+	NAME "500 - 1000"
+    EXPRESSION ([pixel] >= 500 AND [pixel] < 1000)
+    COLOR 58 176 121
+  END
+  CLASS
+	NAME "1000 - 1200"
+    EXPRESSION ([pixel] >= 1000 AND [pixel] < 1200)
+    COLOR 62 194 88
+  END
+  CLASS
+	NAME "1200 - 1400"
+    EXPRESSION ([pixel] >= 1200 AND [pixel] < 1400)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "1400 - 1600"
+    EXPRESSION ([pixel] >= 1400 AND [pixel] < 1600)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "1600 - 1800"
+    EXPRESSION ([pixel] >= 1600 AND [pixel] < 1800)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "1800 - 2000"
+    EXPRESSION ([pixel] >= 1800 AND [pixel] < 2000)
+    COLOR 252 242 88
+  END
+  CLASS
+	NAME "2000 - 2200"
+    EXPRESSION ([pixel] >= 2000 AND [pixel] < 2200)
+    COLOR 240 180 17
+  END
+  CLASS
+	NAME "2200 - 2578"
+    EXPRESSION ([pixel] >= 2200 AND [pixel] <= 2580)
+    COLOR 219 122 37
+  END
+END # Layer

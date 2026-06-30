@@ -1,0 +1,96 @@
+LAYER
+  NAME "promedio_multianual_precipitacion_acumulada_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_precipitacion_acumulada_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la Precipitación acumulada de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Promedio multianual de la Precipitación acumulada de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_precipitacion_acumulada_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS  
+	NAME "Precipitación (mm)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "795 - 800"
+    EXPRESSION ([pixel] >= 795 AND [pixel] < 800)
+	COLOR 44 150 69
+  END
+  CLASS  
+	NAME "800 - 810"
+    EXPRESSION ([pixel] >= 800 AND [pixel] < 810)
+	COLOR 0 255 0
+  END
+  CLASS  
+	NAME "810 - 815"
+    EXPRESSION ([pixel] >= 810 AND [pixel] < 815)
+	COLOR 149 255 0
+  END
+  CLASS  
+	NAME "815 - 820"
+    EXPRESSION ([pixel] >= 815 AND [pixel] < 820)
+	COLOR 132 217 72
+  END
+  CLASS  
+	NAME "820 - 825"
+    EXPRESSION ([pixel] >= 820 AND [pixel] < 825)
+	COLOR 102 217 129
+  END
+  CLASS  
+	NAME "825 - 830"
+    EXPRESSION ([pixel] >= 825 AND [pixel] < 830)
+	COLOR 25 230 168
+  END
+  CLASS  
+	NAME "830 - 835"
+    EXPRESSION ([pixel] >= 830 AND [pixel] < 835)
+	COLOR 99 255 201
+  END
+  CLASS  
+	NAME "835 - 840"
+    EXPRESSION ([pixel] >= 835 AND [pixel] < 840)
+	COLOR 138 255 237
+  END
+  CLASS  
+	NAME "840 - 845"
+    EXPRESSION ([pixel] >= 840 AND [pixel] < 845)
+	COLOR 41 248 255
+  END
+  CLASS  
+	NAME "845 - 850"
+    EXPRESSION ([pixel] >= 845 AND [pixel] < 850)
+	COLOR 0 211 235
+  END
+  CLASS  
+	NAME "850 - 855"
+    EXPRESSION ([pixel] >= 850 AND [pixel] < 855)
+	COLOR 0 137 235
+  END
+  CLASS  
+	NAME "855 - 868"
+    EXPRESSION ([pixel] >= 855 AND [pixel] <= 870)
+	COLOR 0 76 168
+  END
+END # Layer

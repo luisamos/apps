@@ -1,0 +1,71 @@
+LAYER
+	NAME "cotas"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/cotas.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, este_x, norte_y, altitud, fuente, geom FROM py148.cotas) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELITEM "altitud"
+	#LABELMAXSCALEDENOM 2000000
+	#LABELMAXSCALE 2000000
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Cotas"
+		"wms_abstract" "Cotas || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "148555.68073112285 8475948.65491462 204274.98501008813 8520929.475968707"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Cotas"
+		EXPRESSION /./
+		STYLE
+			SYMBOL "circulo"
+			SIZE 1
+			COLOR 255 0 0
+			OUTLINECOLOR 0 0 0
+		END #STYLE
+		STYLE
+			GEOMTRANSFORM "labelcenter"
+			COLOR 153 153 153
+		END # STYLE
+		STYLE
+			GEOMTRANSFORM "labelpoly"
+			COLOR 255 0 0
+		END # STYLE
+		LABEL
+			TEXT "[altitud] m.s.n.m"
+			COLOR  150 150 150
+			OUTLINECOLOR 255 255 255
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS FALSE
+		END
+	END
+END # Layer

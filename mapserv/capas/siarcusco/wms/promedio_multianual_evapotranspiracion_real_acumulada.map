@@ -1,0 +1,81 @@
+LAYER
+  NAME "promedio_multianual_evapotranspiracion_real_acumulada"
+  GROUP "Evapotranspiración regiones de Cusco y Apurímac"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_evapotranspiracion_real_acumulada.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Evapotranspiración regiones de Cusco y Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la evapotranspiración real acumulada"
+	"wms_abstract" "Promedio multianual de la evapotranspiración real acumulada - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_evapotranspiracion_real_acumulada.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Evapotranspiración real (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "391 - 500"
+    EXPRESSION ([pixel] >= 391 AND [pixel] < 500)
+    COLOR 54 145 33
+  END
+  CLASS
+	NAME "500 - 600"
+    EXPRESSION ([pixel] >= 500 AND [pixel] < 600)
+    COLOR 149 199 105
+  END
+  CLASS
+	NAME "600 - 700"
+    EXPRESSION ([pixel] >= 600 AND [pixel] < 700)
+    COLOR 102 217 129
+  END
+  CLASS
+	NAME "700 - 900"
+    EXPRESSION ([pixel] >= 700 AND [pixel] < 900)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "900 - 1100"
+    EXPRESSION ([pixel] >= 900 AND [pixel] < 1100)
+    COLOR 235 255 153
+  END
+  CLASS
+	NAME "1100 - 1300"
+    EXPRESSION ([pixel] >= 1100 AND [pixel] < 1300)
+    COLOR 250 250 95
+  END
+  CLASS
+	NAME "1300 - 1500"
+    EXPRESSION ([pixel] >= 1300 AND [pixel] < 1500)
+    COLOR 255 208 0
+  END
+  CLASS
+	NAME "1500 - 1600"
+    EXPRESSION ([pixel] >= 1500 AND [pixel] < 1600)
+    COLOR 255 134 128
+  END
+  CLASS
+	NAME "1600 - 1665"
+    EXPRESSION ([pixel] >= 1600 AND [pixel] <= 1956)
+    COLOR 230 101 127
+  END
+END # Layer

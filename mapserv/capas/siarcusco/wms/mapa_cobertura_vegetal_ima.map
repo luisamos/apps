@@ -1,0 +1,133 @@
+LAYER
+  NAME "mapa_cobertura_vegetal_ima"
+  GROUP "Biológico"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "simbolo"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, simbolo, unidad, porcentaje, area_m2, the_geom from geo.mapa_cobertura_vegetal_ima) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Biológico"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de Cobertura Vegetal Región Cusco (IMA)"
+	"wms_abstract" "Mapa de Cobertura Vegetal Región Cusco (IMA) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_cobertura_vegetal_ima.rar" 
+	"autor" "© IMA - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Cobertura Vegetal"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "AIA, Areas con intervención antrópica"
+	EXPRESSION "AIA"
+	COLOR 228 204 252
+  END
+  CLASS  
+	NAME "Ad/Ev, Areas desnudas o con escasa vegetación"
+	EXPRESSION "Ad/Ev"
+	COLOR 200 252 199
+  END
+  CLASS  
+	NAME "BhCd3I, Bosque húmedo de colinas"
+	EXPRESSION "BhCd3I"
+	COLOR 252 217 199
+  END
+  CLASS  
+	NAME "BhMd3III, Bosque húmedo montañoso"
+	EXPRESSION "BhMd3III"
+	COLOR 210 245 252
+  END
+  CLASS  
+	NAME "BhTAd3I, Bosque húmedo de terraza aluvial"
+	EXPRESSION "BhTAd3I"
+	COLOR 252 252 204
+  END
+  CLASS  
+	NAME "BhTFd3I, Bosque húmedo de tierra firme"
+	EXPRESSION "BhTFd3I"
+	COLOR 252 220 236
+  END
+  CLASS  
+	NAME "BhTId3II-IV, Bosque húmedo de terraza inundable"
+	EXPRESSION "BhTId3II-IV"
+	COLOR 204 220 252
+  END
+  CLASS  
+	NAME "BhVId3IV, Bosque húmedo de valles interandinos"
+	EXPRESSION "BhVId3IV"
+	COLOR 225 252 229
+  END
+  CLASS  
+	NAME "Bme2III, Bosques macizos exóticos"
+	EXPRESSION "Bme2III"
+	COLOR 252 245 220
+  END
+  CLASS  
+	NAME "BsVIsd2IV, Bosque seco de valles interandinos"
+	EXPRESSION "BsVIsd2IV"
+	COLOR 252 197 248
+  END
+  CLASS  
+	NAME "HAd1V, Humedales andinos"
+	EXPRESSION "HAd1V"
+	COLOR 252 197 212
+  END
+  CLASS  
+	NAME "MAshVIsd2IV, Matorral arbolado de valles interandinos"
+	EXPRESSION "MAshVIsd2IV"
+	COLOR 252 227 225
+  END
+  CLASS  
+	NAME "MsVIr1V, Matorral seco de valles interandinos"
+	EXPRESSION "MsVIr1V"
+	COLOR 202 205 252
+  END
+  CLASS  
+	NAME "MshVIsd1V, Matorral sub humedo de valles interandinos"
+	EXPRESSION "MshVIsd1V"
+	COLOR 240 220 252
+  END
+  CLASS  
+	NAME "N, Nevados"
+	EXPRESSION "N"
+	COLOR 230 252 204
+  END
+  CLASS  
+	NAME "PcPd1V, Pastizal y Cesped de puna"
+	EXPRESSION "PcPd1V"
+	COLOR 225 252 246
+  END
+  CLASS  
+	NAME "Pmd3II, Pacal mixto"
+	EXPRESSION "Pmd3II"
+	COLOR 204 252 219
+  END
+  CLASS  
+	NAME "Ppd2II, Pacal  puro"
+	EXPRESSION "Ppd2II"
+	COLOR 243 252 220
+  END
+  CLASS  
+	NAME "StPsd2IV, Sabana tipo pluvifolia"
+	EXPRESSION "StPsd2IV"
+	COLOR 252 204 205
+  END
+END # Layer

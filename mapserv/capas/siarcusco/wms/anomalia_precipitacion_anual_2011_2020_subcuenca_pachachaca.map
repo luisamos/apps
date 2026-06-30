@@ -1,0 +1,106 @@
+LAYER
+  NAME "anomalia_precipitacion_anual_2011_2020_subcuenca_pachachaca"
+  GROUP "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+  STATUS off
+  DATA "archivos/raster/anomalia_precipitacion_anual_2011_2020_subcuenca_pachachaca.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Anomalía de la precipitación anual (2011-2020), subcuenca Pachachaca"
+	"wms_abstract" "Anomalía de la precipitación anual (2011-2020), subcuenca Pachachaca, modelo MIHR - Escenario A1B - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/anomalia_precipitacion_anual_2011_2020_subcuenca_pachachaca.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "660648.223550978 8367083.38784169 755898.223550978 8513513.38784169"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Modelo MIHR - Escenario A1B"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME " "
+    EXPRESSION ([pixel] = -9999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Anomalía de pp (%)"
+    EXPRESSION ([pixel] = -999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-16.7 - -16.0"
+    EXPRESSION ([pixel] >= -16.7 AND [pixel] < -16.0)
+    COLOR 243 255 20
+  END
+  CLASS
+	NAME "-16.0 - -15.5"
+    EXPRESSION ([pixel] >= -16.0 AND [pixel] < -15.5)
+    COLOR 208 240 0
+  END
+  CLASS
+	NAME "-15.5 - -15.0"
+    EXPRESSION ([pixel] >= -15.5 AND [pixel] < -15.0)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "-15.0 - -14.5"
+    EXPRESSION ([pixel] >= -15.0 AND [pixel] < -14.5)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "-14.5 - -14.0"
+    EXPRESSION ([pixel] >= -14.5 AND [pixel] < -14.0)
+    COLOR 80 196 51
+  END
+  CLASS
+	NAME "-14.0 - -13.5"
+    EXPRESSION ([pixel] >= -14.0 AND [pixel] < -13.5)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "-13.5 - -13.0"
+    EXPRESSION ([pixel] >= -13.5 AND [pixel] < -13.0)
+    COLOR 0 168 132
+  END
+  CLASS
+	NAME "-13.0 - -12.5"
+    EXPRESSION ([pixel] >= -13.0 AND [pixel] < -12.5)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "-12.5 - -12.0"
+    EXPRESSION ([pixel] >= -12.5 AND [pixel] < -12.0)
+    COLOR 0 166 255
+  END
+  CLASS
+	NAME "-12.0 - -11.5"
+    EXPRESSION ([pixel] >= -12.0 AND [pixel] < -11.5)
+    COLOR 0 0 255
+  END
+  CLASS
+	NAME "-11.5 - -11.0"
+    EXPRESSION ([pixel] >= -11.5 AND [pixel] < -11.0)
+    COLOR 168 0 230
+  END
+  CLASS
+	NAME "-11.0 - 6.5"
+    EXPRESSION ([pixel] >= -11.0 AND [pixel] <= -6.5)
+    COLOR 202 122 245
+  END
+END # Layer

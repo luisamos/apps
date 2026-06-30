@@ -1,0 +1,96 @@
+LAYER
+  NAME "coeficiente_escorrentia_anual"
+  GROUP "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/coeficiente_escorrentia_anual.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escorrentía de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Coeficiente de escorrentía anual"
+	"wms_abstract" "Coeficiente de escorrentía anual - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/coeficiente_escorrentia_anual.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.5726332 956086.47341366 8874879.5726332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Coeficiente de escorrentía (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0.19 - 0.30"
+    EXPRESSION ([pixel] >= 0.19 AND [pixel] < 0.30)
+    COLOR 115 223 247
+  END
+  CLASS
+	NAME "0.30 - 0.35"
+    EXPRESSION ([pixel] >= 0.30 AND [pixel] < 0.35)
+    COLOR 247 59 35
+  END
+  CLASS
+	NAME "0.35 - 0.40"
+    EXPRESSION ([pixel] >= 0.35 AND [pixel] < 0.40)
+    COLOR 158 255 191
+  END
+  CLASS
+	NAME "0.40 - 0.45"
+    EXPRESSION ([pixel] >= 0.40 AND [pixel] < 0.45)
+    COLOR 255 170 0
+  END
+  CLASS
+	NAME "0.45 - 0.50"
+    EXPRESSION ([pixel] >= 0.45 AND [pixel] < 0.50)
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "0.50 - 0.55"
+    EXPRESSION ([pixel] >= 0.50 AND [pixel] < 0.55)
+    COLOR 51 255 0
+  END
+  CLASS
+	NAME "0.55 - 0.60"
+    EXPRESSION ([pixel] >= 0.55 AND [pixel] < 0.60)
+    COLOR 234 255 41
+  END
+  CLASS
+	NAME "0.60 - 0.65"
+    EXPRESSION ([pixel] >= 0.60 AND [pixel] < 0.65)
+    COLOR 15 187 255
+  END
+  CLASS
+	NAME "0.65 - 0.70"
+    EXPRESSION ([pixel] >= 0.65 AND [pixel] < 0.70)
+    COLOR 36 87 255
+  END
+  CLASS
+	NAME "0.70 - 0.75"
+    EXPRESSION ([pixel] >= 0.70 AND [pixel] < 0.75)
+    COLOR 169 0 230
+  END
+  CLASS
+	NAME "0.75 - 0.80"
+    EXPRESSION ([pixel] >= 0.75 AND [pixel] < 0.80)
+    COLOR 255 0 204
+  END
+  CLASS
+	NAME "0.80 - 0.89"
+    EXPRESSION ([pixel] >= 0.80 AND [pixel] <= 0.90)
+    COLOR 255 190 232
+  END
+END # Layer

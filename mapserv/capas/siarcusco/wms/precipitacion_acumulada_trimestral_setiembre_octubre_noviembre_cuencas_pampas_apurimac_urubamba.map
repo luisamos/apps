@@ -1,0 +1,56 @@
+LAYER
+  NAME "precipitacion_acumulada_trimestral_setiembre_octubre_noviembre_cuencas_pampas_apurimac_urubamba"
+  GROUP "Precipitación de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/precipitacion_acumulada_trimestral_setiembre_octubre_noviembre_cuencas_pampas_apurimac_urubamba.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Precipitación de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Precipitación acumulada trimestral setiembre,octubre,noviembre Cuencas Pampas - Apurímac - Urubamba"
+	"wms_abstract" "Precipitación acumulada trimestral setiembre,octubre,noviembre Cuencas Pampas - Apurímac - Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/precipitacion_acumulada_trimestral_setiembre_octubre_noviembre_cuencas_pampas_apurimac_urubamba.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" ""
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Precipitación (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-9 - 0"
+    EXPRESSION ([pixel] >= -9 AND [pixel] < 0)
+    COLOR 255 255 237
+  END
+  CLASS
+	NAME "0 - 15"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 15)
+    COLOR 245 255 212
+  END
+  CLASS
+	NAME "15 - 30"
+    EXPRESSION ([pixel] >= 15 AND [pixel] < 30)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "30 - 44"
+    EXPRESSION ([pixel] >= 30 AND [pixel] <= 45)
+    COLOR 207 255 112
+  END  
+END # Layer

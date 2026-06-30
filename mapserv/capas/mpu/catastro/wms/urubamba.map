@@ -1,0 +1,15 @@
+LAYER
+    NAME "urubamba"
+    DATA "/apps/mapserv/archivos/raster/urubamba.ecw"
+    STATUS ON
+    TYPE RASTER
+    PROCESSING "BANDS=1,2,3"
+    OFFSITE 71 74 65
+    PROJECTION
+      "init=epsg:32718"
+    END
+    METADATA
+        "wms_title" "Urubamba"
+        "wms_abstract" "Esta capa contiene mosaicos derivados de un archivo raster."
+    END
+END

@@ -1,0 +1,101 @@
+LAYER
+  NAME "anomalia_precipitacion_anual_2011_2020_subcuenca_caracha"
+  GROUP "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Pampas"
+  STATUS off
+  DATA "archivos/raster/anomalia_precipitacion_anual_2011_2020_subcuenca_caracha.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios hidrológicos periodo 2011 al 2050 Cuenca del Río Pampas"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Anomalía de la precipitación anual (2011-2020), subcuenca Caracha"
+	"wms_abstract" "Anomalía de la precipitación anual (2011-2020), subcuenca Caracha, modelo MIHR - Escenario A1B - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/anomalia_precipitacion_anual_2011_2020_subcuenca_caracha.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "522405.30391366 8406428.6597332 601335.30391366 8492618.6597332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Modelo MIHR - Escenario A1B"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME " "
+    EXPRESSION ([pixel] = -9999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Anomalía de pp (%)"
+    EXPRESSION ([pixel] = -999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-14 - -13.5"
+    EXPRESSION ([pixel] >= -14 AND [pixel] < -13.5)
+    COLOR 243 255 20
+  END
+  CLASS
+	NAME "-13.5 - -13"
+    EXPRESSION ([pixel] >= -13.5 AND [pixel] < -13)
+    COLOR 208 240 0
+  END
+  CLASS
+	NAME "-13 - -12.5"
+    EXPRESSION ([pixel] >= -13 AND [pixel] < -12.5)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "-12.5 - -12"
+    EXPRESSION ([pixel] >= -12.5 AND [pixel] < -12)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "-12 - -11.5"
+    EXPRESSION ([pixel] >= -12 AND [pixel] < -11.5)
+    COLOR 80 196 51
+  END
+  CLASS
+	NAME "-11.5 - -11"
+    EXPRESSION ([pixel] >= -11.5 AND [pixel] < -11)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "-11 - -10.5"
+    EXPRESSION ([pixel] >= -11 AND [pixel] < -10.5)
+    COLOR 0 168 132
+  END
+  CLASS
+	NAME "-10.5 - -10"
+    EXPRESSION ([pixel] >= -10.5 AND [pixel] < -10)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "-10 - -9.5"
+    EXPRESSION ([pixel] >= -10 AND [pixel] < -9.5)
+    COLOR 0 166 255
+  END
+  CLASS
+	NAME "-9.5 - -9"
+    EXPRESSION ([pixel] >= -9.5 AND [pixel] < -9)
+    COLOR 0 0 255
+  END
+  CLASS
+	NAME "-9 - -8.3"
+    EXPRESSION ([pixel] >= -9 AND [pixel] <= -8.3)
+    COLOR 168 0 230
+  END
+END # Layer

@@ -1,0 +1,86 @@
+LAYER
+  NAME "mapa_aspecto_cuenca_rio_urubamba"
+  GROUP "Hidrología"
+  STATUS off
+  DATA "archivos/raster/mapa_aspecto_cuenca_rio_urubamba.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Hidrología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa de aspecto de la cuenca del río Urubamba"
+	"wms_abstract" "Mapa de aspecto de la cuenca del río Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_aspecto_cuenca_rio_urubamba.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "633655.151883206 8377015.85100903 955051.84811366 8875397.05338108"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Aspecto"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Flat (-1)"
+    EXPRESSION ([pixel] == -1)
+    COLOR 176 176 176
+  END
+  CLASS
+	NAME "North (0-22.5)"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 22.5)
+    COLOR 255 0 0
+  END
+  CLASS
+	NAME "Northeast (22.5-67.5)"
+    EXPRESSION ([pixel] >= 22.5 AND [pixel] < 67.5)
+    COLOR 255 166 0
+  END
+  CLASS
+	NAME "East (67.5-112.5)"
+    EXPRESSION ([pixel] >= 67.5 AND [pixel] < 112.5)
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "Southeast (112.5-157.5)"
+    EXPRESSION ([pixel] >= 112.5 AND [pixel] < 157.5)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "South (157.5-202.5)"
+    EXPRESSION ([pixel] >= 157.5 AND [pixel] < 202.5)
+    COLOR 0 255 255
+  END
+  CLASS
+	NAME "Southwest (202.5-247.5)"
+    EXPRESSION ([pixel] >= 202.5 AND [pixel] < 247.5)
+    COLOR 0 166 255
+  END
+  CLASS
+	NAME "West (247.5-292.5)"
+    EXPRESSION ([pixel] >= 247.5 AND [pixel] < 292.5)
+    COLOR 0 0 255
+  END
+  CLASS
+	NAME "Northwest (292.5-337.5)"
+    EXPRESSION ([pixel] >= 292.5 AND [pixel] < 337.5)
+    COLOR 255 0 255
+  END
+  CLASS
+	NAME "North (337.5-360)"
+    EXPRESSION ([pixel] >= 337.5 AND [pixel] <= 360)
+    COLOR 255 0 0
+  END
+END # Layer

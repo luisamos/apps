@@ -1,0 +1,66 @@
+LAYER
+  NAME "temperatura_maxima_anual_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/temperatura_maxima_anual_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Temperatura máxima media anual de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Temperatura máxima media anual de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/temperatura_maxima_anual_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Temperatura máxima (°C)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "13 - 14"
+    EXPRESSION ([pixel] >= 13 AND [pixel] < 14)
+    COLOR 255 179 0
+  END
+  CLASS
+	NAME "14 - 15"
+    EXPRESSION ([pixel] >= 14 AND [pixel] < 15)
+    COLOR 255 102 0
+  END
+  CLASS
+	NAME "15 - 16"
+    EXPRESSION ([pixel] >= 15 AND [pixel] < 16)
+    COLOR 255 164 128
+  END
+  CLASS
+	NAME "16 - 17"
+    EXPRESSION ([pixel] >= 16 AND [pixel] < 17)
+    COLOR 255 134 128
+  END
+  CLASS
+	NAME "17 - 18"
+    EXPRESSION ([pixel] >= 17 AND [pixel] < 18)
+    COLOR 230 101 127
+  END
+  CLASS
+	NAME "18 - 19"
+    EXPRESSION ([pixel] >= 18 AND [pixel] <= 19)
+    COLOR 214 0 121
+  END
+END # Layer

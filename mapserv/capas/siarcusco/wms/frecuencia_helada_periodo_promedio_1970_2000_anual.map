@@ -1,0 +1,71 @@
+LAYER
+  NAME "frecuencia_helada_periodo_promedio_1970_2000_anual"
+  GROUP "Caracterización Climática"
+  STATUS off
+  DATA "archivos/raster/frecuencia_helada_periodo_promedio_1970_2000_anual.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Caracterización Climática"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Frecuencia de Heladas, anual (Periodo Promedio 1970 al 2000)"
+	"wms_abstract" "Frecuencia de Heladas (T° Min <= 0°), anual (Periodo Promedio 1970 al 2000) - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/frecuencia_helada_periodo_promedio_1970_2000_anual.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Días de heladas por mes"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0 - 10"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 10)
+    COLOR 181 238 255
+  END
+  CLASS
+	NAME "10 - 30"
+    EXPRESSION ([pixel] >= 10 AND [pixel] < 30)
+    COLOR 91 141 254
+  END
+  CLASS
+	NAME "30 - 60"
+    EXPRESSION ([pixel] >= 30 AND [pixel] < 60)
+    COLOR 194 156 215
+  END
+  CLASS
+	NAME "60 - 90"
+    EXPRESSION ([pixel] >= 60 AND [pixel] < 90)
+    COLOR 56 167 0
+  END
+  CLASS
+	NAME "90 - 120"
+    EXPRESSION ([pixel] >= 90 AND [pixel] < 120)
+    COLOR 169 168 0
+  END
+  CLASS
+	NAME "120 - 180"
+    EXPRESSION ([pixel] >= 120 AND [pixel] < 180)
+    COLOR 119 102 204
+  END
+  CLASS
+	NAME "180 - 270"
+    EXPRESSION ([pixel] >= 180)
+    COLOR 115 0 77
+  END
+END # Layer

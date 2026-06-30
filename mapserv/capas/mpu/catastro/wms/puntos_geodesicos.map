@@ -1,0 +1,43 @@
+LAYER
+	NAME "puntos_geodesicos"
+	GROUP "MPU"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	#HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/mpu/mpu/puntos_geodesicos.html"
+	#FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "geom FROM (SELECT objectid AS gid, este, norte, h, codigo, coord_x, coord_y, coord_lat, coord_long, alti_geo, alti_orto, altitud, orden, meto_lev, datum, fuente, referencia, descripcio, id_ubi_geo, st_geomfromwkb(st_asbinary(shape),32718) AS geom FROM sde.tg_pto_geodesicos_evw) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Puntos geodésicos"
+		"wms_abstract" "Puntos geodésicos || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Puntos geodesicos"
+		EXPRESSION /./
+		STYLE
+			SYMBOL "linea1"
+			SIZE 6
+			COLOR 255 0 255
+			OUTLINECOLOR 0 255 0
+		END
+	END	
+END # Layer

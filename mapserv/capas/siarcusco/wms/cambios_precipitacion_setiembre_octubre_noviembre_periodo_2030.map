@@ -1,0 +1,61 @@
+LAYER
+  NAME "cambios_precipitacion_setiembre_octubre_noviembre_periodo_2030"
+  GROUP "Escenarios Climáticos"
+  STATUS off
+  DATA "archivos/raster/cambios_precipitacion_setiembre_octubre_noviembre_periodo_2030.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios Climáticos"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Cambios en la precipitación set,oct,nov (Año 2030)"
+	"wms_abstract" "Cambios en la precipitación setiembre,octubre,noviembre periodo 2030, con referencia al periodo base 1971-2000 - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/cambios_precipitacion_setiembre_octubre_noviembre_periodo_2030.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Cambios de precipitación (%)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "-18 - -15"
+    EXPRESSION ([pixel] < -15)
+    COLOR 255 191 0
+  END
+  CLASS
+	NAME "-15 - 0"
+    EXPRESSION ([pixel] >= -15 AND [pixel] < 0)
+    COLOR 255 255 237
+  END
+  CLASS
+	NAME "0 - 15"
+    EXPRESSION ([pixel] >= 0 AND [pixel] < 15)
+    COLOR 240 255 212
+  END
+  CLASS
+	NAME "15 - 30"
+    EXPRESSION ([pixel] >= 15 AND [pixel] < 30)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "30 - 44"
+    EXPRESSION ([pixel] >= 30 AND [pixel] <= 44)
+    COLOR 207 255 112
+  END
+END # Layer

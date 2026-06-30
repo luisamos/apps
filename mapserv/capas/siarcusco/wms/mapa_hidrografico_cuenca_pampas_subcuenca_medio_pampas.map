@@ -1,0 +1,36 @@
+LAYER
+  NAME "mapa_hidrografico_cuenca_pampas_subcuenca_medio_pampas"
+  GROUP "División Hidrográfica"
+  STATUS off
+  DATA "archivos/raster/mapa_hidrografico_cuenca_pampas_subcuenca_medio_pampas.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "División Hidrográfica"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Hidrográfico de la cuenca del río Pampas, subcuenca Medio Pampas"
+	"wms_abstract" "Mapa Hidrográfico de la cuenca del río Pampas, subcuenca Medio Pampas - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_hidrografico_cuenca_pampas_subcuenca_medio_pampas.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" ""
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Ríos"
+    EXPRESSION ([pixel] = -99999)
+    COLOR 0 0 255
+  END
+END # Layer

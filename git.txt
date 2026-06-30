@@ -1,0 +1,6 @@
+git init
+git add .
+git commit -m "v.2.8 | 30/06/2026 02:30"
+git branch -M main
+git remote add origin https://github.com/luisamos/apps.git
+git push -u origin main

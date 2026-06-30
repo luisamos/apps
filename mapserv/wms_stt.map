@@ -1,0 +1,151 @@
+#
+# FECHA DE CREACION     :	07-11-2024
+# FECHA DE MODIFICACION	:	27-04-2026
+#
+
+#
+# MAPFILE
+#
+MAP
+	NAME "STT"
+	EXTENT -71.28855145743101 -14.991047703607082 -71.23672484976497 -14.944189330838615
+	STATUS on
+	UNITS meters
+	SIZE 50 70
+	MAXSIZE 4096
+	IMAGECOLOR 255 255 255
+	IMAGETYPE png
+	SYMBOLSET "simbolos/simbolos_stt.sym"
+	FONTSET "fuentes/fuentes.txt"
+	#CONFIG MS_ERRORFILE "logs/error_wms_stt.txt"
+	#CONFIG MS_NONSQUARE YES
+	PROJECTION
+		"init=epsg:4326"
+	END
+
+	#
+	# FORMATOS DE IMAGEN
+	#
+	OUTPUTFORMAT
+	    NAME "jpeg"
+	    DRIVER "AGG/JPEG"
+	    MIMETYPE "image/jpeg"
+	    EXTENSION "jpg"
+	    IMAGEMODE RGB
+	END
+
+	OUTPUTFORMAT
+		NAME "png0"
+		DRIVER "GDAL/PNG"
+		MIMETYPE "image/png"
+		EXTENSION "png"
+	END
+
+	OUTPUTFORMAT
+		NAME "png"
+		DRIVER AGG/PNG
+		MIMETYPE "image/png"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "GAMMA=0.75"
+	END
+	OUTPUTFORMAT
+		NAME "png8"
+		DRIVER AGG/PNG8
+		MIMETYPE "image/png; mode=8bit"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "QUANTIZE_FORCE=on"
+		FORMATOPTION "QUANTIZE_COLORS=256"
+		FORMATOPTION "GAMMA=0.75"
+	END
+
+	OUTPUTFORMAT
+		NAME "png24"
+		MIMETYPE "image/png"
+		DRIVER "AGG/PNG"
+		EXTENSION "png"
+		IMAGEMODE RGBA
+		TRANSPARENT ON
+	END
+
+	OUTPUTFORMAT
+		NAME gif
+		DRIVER "GD/GIF"
+		MIMETYPE "image/gif"
+		IMAGEMODE PC256
+		EXTENSION "gif"
+	END
+
+	OUTPUTFORMAT
+		NAME GTiff
+		DRIVER "GDAL/GTiff"
+		MIMETYPE "image/tiff"
+		IMAGEMODE RGB
+		EXTENSION "tif"
+	END
+
+	#
+	# DEFINICIÓN DEL SERVICIO OGC: WMS
+	#
+	WEB
+		TEMPLATE "plantillas/mapa.html"
+		IMAGEPATH "temporal/"
+		IMAGEURL "/temporal/"
+		METADATA
+		"wms_server_version" "1.1.1"
+		"wms_enable_request" "*"
+		"wms_title" "STT - Sistema de Tasación de Terrenos"
+		"wms_abstract" "Sistema de Tasación de Terrenos :: Cusco :: PERU, servicio OGC: WEB MAP SERVER (WMS)"
+		"wms_onlineresource" "http://127.0.0.3:80/servicio/wms?"
+		"wms_fees" "S/. 0.00"
+		"wms_accessconstraints" "Ninguna"
+		"wms_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+		"wms_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,Leaflet"
+		"wms_contactperson" "Marcel Adolfo Echarri Farfan"
+		"wms_contactorganization" "Cusco - PERU"
+		"wms_contactposition" "Administrador del servicio OGC: WMS"
+		"wms_addresstype" "Cusco - PERU"
+		"wms_address" "Cusco"
+		"wms_city" "Cusco"
+		"wms_stateorprovince" "Cusco"
+		"wms_postcode" "Cusco 84"
+		"wms_country" "Cusco"
+		"wms_contactvoicetelephone" "(+51) 984000000"
+		"wms_contactfacsimiletelephone" "Fax: (+51) 984000000"
+		"wms_contactelectronicmailaddress" ""
+		"wms_attribution_onlineresource" ""
+		"wms_feature_info_mime_type" "text/html"
+		END  # Metadata
+	END  # Web
+
+	QUERYMAP
+		COLOR 255 0 0
+		STYLE hilite
+	END
+
+	#
+	# LEYENDA
+	#
+	LEGEND
+		STATUS ON
+		KEYSIZE 20 15
+		TRANSPARENT OFF
+		LABEL
+			TYPE TRUETYPE
+			FONT "Roboto"
+			SIZE 9
+			COLOR 255 255 255
+			OUTLINECOLOR 100 107 99
+		END
+	END
+
+	#
+	# CAPAS
+	#
+
+	# SISTEMA DE TASACIÓN DE TERRERO
+	INCLUDE "capas/stt/wms/poligonos.map"
+	INCLUDE "capas/stt/wms/lineas.map"
+	
+END  #Map

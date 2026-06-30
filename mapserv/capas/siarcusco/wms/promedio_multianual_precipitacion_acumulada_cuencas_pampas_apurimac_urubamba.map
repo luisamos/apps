@@ -1,0 +1,91 @@
+LAYER
+  NAME "promedio_multianual_precipitacion_acumulada_cuencas_pampas_apurimac_urubamba"
+  GROUP "Precipitación de las cuencas grandes de Pampas, Apurímac y Urubamba"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_precipitacion_acumulada_cuencas_pampas_apurimac_urubamba.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Precipitación de las cuencas grandes de Pampas, Apurímac y Urubamba"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la Precipitación Acumulada"
+	"wms_abstract" "Promedio multianual de la Precipitación Acumulada de las cuencas Pampas, Apurímac y Urubamba - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_precipitacion_acumulada_cuencas_pampas_apurimac_urubamba.rar" 
+	"autor" "© SENAMHI (Diciembre 2010) - PACC Perú"
+	"wms_extent" "475170.47341366 8280919.5726332 955170.47341366 8874919.5726332"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS  
+	NAME "Precipitación (mm)"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS  
+	NAME "322 - 600"
+    EXPRESSION ([pixel] >= 322 AND [pixel] < 600)
+	COLOR 44 150 69
+  END
+  CLASS  
+	NAME "600 - 800"
+    EXPRESSION ([pixel] >= 600 AND [pixel] < 800)
+	COLOR 0 255 0
+  END
+  CLASS  
+	NAME "800 - 1000"
+    EXPRESSION ([pixel] >= 800 AND [pixel] < 1000)
+	COLOR 149 255 0
+  END
+  CLASS  
+	NAME "1000 - 1200"
+    EXPRESSION ([pixel] >= 1000 AND [pixel] < 1200)
+	COLOR 132 217 72
+  END
+  CLASS  
+	NAME "1200 - 1400"
+    EXPRESSION ([pixel] >= 1200 AND [pixel] < 1400)
+	COLOR 102 217 129
+  END
+  CLASS  
+	NAME "1400 - 1600"
+    EXPRESSION ([pixel] >= 1400 AND [pixel] < 1600)
+	COLOR 25 230 168
+  END
+  CLASS  
+	NAME "1600 - 1800"
+    EXPRESSION ([pixel] >= 1600 AND [pixel] < 1800)
+	COLOR 99 255 201
+  END
+  CLASS  
+	NAME "1800 - 2000"
+    EXPRESSION ([pixel] >= 1800 AND [pixel] < 2000)
+	COLOR 5 250 246
+  END
+  CLASS  
+	NAME "2000 - 2200"
+    EXPRESSION ([pixel] >= 2000 AND [pixel] < 2200)
+	COLOR 0 211 235
+  END
+  CLASS  
+	NAME "2200 - 2400"
+    EXPRESSION ([pixel] >= 2200 AND [pixel] < 2400)
+	COLOR 0 137 235
+  END
+  CLASS  
+	NAME "2400 - 2828"
+    EXPRESSION ([pixel] >= 2400 AND [pixel] <= 2900)
+	COLOR 0 76 168
+  END
+END # Layer

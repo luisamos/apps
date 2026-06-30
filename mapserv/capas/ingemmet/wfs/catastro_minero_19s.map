@@ -1,0 +1,34 @@
+LAYER
+	NAME "catastro_minero_19s"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT gid, codigou, fec_denu, concesion, tit_conces, d_estado, carta, zona, leyenda, sustancia, depa, provi, distri, ROUND(hasdatum::numeric, 2) AS hasdatum, geom FROM ingemmet.catastro_minero_19s) as allpa using unique gid using srid=32719"
+    FILTER ("[depa]" IN "CUSCO")
+	INCLUDE "configuracion/postgresql_allpa.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:32719"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Catastro minero (19S) || Instituto Geológico, Minero y Metalúrgico - INGEMMET :: Perú"
+		"wfs_title" "Catastro minero (19S)"
+		"wfs_credit" "allpa"
+        "wfs_extent" "174000 7975000 530814.5099999998 8680922.34"
+		"wfs_srs" "EPSG:32719"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson,json"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "Catastro minero (19S)"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

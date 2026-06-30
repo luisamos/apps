@@ -1,0 +1,163 @@
+LAYER
+	NAME "id_pisos"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/id_pisos.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+    	"id" "^[a-zA-Z0-9 ]+$"
+ 	END
+	DATA "geom FROM (SELECT gid, id_lote, codi_piso, geom FROM geo.tg_pisos) as mpu using unique gid using srid=32718"
+	FILTER ("[id_lote]" == "%id%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "codi_piso"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "ID Pisos"
+		"wms_abstract" "ID Pisos || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+        NAME "Piso 1"
+        EXPRESSION "01"
+        STYLE
+            COLOR 140 0 75
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_diagonal_down"
+            SIZE 8
+            WIDTH 2
+        END
+    END
+    CLASS
+        NAME "Piso 2"
+        EXPRESSION "02"
+        STYLE
+            COLOR 255 223 127
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_diagonal_up"
+            SIZE 10
+            WIDTH 2
+        END
+    END
+    CLASS
+        NAME "Piso 3"
+        EXPRESSION "03"
+        STYLE
+            COLOR 0 255 0
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_horizontal"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 4"
+        EXPRESSION "04"
+        STYLE
+            COLOR 0 0 255
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_horizontal"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 5"
+        EXPRESSION "05"
+        STYLE
+            COLOR 138 43 226
+            OUTLINECOLOR 0 0 0
+            SYMBOL "dot_small"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 6"
+        EXPRESSION "06"
+        STYLE
+            COLOR 255 165 0
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_diagonal"
+            SIZE 2
+        END
+    END
+    CLASS
+        NAME "Piso 7"
+        EXPRESSION "07"
+        STYLE
+            COLOR 0 255 255
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_diagonal"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 8"
+        EXPRESSION "08"
+        STYLE
+            COLOR 147 112 219
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_diagonal"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 9"
+        EXPRESSION "09"
+        STYLE
+            COLOR 255 255 0
+            OUTLINECOLOR 0 0 0
+            SYMBOL "hatch_horizontal"
+            SIZE 1
+        END
+    END
+    CLASS
+        NAME "Piso 10"
+        EXPRESSION "10"
+        STYLE
+            COLOR 0 0 0
+            OUTLINECOLOR 0 0 0
+            SYMBOL "dot_large"
+            SIZE 2
+        END
+    END
+    CLASS
+        NAME "Piso 51"
+        EXPRESSION "51"
+        STYLE
+            COLOR 169 169 169
+            OUTLINECOLOR 0 0 0
+        END
+    END
+    CLASS
+        NAME "Piso 71"
+        EXPRESSION "71"
+        STYLE
+            COLOR 128 128 128
+            OUTLINECOLOR 0 0 0
+        END
+    END
+    CLASS
+        NAME "Piso 81"
+        EXPRESSION "81"
+        STYLE
+            COLOR 211 211 211
+            OUTLINECOLOR 0 0 0
+        END
+    END
+END # Layer

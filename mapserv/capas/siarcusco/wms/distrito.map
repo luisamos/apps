@@ -1,0 +1,67 @@
+LAYER
+  NAME "distrito"
+  GROUP "Cartografía Base"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/sinia/distrito.html"
+  FOOTER   "plantillas/fin.html"
+  STATUS off
+  DATA "the_geom from (select c.gid,a.codigo_departamento,a.departamento,b.codigo_provincia,b.provincia, c.codigo_distrito,c.distrito,  c.capital,c.ley, c.numero_ley,c.fecha,c.fuente, c.the_geom from geo.departamento_inei_2007 a, geo.provincia_inei_2007 b, geo.distrito_inei_2007 c where a.codigo_departamento = b.codigo_departamento and b.codigo_provincia = c.codigo_provincia) as siar using unique gid using srid=32718"
+  FILTER "(codigo_departamento = '08' )"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  CLASSITEM "gid"
+  LABELITEM "distrito"        
+  LABELMAXSCALEDENOM 800000
+  LABELMAXSCALE 800000
+  METADATA
+	"wms_encoding" "LATIN1" 
+	"wms_group_title" "Cartografía Base"
+	"queryable" "true"
+  	"wms_metadataurl_href" "http://siar.regioncusco.gob.pe/metadatos/departamento.xml"
+  	"wms_metadataurl_format" "text/xml"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Límite distrital"
+	"wms_abstract" "Límite distrital - Copyright © - Instituto Nacional de Estadística e Informática - INEI 2007"
+  	"wms_dataurl" ""
+  	"wms_dataurl_format" "text/html"
+	"wms_dataurl_href" "http://geoservidor.minam.gob.pe/geoservidor/download.aspx"
+	"autor" "© INEI 2007"
+	"wms_extent" "484927.608477489 8271765.09738466 731786.588486005 8654797.68110159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS
+	NAME "Límite Distrital"
+	EXPRESSION /./
+	COLOR -1 -1 -1
+  	STYLE 
+		OUTLINECOLOR 0 0 255
+		WIDTH 1
+	END		 
+	LABEL	    
+		TYPE TRUETYPE
+		FONT "Vera"
+		SIZE 5
+		MINSIZE 5
+		MAXSIZE 5
+		POSITION cc
+		OFFSET 0 0 
+		BUFFER 0
+		MINFEATURESIZE -1
+		COLOR 255 255 255
+		OUTLINECOLOR 0 0 255
+		SHADOWSIZE 0.5 0.5
+		ANTIALIAS true
+		FORCE true
+	END
+  END
+END # Layer

@@ -1,0 +1,38 @@
+#
+# TEMA					:	CONFIGURACION DE SIMBOLOS
+# AUTOR					:	Luis Amos - Consultor en Tecnologías de Información Geográfica
+# FECHA DE CREACION		: 	01-07-2022
+# FECHA DE MODIFICACION	:	01-07-2022
+#
+
+SYMBOLSET
+	SYMBOL
+		NAME "linea1"
+		TYPE ELLIPSE
+		POINTS
+			1 1
+		END
+	END
+
+	SYMBOL 
+		NAME "linea2"
+		TYPE VECTOR
+		POINTS
+			0 0
+			0 0.6
+			1 0.6
+			1 0
+			0 0
+		END
+		FILLED TRUE
+	END
+
+	SYMBOL
+		NAME 'ollas'
+		TYPE TRUETYPE
+		FONT 'ESRIEnviroHazardAnalysisNormal'
+		FILLED true
+		ANTIALIAS true
+		CHARACTER "&#64;"
+	END
+END

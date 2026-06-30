@@ -1,0 +1,54 @@
+LAYER
+	NAME "lote"
+	GROUP "MPE"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	STATUS on
+	DATA "geom FROM (SELECT gid, id_ubigeo, cod_sector, cod_mzna, cod_lote, id_lote, ROUND(area_grafi::numeric, 2) AS area_grafi, ROUND(peri_grafi::numeric, 2) AS peri_grafi, cuc, geom FROM geo.tg_lote) as allpa using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_allpa.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	LABELITEM "id_lote"
+	LABELMAXSCALEDENOM 500
+	LABELMAXSCALE 500
+	METADATA
+		"wms_group_title" "MPE"
+		"wms_feature_info_type" "multiple"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Lote"
+		"wms_abstract" "Lote || Municipalidad Provincial de Espinar - Cusco :: Perú"
+		"wms_credit" "Kaypacha"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "178070.01586802542 8501210.991231522 184071.98480267922 8503438.897198547"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Lotes"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 255 165 0
+			WIDTH 1
+		END
+		LABEL
+            COLOR 255 255 255
+            OUTLINECOLOR 255 165 0
+            FONT "Roboto"
+            TYPE TRUETYPE
+            SIZE 8
+            POSITION cc
+            MINDISTANCE 1
+            PARTIALS TRUE
+            BUFFER 1
+            PRIORITY 1
+		END
+	END
+END # Layer

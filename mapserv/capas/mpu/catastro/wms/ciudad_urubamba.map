@@ -1,0 +1,26 @@
+LAYER
+  NAME "ciudad_urubamba"
+  GROUP "Urubamba"
+  STATUS on
+  DATA "archivos/raster/mpu/urubamba.img"
+  TYPE RASTER
+  #PROCESSING "BANDS=1,2,3"
+  #PROCESSING "DITHER=YES"
+  PROJECTION
+  "init=epsg:32718"
+  END
+  METADATA
+  "wms_encoding" "LATIN1"
+  "layer_encoding" "LATIN1"
+  "wms_group_title" "Ciudad de Urubamba"
+  "queryable" "true"
+  "wms_metadataurl_type" "TC211"
+  "wms_title" "Urubamba"
+  "wms_abstract" "Ortofoto de la ciudad de Urubamba - Departamento de Cusco"
+  "wms_extent" "807684 8526365 814883 8531885"
+  "wms_srs" "EPSG:32718"
+  #"wms_include_items" "all"
+  #"wms_exclude_items" "value_0,red,green,blue"
+  #"force_imagetype" "jpeg"
+  END
+END

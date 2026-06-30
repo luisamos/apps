@@ -1,0 +1,91 @@
+LAYER
+  NAME "altitud"
+  GROUP "Caracterización Climática"
+  STATUS off
+  DATA "archivos/raster/altitud.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Caracterización Climática"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Altitud (m.s.n.m)"
+	"wms_abstract" "Altitud (m.s.n.m) - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/altitud.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Altitud (m.s.n.m)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "360 - 900"
+    EXPRESSION ([pixel] >= 360 AND [pixel] < 900)
+    COLOR 32 135 120
+  END
+  CLASS
+	NAME "900 - 1400"
+    EXPRESSION ([pixel] >= 900 AND [pixel] < 1400)
+    COLOR 92 173 157
+  END
+  CLASS
+	NAME "1400 - 1900"
+    EXPRESSION ([pixel] >= 1400 AND [pixel] < 1900)
+    COLOR 93 199 164
+  END
+  CLASS
+	NAME "1900 - 2400"
+    EXPRESSION ([pixel] >= 1900 AND [pixel] < 2400)
+    COLOR 155 222 194
+  END
+  CLASS
+	NAME "2400 - 2900"
+    EXPRESSION ([pixel] >= 2400 AND [pixel] < 2900)
+    COLOR 207 230 186
+  END
+  CLASS
+	NAME "2900 - 3400"
+    EXPRESSION ([pixel] >= 2900 AND [pixel] < 3400)
+    COLOR 255 255 201
+  END
+  CLASS
+	NAME "3400 - 3900"
+    EXPRESSION ([pixel] >= 3400 AND [pixel] < 3900)
+    COLOR 237 217 142
+  END
+  CLASS
+	NAME "3900 - 4400"
+    EXPRESSION ([pixel] >= 3900 AND [pixel] < 4400)
+    COLOR 217 178 102
+  END
+  CLASS
+	NAME "4400 - 4900"
+    EXPRESSION ([pixel] >= 4400 AND [pixel] < 4900)
+    COLOR 196 147 33
+  END
+  CLASS
+	NAME "4900 - 5400"
+    EXPRESSION ([pixel] >= 4900 AND [pixel] < 5400)
+    COLOR 163 98 33
+  END
+  CLASS
+	NAME "5400 - 5900"
+    EXPRESSION ([pixel] >= 5400 AND [pixel] <= 5900)
+    COLOR 125 31 26
+  END
+END # Layer

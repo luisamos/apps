@@ -1,0 +1,76 @@
+LAYER
+  NAME "temperatura_maxima_multianual_periodo_1971_2000"
+  GROUP "Escenarios Climáticos"
+  STATUS off
+  DATA "archivos/raster/temperatura_maxima_multianual_periodo_1971_2000.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios Climáticos"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Temperatura máxima multianual (Periodo 1971 al 2000)"
+	"wms_abstract" "Temperatura máxima multianual, periodo 1971 al 2000 - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/temperatura_maxima_multianual_periodo_1971_2000.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Temperatura máxima (°C)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "7 - 8"
+    EXPRESSION ([pixel] >= 7 AND [pixel] < 8)
+    COLOR 0 225 149
+  END
+  CLASS
+	NAME "8 - 12"
+    EXPRESSION ([pixel] >= 8 AND [pixel] < 12)
+    COLOR 68 255 0
+  END
+  CLASS
+	NAME "12 - 16"
+    EXPRESSION ([pixel] >= 12 AND [pixel] < 16)
+    COLOR 204 255 30
+  END
+  CLASS
+	NAME "16 - 20"
+    EXPRESSION ([pixel] >= 16 AND [pixel] < 20)
+    COLOR 255 255 0
+  END
+  CLASS
+	NAME "20 - 24"
+    EXPRESSION ([pixel] >= 20 AND [pixel] < 24)
+    COLOR 230 180 0
+  END
+  CLASS
+	NAME "24 - 28"
+    EXPRESSION ([pixel] >= 24 AND [pixel] < 28)
+    COLOR 255 140 0
+  END
+  CLASS
+	NAME "28 - 32"
+    EXPRESSION ([pixel] >= 28 AND [pixel] < 32)
+    COLOR 255 90 10
+  END
+  CLASS
+	NAME "32 - 33"
+    EXPRESSION ([pixel] >= 32 AND [pixel] <= 33)
+    COLOR 255 0 0
+  END
+END # Layer

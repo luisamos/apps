@@ -1,0 +1,1865 @@
+throwErrorOnExtraParameters: false
+transparentTileErrorColor: "rgba(78, 78, 255, 0)"
+opaqueTileErrorColor: "rgba(255, 155, 155, 0)"
+
+#certificateStore: !certificateStore
+#  password: 123456
+#  uri: "geoperu.gob.pe.jks"
+
+pdfConfig: !pdfConfig
+  compressed: true
+  author: "Geo Perú"
+  subject: "Geo Perú"
+  creator: "Geo Perú"
+  title: "Geo Perú"  
+
+templates:
+  #================================================
+  A4_HORIZONTAL_SCALE: !template
+  #================================================
+    reportTemplate: A4_HORIZONTAL.jrxml
+    outputFilename: &OUTPUT_FILE_NAME "Geo Perú Mapa"
+    pdfConfig: !pdfConfig
+      compressed: true
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: &DEFAULT_TITLE "Geo Perú"
+      scale: !string
+        default: ""
+      map: !map
+        width: &A4_MAP_WIDTH_HORIZONTAL 650
+        height: &A4_MAP_HEIGHT_HORIZONTAL 480
+        maxDpi: &MAX_DPI 600
+      overviewMap: !overviewMap
+        width: 146
+        height: 125
+        maxDpi: 400
+        default:
+          dpi: 200
+        zoomFactor: 9
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        #createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          #geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: &GRID_LAYER !staticLayers
+        default:
+          layers:
+            - type: "grid"
+              numberOfLines: [10, 10]
+              labelColor: rgba(0,0,0,0)
+              haloColor: rgba(0,0,0,0)
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: 100
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 100
+        # dpi: 150
+        template: legend_vertical.jrxml
+  #================================================
+  A4_HORIZONTAL_EXTENT: !template
+  #================================================
+    reportTemplate: A4_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    pdfConfig: !pdfConfig
+      compressed: true
+    attributes:
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      hasLegendOverflow: !boolean
+        default: false
+      map: !map
+        width: *A4_MAP_WIDTH_HORIZONTAL
+        height: *A4_MAP_HEIGHT_HORIZONTAL
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.025
+        zoomLevelSnapStrategy: CLOSEST_LOWER_SCALE_ON_TIE
+        zoomLevels: &ZOOM_LEVELS !zoomLevels
+          scales: [591657550,576866113,562074674,547283235,532491796,517700357,502908919,488117480,473326041,458534602,443743163,428951725,414160286,399368847,384577408,369785969,354994531,340203092,325411653,310620214,295828775,288433054,281037335,273641616,266245897,258850178,251454457,244058738,236663019,229267300,221871581,214475860,207080141,199684422,192288703,184892984,177497263,170101544,162705825,155310106,147914387,144216527,140518667,136820807,133122947,129425087,125727229,122029369,118331509,114633649,110935789,107237931,103540071,99842211,96144351,92446491,88748633,85050773,81352913,77655053,73957193,72108263,70259333,68410403,66561473,64712543,62863614,61014684,59165754,57316824,55467894,53618965,51770035,49921105,48072175,46223245,44374316,42525386,40676456,38827526,36978596,36054133,35129668,34205203,33280738,32356273,31431808,30507343,29582878,28658413,27733948,26809483,25885018,24960553,24036088,23111623,22187158,21262693,20338228,19413763,18489298,18027067,17564834,17102601,16640368,16178135,15715901,15253669,14791437,14329205,13866973,13404739,12942507,12480275,12018043,11555811,11093577,10631345,10169113,9706881,9244649,9013531,8782415,8551299,8320183,8089067,7857950,7626834,7395718,7164602,6933486,6702369,6471253,6240137,6009021,5777905,5546788,5315672,5084556,4853440,4622324,4506767,4391209,4275651,4160093,4044535,3928976,3813418,3697860,3582302,3466744,3351185,3235627,3120069,3004511,2888953,2773394,2657836,2542278,2426720,2311162,2253382,2195603,2137824,2080045,2022266,1964487,1906708,1848929,1791150,1733371,1675592,1617813,1560034,1502255,1444476,1386697,1328918,1271139,1213360,1155581,1126690,1097801,1068912,1040023,1011134,982246,953356,924466,895576,866686,837798,808908,780018,751128,722238,693350,664460,635570,606680,577790,563347,548902,534457,520012,505567,491123,476678,462233,447788,433343,418899,404454,390009,375564,361119,346675,332230,317785,303340,288895,281671,274449,267227,260005,252783,245559,238337,231115,223893,216671,209447,202225,195003,187781,180559,173335,166113,158891,151669,144447,140835,137224,133613,130002,126391,122779,119168,115557,111946,108335,104723,101112,97501,93890,90279,86667,83056,79445,75834,72223,70419,68613,66807,65001,63195,61391,59585,57779,55973,54167,52363,50557,48751,46945,45139,43335,41529,39723,37917,36111,35209,34306,33403,32500,31597,30695,29792,28889,27986,27083,26181,25278,24375,23472,22569,21667,20764,19861,18958,18055,17602,17151,16700,16249,15798,15345,14894,14443,13992,13541,13088,12637,12186,11735,11284,10831,10380,9929,9478,9027,8801,8575,8349,8123,7897,7673,7447,7221,6995,6769,6545,6319,6093,5867,5641,5417,5191,4965,4739,4513,4400,4287,4174,4061,3948,3836,3723,3610,3497,3384,3272,3159,3046,2933,2820,2708,2595,2482,2369,2256,2198,2142,2086,2030,1974,1916,1860,1804,1748,1692,1634,1578,1522,1466,1410,1352,1296,1240,1184,1128]
+        #zoomSnapGeodetic: true
+      overviewMap: !overviewMap
+        width: 146
+        height: 125
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 9
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 107
+        height: 19
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          align: 'center'
+          intervals: 4
+          barSize: 5
+          #geodetic: true
+          lineWidth: 1
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: 130
+        #dpi: 90
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 130
+        #dpi: 90
+        template: legend_vertical.jrxml
+  #================================================
+  A4_VERTICAL_EXTENT: !template
+  #================================================
+    reportTemplate: A4_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      hasLegendOverflow: !boolean
+        default: false
+      map: !map
+        width: 553
+        height: 510
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.225
+        zoomLevelSnapStrategy: CLOSEST_LOWER_SCALE_ON_TIE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: !overviewMap
+        width: 146
+        height: 152
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 4
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: 120
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: 120
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: 120
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 120
+        # dpi: 150
+        template: legend_vertical.jrxml
+  #================================================
+  A4_VERTICAL_SCALE: !template
+  #================================================
+    reportTemplate: A4_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: 553
+        height: 510
+        maxDpi: *MAX_DPI
+      overviewMap: !overviewMap
+        width: 146
+        height: 152
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 4
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: 158
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: 158
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: 158
+        # dpi: 150
+        template: legend_vertical.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 158
+        # dpi: 150
+        template: legend_vertical.jrxml
+  #================================================
+  A3_VERTICAL_EXTENT: !template
+  #================================================
+    reportTemplate: A3_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: 810
+        height: 800
+        maxDpi: *MAX_DPI
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A3_OVERVIEW_VERTICAL !overviewMap
+        width: 229
+        height: 180
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: 126
+        # dpi: 150
+        template: &A3_LEGEND_TEMPLATE legend_vertical_a3.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: 126
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: 126
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: 126
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 126
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+  #================================================
+  A3_VERTICAL_SCALE: !template
+  #================================================
+    reportTemplate: A3_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: 810
+        height: 800
+        maxDpi: *MAX_DPI
+      overviewMap: *A3_OVERVIEW_VERTICAL
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+  #================================================
+  A3_HORIZONTAL_EXTENT: !template
+  #================================================
+    reportTemplate: A3_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: 971
+        height: 721
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.025
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A3_OVERVIEW_HORIZONTAL !overviewMap
+        width: 169
+        height: 159
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 107
+        height: 19
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          align: 'center'
+          intervals: 4
+          barSize: 5
+          #geodetic: true
+          lineWidth: 1
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 158
+        # dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+  #================================================
+  A3_HORIZONTAL_SCALE: !template
+  #================================================
+    reportTemplate: A3_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: 971
+        height: 721
+        maxDpi: *MAX_DPI
+      overviewMap: *A3_OVERVIEW_HORIZONTAL
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 107
+        height: 19
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          align: 'center'
+          intervals: 4
+          barSize: 5
+          #geodetic: true
+          lineWidth: 1
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: 158
+        # dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 158
+        # dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+  #================================================
+  A3_HORIZONTAL_ESPECIAL: !template
+  #================================================
+    reportTemplate: A3_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: 971
+        height: 721
+        maxDpi: *MAX_DPI
+      overviewMap: &A3_OVERVIEW_HORIZONTAL !overviewMap
+        width: 169
+        height: 159
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 107
+        height: 19
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          align: 'center'
+          intervals: 4
+          barSize: 5
+          #geodetic: true
+          lineWidth: 1
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: 158
+        # #dpi: 150
+        template: *A3_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: 158
+        template: *A3_LEGEND_TEMPLATE
+  ######################################################################################
+  #================================================
+  A2_VERTICAL_EXTENT: !template
+  #================================================
+    reportTemplate: A2_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: &A2_MAP_WIDTH_VERTICAL 1150
+        height: &A2_MAP_HEIGHT_VERTICAL 1119
+        maxDpi: *MAX_DPI
+        zoomLevels: *ZOOM_LEVELS
+      overviewMap: &A2_OVERVIEW_VERTICAL !overviewMap
+        width: 222
+        height: 260
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: &A2_LEGEND_MAXWIDTH 222
+        # # dpi: 150
+        template: &A2_LEGEND_TEMPLATE legend_vertical_a2.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+  #================================================
+  A2_VERTICAL_SCALE: !template
+  #================================================
+    reportTemplate: A2_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: *A2_MAP_WIDTH_VERTICAL
+        height: *A2_MAP_HEIGHT_VERTICAL
+        maxDpi: *MAX_DPI
+      overviewMap: *A2_OVERVIEW_VERTICAL
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+  #================================================
+  A2_HORIZONTAL_EXTENT: !template
+  #================================================
+    reportTemplate: A2_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: &A2_MAP_WIDTH_HORIZONTAL 1369
+        height: &A2_MAP_HEIGHT_HORIZONTAL 990
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.025
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A2_OVERVIEW_HORIZONTAL !overviewMap
+        width: 265
+        height: 249
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # # dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+  #================================================
+  A2_HORIZONTAL_SCALE: !template
+  #================================================
+    reportTemplate: A2_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: *A2_MAP_WIDTH_HORIZONTAL
+        height: *A2_MAP_HEIGHT_HORIZONTAL
+        maxDpi: *MAX_DPI
+      overviewMap: *A2_OVERVIEW_HORIZONTAL
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # #dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A2_LEGEND_MAXWIDTH
+        # #dpi: 150
+        template: *A2_LEGEND_TEMPLATE
+  ######################################################################################
+  #================================================
+  A1_VERTICAL_EXTENT: !template
+  #================================================
+    reportTemplate: A1_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: &A1_MAP_WIDTH_VERTICAL 1640
+        height: &A1_MAP_HEIGHT_VERTICAL 1639
+        maxDpi: *MAX_DPI
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A1_OVERVIEW_VERTICAL !overviewMap
+        width: 321
+        height: 360
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: &A1_LEGEND_MAXWIDTH 321
+        # dpi: 150
+        template: &A1_LEGEND_TEMPLATE legend_vertical_a1.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+  #================================================
+  A1_VERTICAL_SCALE: !template
+  #================================================
+    reportTemplate: A1_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: *A1_MAP_WIDTH_VERTICAL
+        height: *A1_MAP_HEIGHT_VERTICAL
+        maxDpi: *MAX_DPI
+      overviewMap: *A1_OVERVIEW_VERTICAL
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+  #================================================
+  A1_HORIZONTAL_EXTENT: !template
+  #================================================
+    reportTemplate: A1_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: &A1_MAP_WIDTH_HORIZONTAL 2010
+        height: &A1_MAP_HEIGHT_HORIZONTAL 1439
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.025
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A1_OVERVIEW_HORIZONTAL !overviewMap
+        width: 321
+        height: 289
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+  #================================================
+  A1_HORIZONTAL_SCALE: !template
+  #================================================
+    reportTemplate: A1_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: *A1_MAP_WIDTH_HORIZONTAL
+        height: *A1_MAP_HEIGHT_HORIZONTAL
+        maxDpi: *MAX_DPI
+      overviewMap: *A1_OVERVIEW_HORIZONTAL
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A1_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A1_LEGEND_TEMPLATE
+  ######################################################################################
+  #================================================
+  A0_VERTICAL_EXTENT: !template
+  #================================================
+    reportTemplate: A0_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: &A0_MAP_WIDTH_VERTICAL 2340
+        height: &A0_MAP_HEIGHT_VERTICAL 2262
+        maxDpi: *MAX_DPI
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A0_OVERVIEW_VERTICAL !overviewMap
+        width: 460
+        height: 570
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: &A0_LEGEND_MAXWIDTH 460
+        # dpi: 150
+        template: &A0_LEGEND_TEMPLATE legend_vertical_a0.jrxml
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+  #================================================
+  A0_VERTICAL_SCALE: !template
+  #================================================
+    reportTemplate: A0_VERTICAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      scale: !string
+        default: ""
+      title: !string
+        default: *DEFAULT_TITLE
+      map: !map
+        width: *A0_MAP_WIDTH_VERTICAL
+        height: *A0_MAP_HEIGHT_VERTICAL
+        maxDpi: *MAX_DPI
+      overviewMap: *A0_OVERVIEW_VERTICAL
+      legend0: !legend {}
+      legend1: !legend {}
+      legend2: !legend {}
+      legend3: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend0: legend
+        outputMapper:
+          legendSubReport: legendSubReport0
+          legendDataSource: legendDataSource0
+          numberOfLegendRows: numberOfLegendRows0
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend1: legend
+        outputMapper:
+          legendSubReport: legendSubReport1
+          legendDataSource: legendDataSource1
+          numberOfLegendRows: numberOfLegendRows1
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend2: legend
+        outputMapper:
+          legendSubReport: legendSubReport2
+          legendDataSource: legendDataSource2
+          numberOfLegendRows: numberOfLegendRows2
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend3: legend
+        outputMapper:
+          legendSubReport: legendSubReport3
+          legendDataSource: legendDataSource3
+          numberOfLegendRows: numberOfLegendRows3
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+  #================================================
+  A0_HORIZONTAL_EXTENT: !template
+  #================================================
+    reportTemplate: A0_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: &A0_MAP_WIDTH_HORIZONTAL 2860
+        height: &A0_MAP_HEIGHT_HORIZONTAL 2050
+        maxDpi: *MAX_DPI
+        #zoomSnapTolerance: 0.025
+        #zoomLevelSnapStrategy: LOWER_SCALE
+        zoomLevels: *ZOOM_LEVELS
+        #zoomSnapGeodetic: true
+      overviewMap: &A0_OVERVIEW_HORIZONTAL !overviewMap
+        width: 460
+        height: 490
+        maxDpi: 100
+        default:
+          dpi: 90
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+  #================================================
+  A0_HORIZONTAL_SCALE: !template
+  #================================================
+    reportTemplate: A0_HORIZONTAL.jrxml
+    outputFilename: *OUTPUT_FILE_NAME
+    attributes:
+      hasLegendOverflow: !boolean
+        default: false
+      title: !string
+        default: *DEFAULT_TITLE
+      scale: !string
+        default: ""
+      map: !map
+        width: *A0_MAP_WIDTH_HORIZONTAL
+        height: *A0_MAP_HEIGHT_HORIZONTAL
+        maxDpi: *MAX_DPI
+      overviewMap: &A0_OVERVIEW_HORIZONTAL !overviewMap
+        width: 460
+        height: 490
+        maxDpi: 400
+        default:
+          dpi: 140
+        zoomFactor: 2
+      legend: !legend {}
+      legendOverflow: !legend {}
+      scalebar: !scalebar
+        width: 106
+        height: 21
+        createSubReport: false
+        default:
+          backgroundColor: "rgba(214, 214, 214, 200)"
+          fontSize: 6
+          intervals: 4
+          barSize: 5
+          align: "center"
+          geodetic: true
+          lineWidth: 1
+          unit: 'm'
+      overlayLayers: *GRID_LAYER
+    processors:
+      - !addBackgroundLayers
+        inputMapper:
+          overlayLayers: staticLayers
+          map: map
+      - !reportBuilder
+        directory: "."
+      - !createMap
+        inputMapper:
+          map: map
+        outputMapper:
+          mapSubReport: mapSubReport
+          mapContext: mapContext
+      - !createScalebar {}
+      - !createOverviewMap {}
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legend: legend
+        outputMapper:
+          legendSubReport: legendSubReport
+          legendDataSource: legendDataSource
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+      - !prepareLegend # create a datasource for the report with the 'legend' attribute
+        inputMapper:
+          legendOverflow: legend
+        outputMapper:
+          legendSubReport: legendSubReportOverflow
+          legendDataSource: legendDataSourceOverflow
+          numberOfLegendRows: numberOfLegendRowsOverflow
+        maxWidth: *A0_LEGEND_MAXWIDTH
+        # dpi: 150
+        template: *A0_LEGEND_TEMPLATE
+  

@@ -1,0 +1,49 @@
+LAYER
+	NAME "comunidad_campesina"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/comunidad_campesina.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, resolucion, fecha_res, nombre, comu, area_ha, geom FROM py148.comunidad_campesina) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Comunidad Campesina - Provincia Cusco"
+		"wms_abstract" "Comunidad Campesina - Provincia Cusco || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "160112.09690104955 8490989.431485692 198736.4725520541 8509844.25566228"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Comunidad Campesina"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 255 0 0
+			WIDTH 1
+		END
+	END
+END # Layer

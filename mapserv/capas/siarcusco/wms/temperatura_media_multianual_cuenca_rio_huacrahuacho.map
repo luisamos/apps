@@ -1,0 +1,66 @@
+LAYER
+  NAME "temperatura_media_multianual_cuenca_rio_huacrahuacho"
+  GROUP "Climatología microcuenca Huacrahuacho"
+  STATUS off
+  DATA "archivos/raster/temperatura_media_multianual_cuenca_rio_huacrahuacho.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Climatología microcuenca Huacrahuacho"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Temperatura media anual de la cuenca del río Huacrahuacho"
+	"wms_abstract" "Temperatura media anual de la cuenca del río Huacrahuacho - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/temperatura_media_multianual_cuenca_rio_huacrahuacho.rar" 
+	"autor" "© SENAMHI (Agosto 2010) - PACC Perú"
+	"wms_extent" "881343.81231689 8379973.1613159 912343.81231689 8399353.1613159"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Temperatura media (°C)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "5 - 6"
+    EXPRESSION ([pixel] >= 5 AND [pixel] < 6)
+    COLOR 120 255 221
+  END
+  CLASS
+	NAME "6 - 7"
+    EXPRESSION ([pixel] >= 6 AND [pixel] < 7)
+    COLOR 191 255 200
+  END
+  CLASS
+	NAME "7 - 8"
+    EXPRESSION ([pixel] >= 7 AND [pixel] < 8)
+    COLOR 102 217 129
+  END
+  CLASS
+	NAME "8 - 9"
+    EXPRESSION ([pixel] >= 8 AND [pixel] < 9)
+    COLOR 154 217 52
+  END
+  CLASS
+	NAME "9 - 10"
+    EXPRESSION ([pixel] >= 9 AND [pixel] < 10)
+    COLOR 204 230 76
+  END
+  CLASS
+	NAME "10 - 11"
+    EXPRESSION ([pixel] >= 10 AND [pixel] <= 11)
+    COLOR 208 255 115
+  END
+END # Layer

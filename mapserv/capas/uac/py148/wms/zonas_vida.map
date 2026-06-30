@@ -1,0 +1,48 @@
+LAYER
+	NAME "zonas_vida"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/zonas_vida.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, simbolo, descripcio, geom FROM py148.zonas_vida) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Zonas de vida"
+		"wms_abstract" "Zonas de vida || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "147537.7857545819 8482895.41667937 205658.0742879564 8521893.103714364"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Zonas de vida"
+		EXPRESSION /./
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 0 255 0
+			WIDTH 1
+		END
+	END
+END # Layer

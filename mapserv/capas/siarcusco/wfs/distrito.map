@@ -1,0 +1,40 @@
+LAYER
+  NAME "distrito"
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  DUMP true
+  STATUS off
+  TRANSPARENCY 100
+  SIZEUNITS pixels
+  DATA "the_geom from (select gid,codigo_distrito,codigo_provincia,codigo_departamento,distrito,provincia,departamento,ley,numero_ley,fecha,capital,the_geom from geo.distrito) as siar using unique gid using srid=32718"
+  FILTER ("codigo_departamento" = '08')
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"layer_encoding" "LATIN1"	
+	"wfs_encoding" "LATIN1" 
+	"queryable" "true"
+	"wfs_title" "distrito"
+	"wfs_abstract" "108 Distritos del Cusco - Copyright INSTITUTO NACIONAL DE ESTADISTICA E INFORMATICA - INEI 2007 :: http://geoservidor.minam.gob.pe/geoservidor/download.aspx"
+	"wfs_metadata_path" "metadata/distrito.xml"
+	"wfs_metadata_type" "ISO19115:2003"
+	"wfs_metadataurl_type" "TC211"
+	"wfs_metadata_format" "text/xml"	
+	"wfs_extent" "-203260.789695469 7964768.91159927 1190990.76605372 9995732.85844146"   	  
+	"wfs_srs" "EPSG:32718"	
+	"gml_include_items" "all"
+    "gml_featureid" "gid"
+    "wfs_enable_request" "*"
+  END
+  CLASSITEM "gid"
+  CLASS
+	NAME "Límite Distrital"
+	EXPRESSION /./
+	COLOR 255 255 0
+	OUTLINECOLOR 0 0 0
+	TEMPLATE void
+  END
+END # Layer

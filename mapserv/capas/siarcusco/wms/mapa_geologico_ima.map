@@ -1,0 +1,328 @@
+LAYER
+  NAME "mapa_geologico_ima"
+  GROUP "Geología"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE polygon
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "geologico"  
+  TRANSPARENCY 100
+  DUMP true
+  TEMPLATE void 
+  DATA "the_geom from (select gid, geologico, area, era, ran_dez, the_geom from geo.mapa_geologico_ima) as siar using unique gid using srid=32718"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Geología"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Mapa Geológico (IMA)"
+	"wms_abstract" "Mapa Geológico (IMA) - Copyright © Centro de Estudios y Prevención de Desastres - PREDES :: http://www.predes.org.pe/, Publicado para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/mapa_geologico_ima.rar" 
+	"autor" "© IMA Cusco - PREDES (Abril 2011) - PACC Perú"
+	"wms_extent" "609587.602914 8286928.000831 1004607.050947 8759583.610211"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "gid"
+  END
+  CLASS  
+	NAME "Unidades Litológicas"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Capas Rojas"
+	EXPRESSION "Capas Rojas"
+	COLOR 190 252 179
+  END
+  CLASS
+	NAME "Complejos metamórficos"
+	EXPRESSION "Complejos metamórficos"
+	COLOR 187 237 252
+  END
+  CLASS
+	NAME "Cretacio inferior superior"
+	EXPRESSION "Cretacio inferior superior"
+	COLOR 252 223 187
+  END
+  CLASS
+	NAME "Cretácicas inferior medio"
+	EXPRESSION "Cretácicas inferior medio"
+	COLOR 187 188 252
+  END
+  CLASS
+	NAME "Cuarcitas del Cambrico"
+	EXPRESSION "Cuarcitas del Cambrico"
+	COLOR 197 252 221
+  END
+  CLASS
+	NAME "Dptos. aluvial, fluviales"
+	EXPRESSION "Dptos. aluvial, fluviales"
+	COLOR 252 185 179
+  END
+  CLASS
+	NAME "Dptos. coluviales,eluviales,aluvial"
+	EXPRESSION "Dptos. coluviales,eluviales,aluvial"
+	COLOR 246 252 179
+  END
+  CLASS
+	NAME "Dptos. morrenicos,fluvioglaciares y"
+	EXPRESSION "Dptos. morrenicos,fluvioglaciares y"
+	COLOR 204 216 252
+  END
+  CLASS
+	NAME "Fm. Paucartambo, Ananea, Quillabamb"
+	EXPRESSION "Fm. Paucartambo, Ananea, Quillabamb"
+	COLOR 234 184 252
+  END
+  CLASS
+	NAME "Fm. Paucartambo, Quillabamb, Cabanillas, Manogali"
+	EXPRESSION "Fm. Paucartambo, Quillabamb, Cabanillas, Manogali"
+	COLOR 252 215 215
+  END
+  CLASS
+	NAME "Formacion La Merced"
+	EXPRESSION "Formacion La Merced"
+	COLOR 240 252 215
+  END
+  CLASS
+	NAME "Formación  Ananea"
+	EXPRESSION "Formación  Ananea"
+	COLOR 252 215 244
+  END
+  CLASS
+	NAME "Formación  Quenamari"
+	EXPRESSION "Formación  Quenamari"
+	COLOR 221 202 252
+  END
+  CLASS
+	NAME "Formación Cancao"
+	EXPRESSION "Formación Cancao"
+	COLOR 213 252 192
+  END
+  CLASS
+	NAME "Formación Casablanca"
+	EXPRESSION "Formación Casablanca"
+	COLOR 184 252 240
+  END
+  CLASS
+	NAME "Formación Chambira"
+	EXPRESSION "Formación Chambira"
+	COLOR 210 252 248
+  END
+  CLASS
+	NAME "Formación Chincheros"
+	EXPRESSION "Formación Chincheros"
+	COLOR 215 235 252
+  END
+  CLASS
+	NAME "Formación Chonta Vivian"
+	EXPRESSION "Formación Chonta Vivian"
+	COLOR 252 244 189
+  END
+  CLASS
+	NAME "Formación Garsa"
+	EXPRESSION "Formación Garsa"
+	COLOR 249 204 252
+  END
+  CLASS
+	NAME "Formación Ipururo"
+	EXPRESSION "Formación Ipururo"
+	COLOR 252 206 184
+  END
+  CLASS
+	NAME "Formación Pisquicocha."
+	EXPRESSION "Formación Pisquicocha."
+	COLOR 252 234 215
+  END
+  CLASS
+	NAME "Formación San Sebastian"
+	EXPRESSION "Formación San Sebastian"
+	COLOR 179 252 201
+  END
+  CLASS
+	NAME "Formación Sandia"
+	EXPRESSION "Formación Sandia"
+	COLOR 252 179 198
+  END
+  CLASS
+	NAME "Formación Ucayali"
+	EXPRESSION "Formación Ucayali"
+	COLOR 252 204 219
+  END
+  CLASS
+	NAME "Formación Vivian Chonta"
+	EXPRESSION "Formación Vivian Chonta"
+	COLOR 187 201 252
+  END
+  CLASS
+	NAME "Formación Yahuarango"
+	EXPRESSION "Formación Yahuarango"
+	COLOR 210 189 252
+  END
+  CLASS
+	NAME "Formación Yauri"
+	EXPRESSION "Formación Yauri"
+	COLOR 215 252 210
+  END
+  CLASS
+	NAME "Formación río Picha"
+	EXPRESSION "Formación río Picha"
+	COLOR 234 252 197
+  END
+  CLASS
+	NAME "Formación. Ollantaytambo"
+	EXPRESSION "Formación. Ollantaytambo"
+	COLOR 252 182 234
+  END
+  CLASS
+	NAME "Formación. Río Tambo"
+	EXPRESSION "Formación. Río Tambo"
+	COLOR 187 225 252
+  END
+  CLASS
+	NAME "Gneis y Anfibolitas del Cambrico"
+	EXPRESSION "Gneis y Anfibolitas del Cambrico"
+	COLOR 215 252 233
+  END
+  CLASS
+	NAME "Grupo Ambo"
+	EXPRESSION "Grupo Ambo"
+	COLOR 230 194 252
+  END
+  CLASS
+	NAME "Grupo Barroso"
+	EXPRESSION "Grupo Barroso"
+	COLOR 241 212 252
+  END
+  CLASS
+	NAME "Grupo Copacabana"
+	EXPRESSION "Grupo Copacabana"
+	COLOR 202 197 252
+  END
+  CLASS
+	NAME "Grupo Maure"
+	EXPRESSION "Grupo Maure"
+	COLOR 252 192 214
+  END
+  CLASS
+	NAME "Grupo Mitu"
+	EXPRESSION "Grupo Mitu"
+	COLOR 252 194 200
+  END
+  CLASS
+	NAME "Grupo Oriente"
+	EXPRESSION "Grupo Oriente"
+	COLOR 182 249 252
+  END
+  CLASS
+	NAME "Grupo Puno"
+	EXPRESSION "Grupo Puno"
+	COLOR 199 252 201
+  END
+  CLASS
+	NAME "Grupo San José"
+	EXPRESSION "Grupo San José"
+	COLOR 179 252 222
+  END
+  CLASS
+	NAME "Grupo San José-Sandia"
+	EXPRESSION "Grupo San José-Sandia"
+	COLOR 251 252 210
+  END
+  CLASS
+	NAME "Grupo Tarma"
+	EXPRESSION "Grupo Tarma"
+	COLOR 252 184 188
+  END
+  CLASS
+	NAME "Grupo Tarma Copacabana"
+	EXPRESSION "Grupo Tarma Copacabana"
+	COLOR 210 244 252
+  END
+  CLASS
+	NAME "Grupo Yura"
+	EXPRESSION "Grupo Yura"
+	COLOR 252 243 210
+  END
+  CLASS
+	NAME "Grupo tacaza y formación Alfabamba"
+	EXPRESSION "Grupo tacaza y formación Alfabamba"
+	COLOR 252 216 204
+  END
+  CLASS
+	NAME "Intrusiones Devonianas de microdior"
+	EXPRESSION "Intrusiones Devonianas de microdior"
+	COLOR 204 226 252
+  END
+  CLASS
+	NAME "Intrusiones andesíticos tercerios"
+	EXPRESSION "Intrusiones andesíticos tercerios"
+	COLOR 211 252 179
+  END
+  CLASS
+	NAME "Intrusivos Cuarzo microdiorita, ton"
+	EXPRESSION "Intrusivos Cuarzo microdiorita, ton"
+	COLOR 192 252 231
+  END
+  CLASS
+	NAME "Intrusivos granodiorita y diorita"
+	EXPRESSION "Intrusivos granodiorita y diorita"
+	COLOR 223 210 252
+  END
+  CLASS
+	NAME "Intrusivos permotriasicos de granit"
+	EXPRESSION "Intrusivos permotriasicos de granit"
+	COLOR 228 252 179
+  END
+  CLASS
+	NAME "Micaesquistos del  Cámbrico"
+	EXPRESSION "Micaesquistos del  Cámbrico"
+	COLOR 252 211 179
+  END
+  CLASS
+	NAME "Nevados"
+	EXPRESSION "Nevados"
+	COLOR 238 252 187
+  END
+  CLASS
+	NAME "Ortogneis del Cambrico"
+	EXPRESSION "Ortogneis del Cambrico"
+	COLOR 252 235 187
+  END
+  CLASS
+	NAME "Precambiano"
+	EXPRESSION "Precambiano"
+	COLOR 252 194 250
+  END
+  CLASS
+	NAME "Travertino"
+	EXPRESSION "Travertino"
+	COLOR 223 252 202
+  END
+  CLASS
+	NAME "Unidades del Cretáceo inferior Supe"
+	EXPRESSION "Unidades del Cretáceo inferior Supe"
+	COLOR 252 196 184
+  END
+  CLASS
+	NAME "Volcanico Rumicolca"
+	EXPRESSION "Volcanico Rumicolca"
+	COLOR 179 252 188
+  END
+  CLASS
+	NAME "Volcánico Quimsachata"
+	EXPRESSION "Volcánico Quimsachata"
+	COLOR 252 202 231
+  END
+  CLASS
+	NAME "Volcánico Santo Tomas"
+	EXPRESSION "Volcánico Santo Tomas"
+	COLOR 252 179 217
+  END
+END # Layer

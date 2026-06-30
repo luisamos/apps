@@ -1,0 +1,51 @@
+LAYER
+  NAME "cambios_temperatura_maxima_diciembre_enero_febrero_periodo_2030"
+  GROUP "Escenarios Climáticos"
+  STATUS off
+  DATA "archivos/raster/cambios_temperatura_maxima_diciembre_enero_febrero_periodo_2030.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escenarios Climáticos"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Cambios de temperatura máxima dic,ene,feb (Año 2030)"
+	"wms_abstract" "Cambios de temperatura máxima diciciembre,enero,febrero periodo 2030, con referencia al periodo base 1971-2000 - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/cambios_temperatura_maxima_diciembre_enero_febrero_periodo_2030.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Cambios de temperatura máxima (°C)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "0.5 - 0.6"
+    EXPRESSION ([pixel] < 0.6)
+    COLOR 255 204 204
+  END
+  CLASS
+	NAME "0.6 - 0.8"
+    EXPRESSION ([pixel] >= 0.6 AND [pixel] < 0.8)
+    COLOR 255 167 156
+  END
+  CLASS
+	NAME "0.8 - 1.0"
+    EXPRESSION ([pixel] >= 0.8 AND [pixel] <= 1.5)
+    COLOR 252 132 111
+  END 
+END # Layer

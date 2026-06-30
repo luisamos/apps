@@ -1,0 +1,46 @@
+LAYER
+	NAME "ollas_comunes"
+	GROUP "MIDIS"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLUSTER_GET_ALL_SHAPES=ON"
+	TOLERANCE 10
+	UNITS PIXELS
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	DATA "archivos/shp/midis/ollas_comunes.shp"
+	PROJECTION
+		"init=epsg:4326"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "MIDIS"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Ollas comunes"
+		"wms_abstract" "Programa de Complementación Alimentaria - Ollas comunes || Ministerio de Desarrollo e Inclusión Social - MIDIS :: Perú"
+		"wms_credit" "MIDIS"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "-81.32823049 -18.3509277359999 -68.6522791029997 -0.0386059679999562"
+		"wms_srs" "EPSG:4326"
+		"wms_include_items" "all"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Ollas comunes"
+		EXPRESSION /./
+		STYLE
+        	SYMBOL "ollas"
+        	COLOR 128 0 128
+        	SIZE 5
+    	END
+	END
+END # Layer

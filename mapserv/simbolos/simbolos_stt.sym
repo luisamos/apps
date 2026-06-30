@@ -1,0 +1,27 @@
+SYMBOLSET
+	SYMBOL
+		NAME "linea1"
+		TYPE ELLIPSE
+		POINTS
+			1 1
+		END
+	END
+
+	SYMBOL 
+		NAME "linea2"
+		TYPE VECTOR
+		POINTS
+			0 0
+			0 0.6
+			1 0.6
+			1 0
+			0 0
+		END
+		FILLED TRUE
+	END
+
+	SYMBOL
+		NAME "achurado"
+		TYPE HATCH
+	END
+END

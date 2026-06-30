@@ -1,0 +1,46 @@
+LAYER
+	NAME "lagunas"
+	GROUP "PY148"
+	MAXSCALE -1.0
+	MINSCALE -1.0
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	PROCESSING "CLOSE_CONNECTION=DEFER"
+	DUMP true
+	HEADER "plantillas/inicio.html"
+	#TEMPLATE "plantillas/uac/py148/lagunas.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	TRANSPARENCY 100
+	DATA "geom FROM (SELECT gid, rasgo_prin, nom_lag, perim_km, area_ha, fuente, geom FROM py148.lagunas) as uac using unique gid using srid=32719"
+	INCLUDE "configuracion/postgresql_uac.map"
+	PROJECTION
+		"init=epsg:32719"
+	END
+	CLASSITEM "gid"
+	METADATA
+		"wms_group_title" "PY148"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Lagunas"
+		"wms_abstract" "Lagunas || Universidad Andina del Cusco :: Perú"
+		"wms_credit" "UAC"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"autor" "UAC - 2022"
+		"wms_extent" "155285.6352890841 8480385.429384107 205925.54484510247 8527497.04332875"
+		"wms_srs" "EPSG:32719"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+		"wms_enable_request" "*"
+	END
+	CLASS
+		NAME "Infraestructura de riego"
+		EXPRESSION /./
+		COLOR 255 255 255
+		OUTLINECOLOR 0 255 255
+	END
+END # Layer

@@ -1,0 +1,81 @@
+LAYER
+  NAME "promedio_multianual_escorrentia_marzo"
+  GROUP "Escorrentía regiones de Cusco y Apurímac"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_escorrentia_marzo.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Escorrentía regiones de Cusco y Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de escorrentía de marzo"
+	"wms_abstract" "Promedio multianual de escorrentía de marzo - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el  para el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_escorrentia_marzo.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Escorrentía (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "32 - 50"
+    EXPRESSION ([pixel] < 50)
+    COLOR 194 82 60
+  END
+  CLASS
+	NAME "50 - 100"
+    EXPRESSION ([pixel] >= 50 AND [pixel] < 100)
+    COLOR 219 122 37
+  END
+  CLASS
+	NAME "100 - 150"
+    EXPRESSION ([pixel] >= 100 AND [pixel] < 150)
+    COLOR 240 180 17
+  END
+  CLASS
+	NAME "150 - 200"
+    EXPRESSION ([pixel] >= 150 AND [pixel] < 200)
+    COLOR 252 240 3
+  END
+  CLASS
+	NAME "200 - 250"
+    EXPRESSION ([pixel] >= 200 AND [pixel] < 250)
+    COLOR 123 237 0
+  END
+  CLASS
+	NAME "250 - 300"
+    EXPRESSION ([pixel] >= 250 AND [pixel] < 300)
+    COLOR 6 212 27
+  END
+  CLASS
+	NAME "300 - 400"
+    EXPRESSION ([pixel] >= 300 AND [pixel] < 400)
+    COLOR 27 168 124
+  END
+  CLASS
+	NAME "400 - 500"
+    EXPRESSION ([pixel] >= 400 AND [pixel] < 500)
+    COLOR 24 117 140
+  END
+  CLASS
+	NAME "500 - 585"
+    EXPRESSION ([pixel] >= 500 AND [pixel] <= 585)
+    COLOR 11 44 122
+  END
+END # Layer

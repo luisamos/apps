@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 5.5.2  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" printOrder="Horizontal" pageWidth="852" pageHeight="1191" columnWidth="812" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2254b8e0-6b87-4fb1-9e05-de5c95454629">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="mapSubReport" class="java.lang.String"/>
+	<parameter name="overviewMapSubReport" class="java.lang.String"/>
+	<parameter name="legendDataSource0" class="net.sf.jasperreports.engine.data.JRTableModelDataSource"/>
+	<parameter name="legendSubReport0" class="java.lang.String"/>
+	<parameter name="legendDataSource1" class="net.sf.jasperreports.engine.data.JRTableModelDataSource"/>
+	<parameter name="legendSubReport1" class="java.lang.String"/>
+	<parameter name="legendDataSource2" class="net.sf.jasperreports.engine.data.JRTableModelDataSource"/>
+	<parameter name="legendSubReport2" class="java.lang.String"/>
+	<parameter name="legendDataSource3" class="net.sf.jasperreports.engine.data.JRTableModelDataSource"/>
+	<parameter name="legendSubReport3" class="java.lang.String"/>
+	<parameter name="numberOfLegendRowsOverflow" class="java.lang.Integer"/>
+	<parameter name="legendDataSourceOverflow" class="net.sf.jasperreports.engine.data.JRTableModelDataSource"/>
+	<parameter name="legendSubReportOverflow" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String"/>
+	<parameter name="scale" class="java.lang.String"/>
+	<parameter name="mapContext" class="org.mapfish.print.attribute.map.MapfishMapContext"/>
+	<parameter name="scalebarGraphic" class="java.lang.String"/>
+	<parameter name="hasLegendOverflow" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<detail>
+		<band height="1150" splitType="Prevent">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement x="0" y="0" width="809" height="40" uuid="57eac22e-b40f-4cd2-a1ed-62bbdffa4277"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#B0B0B0"/>
+				</box>
+				<frame>
+					<reportElement x="211" y="0" width="539" height="40" uuid="af48008c-0aab-48df-8a91-4b35c1acfcf1"/>
+					<box>
+						<pen lineWidth="1.0" lineColor="#BABABA"/>
+					</box>
+					<textField>
+						<reportElement x="0" y="0" width="539" height="40" uuid="3f7eb436-47a1-49a3-99ed-e1b44167e66a"/>
+						<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5"/>
+						<textElement textAlignment="Center">
+							<font size="14"/>
+							<paragraph lineSpacing="Proportional"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement x="750" y="1" width="56" height="39" uuid="1ffb8e69-96f1-4215-b726-39e656dcca14">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<image>
+						<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="56" height="39" uuid="e21b476d-7b5c-48ab-9aae-bbf766daf605"/>
+						<imageExpression><![CDATA["images/geoperu.svg"]]></imageExpression>
+					</image>
+				</frame>
+				<image>
+					<reportElement x="16" y="8" width="177" height="32" uuid="04c4fc53-3f6f-4678-b52e-ca6aba8a4db9"/>
+					<imageExpression><![CDATA["images/PCM_LOGO.png"]]></imageExpression>
+				</image>
+			</frame>
+			<frame>
+				<reportElement x="0" y="50" width="810" height="800" uuid="0a43e23b-a65e-4320-9823-0d07c57b8dcd"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#BFBFBF"/>
+				</box>
+				<subreport>
+					<reportElement x="0" y="0" width="810" height="800" uuid="ce99abca-f554-4530-ad55-37e7d700e4d3"/>
+					<subreportExpression><![CDATA[$P{mapSubReport}]]></subreportExpression>
+				</subreport>
+				<image>
+					<reportElement x="13" y="11" width="17" height="39" uuid="7bc5a738-1bbd-49be-91d2-27a15cebd539"/>
+					<imageExpression><![CDATA["images/north.svg"]]></imageExpression>
+				</image>
+				<frame>
+					<reportElement mode="Opaque" x="6" y="747" width="107" height="46" isPrintWhenDetailOverflows="true" uuid="e24912dc-a24d-418a-838b-86618617eeda">
+						<property name="ShowOutOfBoundContent" value="false"/>
+					</reportElement>
+					<staticText>
+						<reportElement x="0" y="38" width="107" height="8" uuid="964ebee2-c9e8-49b2-86c0-296df4e03976">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</reportElement>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="5"/>
+						</textElement>
+						<text><![CDATA[Coordenadas UTM - Datum WGS84]]></text>
+					</staticText>
+					<textField>
+						<reportElement x="0" y="1" width="107" height="14" uuid="8cf25c46-eaa2-4540-b685-85ad58f68097"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="8"/>
+						</textElement>
+						<textFieldExpression><![CDATA[String.format("Escala:  1: %.0f", $P{mapContext}.getRoundedScaleDenominator())]]></textFieldExpression>
+					</textField>
+					<image>
+						<reportElement x="1" y="15" width="106" height="21" uuid="fa145068-76a5-4834-98ed-ce65b1976b3d"/>
+						<imageExpression><![CDATA[net.sf.jasperreports.renderers.BatikRenderer.getInstance(new java.io.File(new java.net.URI($P{scalebarGraphic})))]]></imageExpression>
+					</image>
+				</frame>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="1115" width="810" height="35" uuid="34d7291b-db87-42d7-83bb-6d9579dbecae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Nota: Los límites departamentales, provinciales y distritales no definen pertenencia ni jurisdicción territorial, tienen carácter referencial, de conformidad a la quinta disposición transitoria y final de la Ley N° 27795, Ley de Demarcación y Organización Territorial. Asimismo, la ubicación de los centros poblados y la población dispersa tienen carácter referencial, pudiendo existir diferencias con otras fuentes de información.]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="861" width="134" height="23" backcolor="#193D74" uuid="52745e6f-dfaf-49ac-9550-3db04deb2c98"/>
+				<staticText>
+					<reportElement x="0" y="0" width="134" height="23" forecolor="#FFFFFF" uuid="d41276c5-2bd9-4f20-b130-b6dec358975a"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Leyenda]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="580" y="861" width="229" height="180" uuid="30b7be24-00f6-4c71-93ba-300e94cebc29"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#969696"/>
+				</box>
+				<subreport>
+					<reportElement x="0" y="0" width="229" height="180" uuid="7a6c5f09-bc04-4034-bb82-439467ea8fa6"/>
+					<subreportExpression><![CDATA[$P{overviewMapSubReport}]]></subreportExpression>
+				</subreport>
+			</frame>
+			<frame>
+				<reportElement x="0" y="884" width="134" height="231" uuid="d3298f8f-11bf-411a-96cf-7233a2e4a1a4">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#A6A6A6"/>
+				</box>
+				<subreport overflowType="Stretch">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="134" height="231" isRemoveLineWhenBlank="true" uuid="5855c070-de49-406d-bce9-ea80e97dac89"/>
+					<dataSourceExpression><![CDATA[$P{legendDataSource0}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{legendSubReport0}]]></subreportExpression>
+				</subreport>
+			</frame>
+			<frame>
+				<reportElement x="144" y="861" width="134" height="254" uuid="a9ae67a6-ed9f-47de-a481-f6c4f2a05099">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#A6A6A6"/>
+				</box>
+				<subreport overflowType="Stretch">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="134" height="254" isRemoveLineWhenBlank="true" uuid="f26de38b-9093-4f16-8942-348edcd42b55">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<dataSourceExpression><![CDATA[$P{legendDataSource1}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{legendSubReport1}]]></subreportExpression>
+				</subreport>
+			</frame>
+			<frame>
+				<reportElement x="288" y="861" width="134" height="254" uuid="1731ae3e-369f-41f7-bbe5-4da6d3988cf2">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#A6A6A6"/>
+				</box>
+				<subreport overflowType="Stretch">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="134" height="254" isRemoveLineWhenBlank="true" uuid="9023da86-5f08-42be-961d-1200765d050c">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<dataSourceExpression><![CDATA[$P{legendDataSource2}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{legendSubReport2}]]></subreportExpression>
+				</subreport>
+			</frame>
+			<frame>
+				<reportElement x="580" y="1053" width="230" height="62" uuid="8d3012c7-37e2-4ade-8c84-040feddb706b">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="0" width="230" height="31" uuid="c84fe608-3ad1-4dc9-8bcc-d5200c260d35"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="10"/>
+					</textElement>
+					<text><![CDATA[Desarrollado por el equipo de la Secretaría de Gobierno y Transformación Digital]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="0" y="31" width="230" height="31" forecolor="#FFFFFF" backcolor="#E30800" uuid="c9c6ffe6-a5cd-44fc-bbcd-9e6963ec42e2"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="15" isBold="true"/>
+					</textElement>
+					<text><![CDATA[www.geoperu.gob.pe]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="432" y="861" width="134" height="254" uuid="2092981c-8dc8-4873-9849-d9d8f0a88b71">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0" lineColor="#A6A6A6"/>
+				</box>
+				<subreport overflowType="Stretch">
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="129" height="254" isRemoveLineWhenBlank="true" uuid="215b53d4-753a-4822-ad26-918db2b543fc"/>
+					<dataSourceExpression><![CDATA[$P{legendDataSource3}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{legendSubReport3}]]></subreportExpression>
+				</subreport>
+			</frame>
+		</band>
+		<band height="1041">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<printWhenExpression><![CDATA[$P{numberOfLegendRowsOverflow} > 0 || $P{hasLegendOverflow} == Boolean.TRUE]]></printWhenExpression>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="10" width="134" height="23" backcolor="#193D74" uuid="98c73e7c-b3d3-410c-83d4-838f0848267e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<staticText>
+					<reportElement x="0" y="0" width="134" height="23" forecolor="#FFFFFF" uuid="7b698e2c-d0c6-48aa-82a4-074d9d0c30dc">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Leyenda]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement x="0" y="33" width="134" height="81" uuid="6e2db09e-698d-4641-9454-85cea977c0f5">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="ShowOutOfBoundContent" value="true"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="2.0" lineColor="#A6A6A6"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<subreport overflowType="Stretch">
+					<reportElement x="0" y="0" width="134" height="81" forecolor="#AD0300" backcolor="#F50400" uuid="5855c070-de49-406d-bce9-ea80e97dac89">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<printWhenExpression><![CDATA[$P{numberOfLegendRowsOverflow} > 0 || $P{hasLegendOverflow} == Boolean.TRUE]]></printWhenExpression>
+					</reportElement>
+					<dataSourceExpression><![CDATA[$P{legendDataSourceOverflow}]]></dataSourceExpression>
+					<subreportExpression><![CDATA[$P{legendSubReportOverflow}]]></subreportExpression>
+				</subreport>
+			</frame>
+			<break>
+				<reportElement x="0" y="0" width="555" height="1" uuid="ce1369fb-f72f-479d-b0ef-86fda98b466f"/>
+			</break>
+			<!--frame>
+				<reportElement x="580" y="861" width="229" height="180" uuid="fc222ea0-30a6-4329-aa80-da9c8a803c82"/>
+				<box>
+					<pen lineWidth="1.0" lineColor="#969696"/>
+				</box>
+				<subreport>
+					<reportElement x="0" y="0" width="229" height="180" uuid="5d4a3853-3c67-4e53-9274-3878bef95c38"/>
+					<subreportExpression><![CDATA[$P{overviewMapSubReport}]]></subreportExpression>
+				</subreport>
+			</frame-->
+			<frame>
+				<reportElement x="750" y="10" width="56" height="39" uuid="344eb273-c228-417c-b132-1c2c0e0e8bd1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<image>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="56" height="39" uuid="0d7273e6-55ad-41a6-a671-2d098bb168e9"/>
+					<imageExpression><![CDATA["images/geoperu.svg"]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

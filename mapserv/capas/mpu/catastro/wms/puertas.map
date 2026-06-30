@@ -1,0 +1,63 @@
+LAYER
+	NAME "puertas"
+	GROUP "MPU"
+	TYPE point
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/puertas.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"id" "^[a-zA-Z0-9 ]+$"
+	END
+	DATA "geom FROM (SELECT b.gid, a.id_puerta, a.id_lote, a.tipo_puerta, a.nume_muni, b.geom FROM catastro.tf_puertas a JOIN geo.tg_puerta b ON a.id_lote = b.id_lote) as mpu using unique gid using srid=32718"
+	FILTER ("[id_lote]" == "%id%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "id_lote"
+	#LABELITEM "nume_muni"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "ID Puertas"
+		"wms_abstract" "ID Puertas || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "gid"
+	END
+	CLASS
+		NAME "Puerta"
+		EXPRESSION /./
+		STYLE
+			SYMBOL "x"
+			COLOR 255 0 255
+			SIZE 20
+		END
+		LABEL
+			COLOR 255 0 255
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 10
+			POSITION AUTO
+			OFFSET 0 -15
+			ANGLE FOLLOW
+			PARTIALS FALSE
+			BUFFER 4
+			MINDISTANCE 300
+			FORCE TRUE
+			OUTLINECOLOR 255 255 255
+			WRAP " \n "
+			TEXT "[tipo_puerta]"
+		END
+	END
+END # Layer

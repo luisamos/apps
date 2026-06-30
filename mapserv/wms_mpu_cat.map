@@ -1,0 +1,203 @@
+#
+# FECHA DE CREACION: 20-12-2024
+# FECHA DE MODIFICACION: 20-12-2024
+#
+
+#
+# MAPFILE
+#
+MAP
+	NAME "MPU-CATALOGACION"
+	EXTENT -72.6007619825794 -13.453669981284577 -71.96867898274883 -13.082345903340695
+	STATUS on
+	UNITS meters
+	SIZE 1024 768
+	MAXSIZE 3500
+	IMAGECOLOR -1 -1 -1
+	SYMBOLSET "simbolos/simbolos_mpu.sym"
+	FONTSET "fuentes/fuentes.txt"
+	RESOLUTION 100
+	IMAGETYPE png
+	#INTERLACE on
+	DEBUG on
+	#CONFIG MS_ERRORFILE "logs/error_wms_mpu.txt"
+	CONFIG MS_NONSQUARE YES
+	PROJECTION
+		"init=epsg:4326"
+	END
+
+	#
+	# FORMATOS DE IMAGEN
+	#
+	OUTPUTFORMAT
+		NAME "png"
+		DRIVER "GDAL/PNG"
+		MIMETYPE "image/png"
+		EXTENSION "png"
+	END
+
+	OUTPUTFORMAT
+		NAME "png7"
+		DRIVER AGG/PNG
+		MIMETYPE "image/png"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "GAMMA=0.75"
+	END
+	OUTPUTFORMAT
+		NAME "png8"
+		DRIVER AGG/PNG8
+		MIMETYPE "image/png; mode=8bit"
+		IMAGEMODE RGB
+		EXTENSION "png"
+		FORMATOPTION "QUANTIZE_FORCE=on"
+		FORMATOPTION "QUANTIZE_COLORS=256"
+		FORMATOPTION "GAMMA=0.75"
+	END
+
+	OUTPUTFORMAT
+		NAME gif
+		DRIVER "GD/GIF"
+		MIMETYPE "image/gif"
+		IMAGEMODE PC256
+		EXTENSION "gif"
+	END
+
+	OUTPUTFORMAT
+		NAME GTiff
+		DRIVER "GDAL/GTiff"
+		MIMETYPE "image/tiff"
+		IMAGEMODE RGB
+		EXTENSION "tif"
+	END
+
+	#
+	# DEFINICIÓN DEL SERVICIO OGC: WMS
+	#
+	WEB
+		TEMPLATE "plantillas/mapa.html"
+		IMAGEPATH "temporal/"
+		IMAGEURL "/temporal/"
+		METADATA
+		"wms_server_version" "1.1.1"
+		"wms_enable_request" "*"
+		"wms_title" "MPU - Visor catastral"
+		"wms_abstract" "Municipalidad Provincial de Urubamba :: Cusco :: PERU, servicio OGC: WEB MAP SERVER (WMS)"
+		"wms_onlineresource" "http://127.0.0.1:82/servicio/wms?"
+		"wms_fees" "S/. 0.00"
+		"wms_accessconstraints" "Ninguna"
+		"wms_srs" "EPSG:4326 EPSG:3857 EPSG:102100 EPSG:900913 EPSG:32717 EPSG:32718 EPSG:32719 EPSG:4248 EPSG:24877 EPSG:24878 EPSG:24879"
+		"wms_keywordlist" "OGC:WMS,OGC:WFS,OGC:WCS,MapServer,OpenLayers"
+		"wms_contactperson" "Ing. Luis Amos Valer Villegas"
+		"wms_contactorganization" "Consultor TI :: KAYPACHA PERU"
+		"wms_contactposition" "Administrador del servicio OGC: WMS"
+		"wms_addresstype" "Lima - PERU"
+		"wms_address" "Lima"
+		"wms_city" "Lima"
+		"wms_stateorprovince" "Lima"
+		"wms_postcode" "Lima 01"
+		"wms_country" "La Molina"
+		"wms_contactvoicetelephone" "(+51) 961241598"
+		"wms_contactfacsimiletelephone" "Fax: (+51) 961241598"
+		"wms_contactelectronicmailaddress" "luisamos7@gmail.com"
+		"wms_attribution_onlineresource" ""
+		"wms_feature_info_mime_type" "text/html"
+		END  # Metadata
+	END  # Web
+
+	QUERYMAP
+		COLOR 255 0 0
+		STYLE hilite
+	END
+
+	#
+	# REFERENCIA
+	#
+	REFERENCE
+		EXTENT -350000.01 7900000.00 1350000.00 10050000.00
+		IMAGE "simbolos/referencia.png"
+		SIZE 199 149
+		COLOR -1 -1 -1
+		OUTLINECOLOR 255 0 0
+	END
+
+	#
+	# LEYENDA
+	#
+	LEGEND
+		STATUS off
+		KEYSIZE 20 15
+		TRANSPARENT off
+		LABEL
+			TYPE TRUETYPE
+			FONT "Vera"
+			SIZE 6
+			COLOR 0 0 0
+		END
+	END
+
+	#
+	# DEFINICION DE SCALEBAR
+	#
+	SCALEBAR
+		INTERVALS 5
+		POSITION lc
+		UNITS meters
+		OUTLINECOLOR 0 0 0
+		STYLE 0
+		STATUS off
+		LABEL
+		SIZE small
+		COLOR 0 0 0
+		END
+	END
+
+	#
+	# CAPAS
+	#
+
+	# IGN
+	INCLUDE "capas/mpu/inei/wms/limite_provincial.map"
+	INCLUDE "capas/mpu/inei/wms/limite_distrital.map"
+
+	# MUNICIPALIDAD PROVINCIAL DE URUBAMBA - CUSCO
+	INCLUDE "capas/mpu/mpu/wms/sectores.map"
+	INCLUDE "capas/mpu/mpu/wms/manzanas.map"
+	INCLUDE "capas/mpu/mpu/wms/lotes.map"
+	INCLUDE "capas/mpu/mpu/wms/lotes_certificado.map"
+	INCLUDE "capas/mpu/mpu/wms/id_lotes.map"
+	INCLUDE "capas/mpu/mpu/wms/vertices_lote.map"
+	INCLUDE "capas/mpu/mpu/wms/cotas.map"
+	INCLUDE "capas/mpu/mpu/wms/servicio_basicos.map"
+	INCLUDE "capas/mpu/mpu/wms/clasificacion_predio.map"
+	INCLUDE "capas/mpu/mpu/wms/tipo_persona.map"
+	INCLUDE "capas/mpu/mpu/wms/habilitacion_urbana.map"
+	INCLUDE "capas/mpu/mpu/wms/eje_via.map"
+	INCLUDE "capas/mpu/mpu/wms/eje_via_cert.map"
+	INCLUDE "capas/mpu/mpu/wms/area_terreno_comun.map"
+	INCLUDE "capas/mpu/mpu/wms/edificaciones.map"
+	INCLUDE "capas/mpu/mpu/wms/pisos.map"
+	INCLUDE "capas/mpu/mpu/wms/id_pisos.map"
+	INCLUDE "capas/mpu/mpu/wms/puerta.map"
+	INCLUDE "capas/mpu/mpu/wms/servidumbre.map"
+	INCLUDE "capas/mpu/mpu/wms/area_invadida.map"
+	INCLUDE "capas/mpu/mpu/wms/comercio.map"
+	INCLUDE "capas/mpu/mpu/wms/construccion.map"
+	INCLUDE "capas/mpu/mpu/wms/parques.map"
+	INCLUDE "capas/mpu/mpu/wms/puntos_geodesicos.map"
+
+	#COMPONENTES URBANOS
+	INCLUDE "capas/mpu/mpu/wms/electricas.map"
+	INCLUDE "capas/mpu/mpu/wms/agua_alcantarillado.map"
+	INCLUDE "capas/mpu/mpu/wms/telefonicas.map"
+	INCLUDE "capas/mpu/mpu/wms/viales.map"
+	INCLUDE "capas/mpu/mpu/wms/ferroviarias.map"
+	INCLUDE "capas/mpu/mpu/wms/mobiliario.map"
+
+	# SBN
+	INCLUDE "capas/mpu/sbn/wms/predios.map"
+
+	# MIDAGRI
+	INCLUDE "capas/mpu/midagri/wms/predio_rural.map"
+	INCLUDE "capas/mpu/midagri/wms/comunidades_campesinas.map"
+END  #Map 

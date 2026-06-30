@@ -1,0 +1,33 @@
+LAYER
+	NAME "lotes"
+	TYPE polygon
+	STATUS on
+	DATA "geom FROM (SELECT * FROM public.v_lotes) as mpu using unique gid using srid=32718"
+	INCLUDE "configuracion/postgresql_mpu.map"
+	CLASSITEM "gid"
+	PROJECTION
+	"init=epsg:32718"
+	END
+	METADATA
+		"layer_encoding" "Latin1"
+		"wfs_encoding" "Latin1"
+		"queryable" "true"
+		"wfs_abstract" "Lotes || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wfs_title" "Lotes"
+		"wfs_credit" "MPU"
+		"wfs_srs" "EPSG:32718"
+		"gml_include_items" "all"
+		"gml_featureid" "gid"
+		"gml_nume_doc_type" "Character"
+		"wfs_getfeature_formatlist" "OGRGML,SHAPE-ZIP,CSV,geojson"
+		#"wfs_additional_files_in_output" "lotes.pdf,lotes.lyr"
+	END
+	CLASS
+		NAME "Lotes"
+		STYLE
+			COLOR -1 -1 -1
+			OUTLINECOLOR 100 107 99
+			WIDTH 1
+		END
+	END
+END # Layer

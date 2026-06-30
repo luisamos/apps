@@ -1,0 +1,81 @@
+LAYER
+  NAME "promedio_multianual_precipitacion_julio"
+  GROUP "Precipitación multianual regiones de Cusco y Apurímac"
+  STATUS off
+  DATA "archivos/raster/promedio_multianual_precipitacion_julio.img"
+  TYPE RASTER
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/raster.html"
+  FOOTER   "plantillas/fin.html" 
+  PROJECTION
+	"init=epsg:32718"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Precipitación multianual regiones de Cusco y Apurímac"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Promedio multianual de la precipitación julio"
+	"wms_abstract" "Promedio multianual de la precipitación julio - Copyright © Servicio Nacional de Meteorología e Hidrología - SENAMHI, fecha: Junio 2010 :: http://www.senamhi.gob.pe, Publicado por el Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/promedio_multianual_precipitacion_julio.rar" 
+	"autor" "© SENAMHI (Junio 2010) - PACC Perú"
+	"wms_extent" "609253.687525827 8286928 1004503.68752583 8759678"
+	"wms_srs" "EPSG:32718"
+	"wms_include_items" "all"
+	"wms_exclude_items" "value_0,red,green,blue"
+	"force_imagetype" "jpeg"
+  END
+  CLASS
+	NAME "Precipitación (mm)"
+    EXPRESSION ([pixel] = -99999)
+    COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "2 - 10"
+    EXPRESSION ([pixel] >= 2 AND [pixel] < 10)
+    COLOR 44 150 69
+  END
+  CLASS
+	NAME "10 - 50"
+    EXPRESSION ([pixel] >= 10 AND [pixel] < 50)
+    COLOR 0 255 0
+  END
+  CLASS
+	NAME "50 - 100"
+    EXPRESSION ([pixel] >= 50 AND [pixel] < 100)
+    COLOR 102 217 129
+  END
+  CLASS
+	NAME "100 - 150"
+    EXPRESSION ([pixel] >= 100 AND [pixel] < 150)
+    COLOR 25 230 168
+  END
+  CLASS
+	NAME "150 - 200"
+    EXPRESSION ([pixel] >= 150 AND [pixel] < 200)
+    COLOR 99 255 201
+  END
+  CLASS
+	NAME "200 - 250"
+    EXPRESSION ([pixel] >= 200 AND [pixel] < 250)
+    COLOR 41 248 255
+  END
+  CLASS
+	NAME "250 - 300"
+    EXPRESSION ([pixel] >= 250 AND [pixel] < 300)
+    COLOR 0 211 235
+  END
+  CLASS
+	NAME "300 - 350"
+    EXPRESSION ([pixel] >= 300 AND [pixel] < 350)
+    COLOR 20 153 255
+  END
+  CLASS
+	NAME "350 - 401"
+    EXPRESSION ([pixel] >= 350 AND [pixel] <= 420)
+    COLOR 20 5 255
+  END
+END # Layer

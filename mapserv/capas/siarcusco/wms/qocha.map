@@ -1,0 +1,68 @@
+LAYER
+  NAME "qocha"
+  GROUP "Intervención PACC"
+  STATUS off
+  MAXSCALE -1.0
+  MINSCALE -1.0
+  TYPE point
+  TOLERANCE 2
+  TOLERANCEUNITS kilometers
+  PROCESSING 'LABEL_NO_CLIP=1'
+  CLASSITEM "clasificacion"  
+  TRANSPARENCY 100
+  DUMP true
+  HEADER   "plantillas/inicio.html"
+  TEMPLATE "plantillas/siarcusco/qocha.html"
+  FOOTER   "plantillas/fin.html" 
+  DATA "the_geom from (select gid, departamento, provincia, distrito, comunidad, nombre_cocha, sector, clasificacion, coeficiente_infiltracion, area, capacidad_almacenamiento_inicial,capacidad_almacenamiento_actual, capacidad_almacenamiento_proyectado, altitud, fecha_registro, the_geom from geo.qocha_pacc_2014) as siar using unique gid using srid=32719"
+  INCLUDE "configuracion/postgresql_siarcusco.map"
+  PROJECTION
+	"init=epsg:32719"
+  END
+  METADATA
+	"wms_encoding" "LATIN1"
+	"layer_encoding" "LATIN1"
+	"wms_group_title" "Intervención PACC"
+	"queryable" "true"
+	"wms_metadataurl_type" "TC211"
+	"wms_title" "Inventario de  Qochas"
+	"wms_abstract" "Inventario de  Qochas en la Región Cusco - Copyright ©Programa de Adaptación al Cambio Climático  - PACC Perú 2013 :: http://www.paccperu.org.pe"
+	"wms_dataurl_href" "../descargar/qocha.rar" 
+	"autor" "© PACC Perú(Abril 2013)"
+	"wms_extent" "236451 8381721 259613 8401807"
+	"wms_srs" "EPSG:32719"
+	"wms_include_items" "all"	
+  END
+  CLASS  
+	NAME "Clasificación Qocha"
+	EXPRESSION "-1"
+	COLOR -1 -1 -1
+  END
+  CLASS
+	NAME "Mixta"
+	EXPRESSION "Mixta"
+	STYLE		
+        SYMBOL "circulo"
+        COLOR 230 0 0		
+        SIZE 8
+    END	
+  END
+  CLASS
+	NAME "Siembra"
+	EXPRESSION "Siembra"
+    STYLE		
+        SYMBOL "circulo"
+        COLOR 169 0 230
+        SIZE 8	
+    END	
+  END
+  CLASS
+	NAME "Cosecha"
+	EXPRESSION "Cosecha"
+    STYLE		
+        SYMBOL "circulo"
+        COLOR 0 0 230
+        SIZE 8		
+    END	
+  END
+END # Layer

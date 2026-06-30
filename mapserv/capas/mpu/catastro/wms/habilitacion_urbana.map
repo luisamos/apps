@@ -1,0 +1,74 @@
+LAYER
+	NAME "habilitacion_urbana"
+	GROUP "MPU"
+	TYPE polygon
+	PROCESSING "LABEL_NO_CLIP=1"
+	HEADER "plantillas/inicio.html"
+	TEMPLATE "plantillas/mpu/mpu/habilitacion_urbana.html"
+	FOOTER "plantillas/fin.html"
+	STATUS on
+	VALIDATION
+		"codigo" "[0-9]"
+		"default_codigo" "1,2"
+	END
+	DATA "geom FROM (SELECT gid, id_hab_urb, CASE WHEN grup_urba = 'Formal' THEN 1 WHEN grup_urba = 'Informal'  THEN 2 END as codigo, grup_urba, nomb_hab_u, tipo_hab_u, codi_hab_u, id_ubi_geo, estado_hab, estado, geom FROM geo.tg_hab_urb) as mpu using unique gid using srid=32718"
+	FILTER ("[codigo]" IN "%codigo%")
+	INCLUDE "configuracion/postgresql_mpu.map"
+	PROJECTION
+		"init=epsg:32718"
+	END
+	CLASSITEM "codigo"
+	METADATA
+		"wms_group_title" "MPU"
+		"queryable" "true"
+		"wms_metadataurl_href" ""
+		"wms_metadataurl_format" "text/xml"
+		"wms_metadataurl_type" "TC211"
+		"wms_title" "Habilitación Urbana"
+		"wms_abstract" "Habilitación Urbana || Municipalidad Provincial de Urubamba - Cusco :: Perú"
+		"wms_credit" "MPU"
+		"wms_dataurl" ""
+		"wms_dataurl_format" "text/html"
+		"wms_dataurl_href" ""
+		"wms_extent" "807683.9653000003 8526364.0129 814882.6846000003 8531884.0174"
+		"wms_srs" "EPSG:32718"
+		"wms_include_items" "all"
+		"wms_exclude_items" "codigo"
+	END
+	CLASS
+		NAME "Formal"
+		EXPRESSION "1"		
+		STYLE
+			COLOR 112 207 255
+			OUTLINECOLOR 0 103 198
+			WIDTH 1
+		END
+		LABEL
+			TEXT "([codi_hab_u]) [tipo_hab_u] [nomb_hab_u]"
+			COLOR 0 103 198
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS true
+		END
+	END
+	CLASS
+		NAME "Informal"
+		EXPRESSION "2"
+		STYLE
+			COLOR 255 157 68
+			OUTLINECOLOR 255 102 0
+			WIDTH 1
+		END
+		LABEL
+			TEXT "([codi_hab_u]) [tipo_hab_u] [nomb_hab_u]"
+			COLOR 255 102 0
+			FONT "FreeSans"
+			TYPE truetype
+			SIZE 7
+			POSITION cc
+			PARTIALS true
+		END
+	END
+END # Layer
