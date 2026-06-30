@@ -183,9 +183,19 @@ Escribe `C:\ms4w\Apache\conf\extra\httpd-vhosts.conf` con la IP y puerto indicad
             Require all granted
         </Directory>
         MapCacheAlias /mapcache "C:/apps/mapcache/mapcache.xml"
+        <Location /mapcache>
+            Require all granted
+            <IfModule mod_headers.c>
+                Header set Access-Control-Allow-Origin "*"
+            </IfModule>
+        </Location>
     </IfModule>
 </VirtualHost>
 ```
+
+> El bloque `<Location /mapcache>` con `Require all granted` es **imprescindible**: la URL
+> `/mapcache` la atiende el módulo MapCache (no el `DocumentRoot`), por lo que sin esa autorización
+> Apache 2.4 devuelve **403 Forbidden** en todas las teselas (`GetMap`).
 
 **Paso 10 — Configurar y habilitar MapCache**
 Ajusta `C:\apps\mapcache\mapcache.xml` según los datos indicados:
@@ -291,6 +301,7 @@ http://127.0.0.2:8081/servicio/wfs?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetCapabili
 | Capas fuera del área / vacías | SRID o EXTENT incorrectos  | Reejecutar el instalador e ingresar el SRID y el EXTENT correctos (el paso es idempotente) |
 | Ortofoto `ECW` no se ve        | Driver ECW no encontrado   | Verificar `SetEnv GDAL_DRIVER_PATH` en el VirtualHost y que el `.ecw` exista en la ruta `DATA` de `ortofoto.map` |
 | `/mapcache` no responde        | URL/unidad mal en `mapcache.xml` | Revisar `<url>` (IP/puerto) y las rutas de `<base>`/`<lock_dir>` en `C:\apps\mapcache\mapcache.xml` |
+| `403 Forbidden` en `/mapcache` | Falta autorizar la URL del módulo | Verificar el bloque `<Location /mapcache>` con `Require all granted` en el VirtualHost y reiniciar Apache |
 
 ---
 

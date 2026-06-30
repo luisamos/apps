@@ -605,6 +605,14 @@ Invoke-Step "Generar VirtualHost <${SERVER_IP}:${SERVER_PORT}>" {
             Require all granted
         </Directory>
         MapCacheAlias /mapcache "$APPS_ROOT_APACHE/mapcache/mapcache.xml"
+        # La URL /mapcache la atiende el modulo (no el DocumentRoot); sin esta
+        # autorizacion explicita Apache 2.4 responde 403 a las teselas.
+        <Location /mapcache>
+            Require all granted
+            <IfModule mod_headers.c>
+                Header set Access-Control-Allow-Origin "*"
+            </IfModule>
+        </Location>
     </IfModule>
 </VirtualHost>
 "@
